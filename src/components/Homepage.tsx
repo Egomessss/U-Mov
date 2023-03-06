@@ -11,7 +11,7 @@ export default function Homepage() {
         // background-image: linear-gradient(180deg, #000000 0%, #003400 72%, #02ff0e 100%)
         // via-[#003400] to-[#0fbe18]
         <div>
-            <div className='h-[1500px] px-20 py-4 text-cream bg-gradient-to-b from-[#000000] via-gray to-gray ' >
+            <div className='h-[1500px] px-20 py-4 text-white bg-gradient-to-b from-[#000000] via-gray to-gray ' >
                 {/* Nav */}
                 <Navbar />
                 {/* Main  */}
@@ -24,7 +24,7 @@ export default function Homepage() {
                     <h2 className='text-6xl font-lilita'>All the advantages</h2>
                     {/* bullet hooks */}
                     <ul className='flex justify-between w-full'>
-                        <li className='bg-[#003400] w-96 h-60 p-4 '>
+                        <li className='bg-gray w-96 h-60 p-4 '>
                             <div className='flex gap-2 items-center text-3xl'>
                                 <MdCompare />
                                 <h3 className='text-2xl font-bold'>Compare</h3>
@@ -32,14 +32,14 @@ export default function Homepage() {
                             <p>Compare everything side by side and make the decision that suits you the best
                             </p>
                         </li>
-                        <li className='bg-[#003400] w-96 h-60 p-4 '>
+                        <li className='bg-gray w-96 h-60 p-4 '>
                             <div className='flex gap-2 items-center text-3xl'>
                                 <AiOutlineSearch />
                                 <h3 className='text-2xl font-bold'>Search</h3></div>
                             <p>You dont know the location? use our extension
                             </p>
                         </li>
-                        <li className='bg-[#003400] w-96 h-60 p-4 '>
+                        <li className='bg-gray w-96 h-60 p-4 '>
                             <div className='flex gap-2 items-center text-3xl'>
                                 <AiFillBook />
                                 <h3 className='text-2xl font-bold'>Research</h3></div>
