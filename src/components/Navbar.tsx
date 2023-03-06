@@ -19,7 +19,7 @@ function Navbar() {
                         <button>Log in</button>
                     </li>
                 </ul>
-                <button className='text-black gap-2 flex justify-center items-center text-2xl bg-yellow rounded-md w-[150px] uppercase'>
+                <button className='text-black gap-2 flex justify-center items-center text-2xl bg-orange rounded-md w-[150px] uppercase'>
                     <p>Sign up</p>
                     <AiOutlineArrowRight />
                 </button>

@@ -16,7 +16,7 @@ function Hero() {
 
                     <div>
                         <p>+465 users</p>
-                        <div className='flex text-yellow'>
+                        <div className='flex text-orange'>
                             <AiFillStar />
                             <AiFillStar />
                             <AiFillStar />
@@ -24,7 +24,7 @@ function Hero() {
                             <AiFillStar />
                         </div>
                     </div>
-                    <button className='text-black font-lilita gap-2 flex justify-center h-[50px] font-bold items-center text-2xl bg-yellow rounded-md w-[250px] uppercase'>
+                    <button className='text-black font-lilita gap-2 flex justify-center h-[50px] font-bold items-center text-2xl bg-orange rounded-md w-[250px] uppercase'>
                         <p>Try u-Mov Free</p>
                         <AiOutlineArrowRight />
                     </button>
