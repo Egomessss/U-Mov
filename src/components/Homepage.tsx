@@ -8,17 +8,18 @@ import Navbar from './Navbar';
 
 export default function Homepage() {
     return (
-        // remove the h-screen
-        <div className='h-screen px-20 py-4 text-cream' >
-            {/* Nav */}
-            <Navbar />
-            {/* Main  */}
-            <main className='px-20 py-44 flex-col flex gap-20'>
-                {/* hero */}
-                <Hero/>
-            </main>
-             {/* hook */}
-             <div className='flex justify-between flex-col items-center gap-10 h-[350px]'>
+        // background-image: linear-gradient(180deg, #000000 0%, #003400 72%, #02ff0e 100%)
+        <div>
+            <div className='h-[1500px] px-20 py-4 text-cream bg-gradient-to-b from-[#000000] via-[#003400] to-[#0fbe18] ' >
+                {/* Nav */}
+                <Navbar />
+                {/* Main  */}
+                <main className='px-20 py-44 flex-col flex gap-20'>
+                    {/* hero */}
+                    <Hero />
+                </main>
+                {/* hook */}
+                <div className='flex justify-between flex-col items-center gap-10 h-[350px]'>
                     <h2 className='text-6xl font-lilita'>All the advantages</h2>
                     {/* bullet hooks */}
                     <ul className='flex justify-between w-full'>
@@ -46,8 +47,18 @@ export default function Homepage() {
                         </li>
                     </ul>
                 </div>
+                
+            </div>
+            <div className='h-[800px] bg-gradient-to-b from-[#0fbe18] via-[#003400] to-[#003400]'>
+
+            </div>
+            <div className='bg-green h-[800px]'>
+
+            </div>
+
 
         </div>
+
     )
 }
 
