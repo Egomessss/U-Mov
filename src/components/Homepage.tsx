@@ -1,0 +1,53 @@
+import React from 'react'
+
+import { AiFillBook, AiFillStar, AiOutlineArrowRight, AiOutlineSearch } from "react-icons/ai";
+import { MdCompare } from "react-icons/md";
+import Hero from './Hero';
+import Navbar from './Navbar';
+
+
+export default function Homepage() {
+    return (
+        // remove the h-screen
+        <div className='h-screen px-20 py-4 text-cream' >
+            {/* Nav */}
+            <Navbar />
+            {/* Main  */}
+            <main className='px-20 py-44 flex-col flex gap-20'>
+                {/* hero */}
+                <Hero/>
+            </main>
+             {/* hook */}
+             <div className='flex justify-between flex-col items-center gap-10 h-[350px]'>
+                    <h2 className='text-6xl font-lilita'>All the advantages</h2>
+                    {/* bullet hooks */}
+                    <ul className='flex justify-between w-full'>
+                        <li>
+                            <div className='flex gap-2 items-center'> <MdCompare />
+                                <h3 className='text-2xl font-bold'>Compare</h3></div>
+
+                            <p>Compare everything side by side and make the decision that suits you the best
+                            </p>
+                        </li>
+                        <li>
+                            <div className='flex gap-2 items-center'>
+                                <AiOutlineSearch />
+                                <h3 className='text-2xl font-bold'>Search</h3></div>
+
+                            <p>You dont know the location? use our extension
+                            </p>
+                        </li>
+                        <li>
+                            <div className='flex gap-2 items-center'>
+                                <AiFillBook />
+                                <h3 className='text-2xl font-bold'>Research</h3></div>
+                            <p>Research every fact before you move
+                            </p>
+                        </li>
+                    </ul>
+                </div>
+
+        </div>
+    )
+}
+
