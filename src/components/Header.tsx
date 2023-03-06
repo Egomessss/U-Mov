@@ -5,11 +5,11 @@ import React from 'react'
 
 function Header() {
     return (
-        <div className='h-screen bg-black' >
+        <div className='h-screen' >
             {/* Nav */}
             <nav>
                 <div>
-                    <h1 className='font-lilita text-yellow text-7xl '>monte</h1>
+                    <h1 className='font-lilita text-green text-7xl '>monte</h1>
                 </div>
                 <button className='text-action'>clickme</button>
             </nav>
