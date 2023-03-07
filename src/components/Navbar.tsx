@@ -1,3 +1,4 @@
+import ThemeToggler from '@/hooks/ThemeToggler'
 import React from 'react'
 import { AiOutlineArrowRight } from 'react-icons/ai'
 
@@ -9,6 +10,7 @@ function Navbar() {
             </div>
             <div className='flex gap-14'>
                 <ul className='flex gap-10 items-center text-xl uppercase'>
+                    <li><ThemeToggler /></li>
                     <li>
                         <button>Link 1</button>
                     </li>
