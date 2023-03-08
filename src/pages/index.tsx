@@ -15,13 +15,13 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <>
-        <div className='h-[1500px] px-20 py-4 bg-[#EEEEEE] dark:text-white dark:bg-gradient-to-b dark:from-[#000000] dark:via-darkgray dark:to-darkgray ' >
+        <div className='h-[1500px] px-6 lg:px-20 py-4 bg-[#EEEEEE] dark:text-white dark:bg-gradient-to-b dark:from-[#000000] dark:via-darkgray dark:to-darkgray ' >
           {/* Nav */}
           <Navbar />
           {/* Main  */}
           <main className='px-20 py-44 flex-col flex gap-20'>
             {/* hero */}
-            <Hero />
+            {/* <Hero /> */}
           </main>
           {/* hook */}
           <div className='flex justify-between flex-col items-center gap-10 h-[350px]'>
