@@ -7,9 +7,9 @@ function Hero() {
             <div className='w-2/4'>
                 {/* text */}
                 <div className='h-3/4 flex flex-col gap-12'>
-                    <h3>Moving has never been easier</h3>
+                    <h3 className='font-bold text-xl'>Moving has never been easier</h3>
                     <h1 className='text-7xl font-lilita uppercase'>Giving You Your time Back</h1>
-                    <p>Everything you need to know before you move to your dream house in your fingertips</p>
+                    <p className='font-bold'>Everything you need to know before you move to your dream house in your fingertips</p>
                 </div>
 
                 <div className='flex items-center gap-10 '>
