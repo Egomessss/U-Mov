@@ -3,7 +3,7 @@ import { AiFillStar, AiOutlineArrowRight } from 'react-icons/ai'
 
 function Hero() {
     return (
-        <div className='dark:text-cream h-[600px] flex gap-10'>
+        <div className='dark:text-[#EEEEEE] h-[600px] flex gap-10'>
             <div className='w-2/4'>
                 {/* text */}
                 <div className='h-3/4 flex flex-col gap-12'>
@@ -24,7 +24,7 @@ function Hero() {
                             <AiFillStar />
                         </div>
                     </div>
-                    <button className='dark:text-black font-lilita gap-2 flex justify-center h-[50px] font-bold items-center text-2xl dark:bg-orange rounded-md w-[250px] uppercase'>
+                    <button className='dark:text-black font-lilita gap-2 flex justify-center h-[50px] font-bold items-center text-2xl bg-orange rounded-md w-[250px] uppercase'>
                         <p>Try u-Mov Free</p>
                         <AiOutlineArrowRight />
                     </button>

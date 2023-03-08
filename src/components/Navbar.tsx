@@ -4,7 +4,7 @@ import { AiOutlineArrowRight } from 'react-icons/ai'
 
 function Navbar() {
     return (
-        <nav className='font-lilita dark:text-cream flex justify-between h-[50px]'>
+        <nav className='font-lilita dark:text-[#EEEEEE] flex justify-between h-[50px]'>
             <div>
                 <h1 className='text-5xl '>u-Mov</h1>
             </div>

@@ -15,7 +15,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <>
-        <div className='h-[1500px] px-20 py-4 dark:text-white dark:bg-gradient-to-b dark:from-[#000000] dark:via-gray dark:to-gray ' >
+        <div className='h-[1500px] px-20 py-4 bg-[#EEEEEE] dark:text-white dark:bg-gradient-to-b dark:from-[#000000] dark:via-darkgray dark:to-darkgray ' >
           {/* Nav */}
           <Navbar />
           {/* Main  */}
@@ -28,7 +28,7 @@ export default function Home() {
             <h2 className='text-6xl font-lilita'>All the advantages</h2>
             {/* bullet hooks */}
             <ul className='flex justify-between w-full'>
-              <li className='dark:bg-gray w-96 h-60 p-4 '>
+              <li className='dark:bg-darkgray w-96 h-60 p-4 '>
                 <div className='flex gap-2 items-center text-3xl'>
                   <MdCompare />
                   <h3 className='text-2xl font-bold'>Compare</h3>
@@ -36,14 +36,14 @@ export default function Home() {
                 <p>Compare everything side by side and make the decision that suits you the best
                 </p>
               </li>
-              <li className='dark:bg-gray w-96 h-60 p-4 '>
+              <li className='dark:bg-darkgray w-96 h-60 p-4 '>
                 <div className='flex gap-2 items-center text-3xl'>
                   <AiOutlineSearch />
                   <h3 className='text-2xl font-bold'>Search</h3></div>
                 <p>You dont know the location? use our extension
                 </p>
               </li>
-              <li className='dark:bg-gray w-96 h-60 p-4 '>
+              <li className='dark:bg-darkgray w-96 h-60 p-4 '>
                 <div className='flex gap-2 items-center text-3xl'>
                   <AiFillBook />
                   <h3 className='text-2xl font-bold'>Research</h3></div>
@@ -55,10 +55,10 @@ export default function Home() {
 
         </div>
         {/*  */}
-        <div className='h-[800px] dark:bg-gray'>
+        <div className='h-[800px] dark:bg-darkgray'>
 
         </div>
-        <div className='dark:bg-gray h-[800px]'>
+        <div className='dark:bg-darkgray h-[800px]'>
 
         </div>
 
