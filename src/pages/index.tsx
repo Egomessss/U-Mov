@@ -15,7 +15,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <>
-        <div className='h-[1500px] px-6 lg:px-20 py-4 bg-[#EEEEEE] dark:text-white dark:bg-gradient-to-b dark:from-[#000000] dark:via-darkgray dark:to-darkgray ' >
+        <div className='h-[100dvh] px-6 lg:px-20 py-4 bg-[#EEEEEE] dark:text-white dark:bg-gradient-to-b dark:from-[#000000] dark:via-darkgray dark:to-darkgray ' >
           {/* Nav */}
           <Navbar />
           {/* Main  */}
@@ -24,9 +24,9 @@ export default function Home() {
             {/* <Hero /> */}
           </main>
           {/* hook */}
-          <div className='flex justify-between flex-col items-center gap-10 h-[350px]'>
+          {/* <div className='flex justify-between flex-col items-center gap-10 h-[350px]'>
             <h2 className='text-6xl font-lilita'>All the advantages</h2>
-            {/* bullet hooks */}
+
             <ul className='flex justify-between w-full'>
               <li className='dark:bg-darkgray w-96 h-60 p-4 '>
                 <div className='flex gap-2 items-center text-3xl'>
@@ -51,7 +51,7 @@ export default function Home() {
                 </p>
               </li>
             </ul>
-          </div>
+          </div> */}
 
         </div>
         {/*  */}
