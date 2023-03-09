@@ -19,9 +19,9 @@ export default function Home() {
           {/* Nav */}
           <Navbar />
           {/* Main  */}
-          <main className='px-20 py-44 flex-col flex gap-20'>
+          <main className='md:px-20 md:py-44 md:flex-col md:flex md:gap-20'>
             {/* hero */}
-            {/* <Hero /> */}
+            <Hero />
           </main>
           {/* hook */}
           {/* <div className='flex justify-between flex-col items-center gap-10 h-[350px]'>

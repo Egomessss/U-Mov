@@ -8,7 +8,7 @@ import { Dialog, Transition } from '@headlessui/react'
 
 function Navbar() {
 
-    const [isOpen, setIsOpen] = useState(true)
+    const [isOpen, setIsOpen] = useState(false)
 
     const openModal = () => setIsOpen(true)
 
