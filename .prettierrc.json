@@ -3,5 +3,7 @@
   "semi": false,
   "singleAttributePerLine": true,
   "singleQuote": false,
-  "bracketSpacing": true
+  "bracketSpacing": true,
+  "useTabs": false
 }
+
