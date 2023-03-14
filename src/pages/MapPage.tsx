@@ -1,8 +1,11 @@
+import Navbar from '@/components/Navbar'
 import React from 'react'
 
 function MapPage() {
   return (
-    <div>MapPage</div>
+    <div>
+      <Navbar/>
+    </div>
   )
 }
 

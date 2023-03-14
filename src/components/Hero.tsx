@@ -1,5 +1,7 @@
+import Link from "next/link"
 import React from "react"
 import { AiFillStar, AiOutlineArrowRight } from "react-icons/ai"
+import Image from "next/image"
 
 function Hero() {
   return (
@@ -13,6 +15,7 @@ function Hero() {
             <h1 className="font-lilita text-7xl uppercase">
               Giving You Your time Back
             </h1>
+
             <p className="font-bold">
               Everything you need to know before you move to your dream house in
               your fingertips
@@ -38,10 +41,10 @@ function Hero() {
         </div>
         <div className="w-2/4">
           {/* image */}
-          <img
+          <Image
             className="h-full w-full rounded-xl object-cover"
             src="https://assets.website-files.com/5e832e12eb7ca02ee9064d42/5fce34b954f89982650812a2_Layer%2020%20(1).jpg"
-            alt=""
+            alt={""}
           />
         </div>
       </div>
@@ -59,10 +62,12 @@ function Hero() {
           <h1 className="text-center text-3xl font-bold">
             Moving has never been easier
           </h1>
-          <button className="flex  h-[50px] w-[250px] items-center justify-center gap-2 rounded-md bg-orange font-lilita text-2xl font-bold uppercase dark:text-black">
-            <p>Try u-Mov Free</p>
-            <AiOutlineArrowRight />
-          </button>
+          <Link href={"/mappage"}>
+            <button className="flex  h-[50px] w-[250px] items-center justify-center gap-2 rounded-md bg-orange font-lilita text-2xl font-bold uppercase dark:text-black">
+              <p>Try u-Mov Free</p>
+              <AiOutlineArrowRight />
+            </button>
+          </Link>
         </div>
       </div>
     </div>
