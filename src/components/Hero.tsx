@@ -41,7 +41,7 @@ function Hero() {
         </div>
         <div className="w-2/4">
           {/* image */}
-          <Image
+          <img
             className="h-full w-full rounded-xl object-cover"
             src="https://assets.website-files.com/5e832e12eb7ca02ee9064d42/5fce34b954f89982650812a2_Layer%2020%20(1).jpg"
             alt={""}

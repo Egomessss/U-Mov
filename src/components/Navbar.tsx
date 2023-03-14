@@ -15,7 +15,7 @@ function Navbar() {
     const closeModal = () => setIsOpen(false)
 
     return (
-        <nav className='font-lilita dark:text-[#EEEEEE] flex justify-between h-[50px]'>
+        <nav className='font-lilita dark:text-[#EEEEEE] flex justify-between h-[50px] w-full'>
             <div>
                 <h1 className='text-5xl '>u-Mov</h1>
             </div>
