@@ -21,15 +21,15 @@ function Navbar() {
             </div>
             <div className='flex items-center gap-4'>
                 <ThemeToggler />
-                <button onClick={openModal} aria-label='Show menu'>
+                <button className='md:hidden' onClick={openModal} aria-label='Show menu'>
                     <CgMenuGridR className='w-8 h-8 text-orange' />
                 </button>
 
                 <div className='hidden md:flex md:gap-14'>
                     <ul className='flex gap-10 items-center text-xl uppercase'>
-                        <li>
+                        {/* <li>
                             <button>Link 1</button>
-                        </li>
+                        </li> */}
                         <li>
                             <button>Wishlist</button>
                         </li>

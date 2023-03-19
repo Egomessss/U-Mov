@@ -33,10 +33,12 @@ function Hero() {
                 <AiFillStar />
               </div>
             </div>
-            <button className="flex h-[50px] w-[250px] items-center justify-center gap-2 rounded-md bg-orange font-lilita text-2xl font-bold uppercase dark:text-black">
-              <p>Try u-Mov Free</p>
-              <AiOutlineArrowRight />
-            </button>
+            <Link href={"/mappage"}>
+              <button className="flex h-[50px] w-[250px] items-center justify-center gap-2 rounded-md bg-orange font-lilita text-2xl font-bold uppercase dark:text-black">
+                <p>Try u-Mov</p>
+                <AiOutlineArrowRight />
+              </button>
+            </Link>
           </div>
         </div>
         <div className="w-2/4">
@@ -44,7 +46,7 @@ function Hero() {
           <img
             className="h-full w-full rounded-xl object-cover"
             src="https://assets.website-files.com/5e832e12eb7ca02ee9064d42/5fce34b954f89982650812a2_Layer%2020%20(1).jpg"
-            alt={""}
+            alt="map"
           />
         </div>
       </div>

@@ -32,7 +32,7 @@ export default function Home() {
             <Hero />
           </main>
           {/* hook */}
-          {/* <div className='flex justify-between flex-col items-center gap-10 h-[350px]'>
+          <div className='flex justify-between flex-col items-center gap-10 h-[350px]'>
             <h2 className='text-6xl font-lilita'>All the advantages</h2>
 
             <ul className='flex justify-between w-full'>
@@ -59,7 +59,7 @@ export default function Home() {
                 </p>
               </li>
             </ul>
-          </div> */}
+          </div>
         </div>
         {/*  */}
         <div className="h-[800px] dark:bg-darkgray"></div>
