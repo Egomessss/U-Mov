@@ -5,6 +5,7 @@ import React, { Fragment, useState } from "react"
 function Sidebar() {
   return (
     <div className="absolute z-50 top-1/2 left-5 bg-black/60 h-[80%] w-24 -translate-x-1/2 -translate-y-1/2 transform  rounded-3xl border-2 border-white">
+      <div className="bg-white w-4 h-8"></div>
       <div className="relative flex h-full w-full flex-col items-center justify-around">
         {/* directions */}
         <Popover>
