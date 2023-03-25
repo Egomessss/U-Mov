@@ -1,17 +1,17 @@
 import { Popover, Transition } from "@headlessui/react"
-import { ArrowRightIcon } from "@heroicons/react/24/outline"
+import { ArrowRightIcon, ViewfinderCircleIcon } from "@heroicons/react/24/outline"
 import React, { Fragment, useState } from "react"
 
-function Sidebar() {
+function Sidebar({ centerMap }) {
   return (
     <div className="absolute top-1/2 left-5 z-50 h-[80%] w-24 -translate-x-1/2 -translate-y-1/2 transform rounded-3xl  border-2 border-white bg-black/60">
       <div className="relative flex h-full w-full flex-col items-center justify-around">
         {/* centers the map to main location */}
         <button
-          // onclick={()=>map.panto}
-          className="h-20 w-20 rounded-full border-2 border-white text-center "
+          onClick={centerMap}
+          className="h-20 w-20 rounded-full border-2 border-white flex justify-center items-center"
         >
-          Center
+           <ViewfinderCircleIcon className="h-8" />
         </button>
         {/* directions */}
         <Popover>

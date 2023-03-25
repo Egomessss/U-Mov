@@ -16,14 +16,8 @@ const containerStyle = {
 }
 
 // centers the map
-const center = {
-  lat: -3.745,
-  lng: -38.523,
-}
 
-function MapApi() {
-  const [map, setmap] = useState(null)
-
+function MapApi({ center, setMap, map }) {
   // const { isLoaded } = useJsApiLoader({
   //   googleMapsApiKey: "AIzaSyAC-ZmHeOUM6VvIDtbc8y_sfKG-Lh7ZgME",
   // })
@@ -39,7 +33,7 @@ function MapApi() {
           mapContainerStyle={containerStyle}
           center={center}
           zoom={10}
-          onLoad={(map) => setmap(map)}
+          onLoad={setMap}
         >
           {/* Child components, such as markers, info windows, etc. */}
           <>
