@@ -4,9 +4,15 @@ import React, { Fragment, useState } from "react"
 
 function Sidebar() {
   return (
-    <div className="absolute z-50 top-1/2 left-5 bg-black/60 h-[80%] w-24 -translate-x-1/2 -translate-y-1/2 transform  rounded-3xl border-2 border-white">
-      <div className="bg-white w-4 h-8"></div>
+    <div className="absolute top-1/2 left-5 z-50 h-[80%] w-24 -translate-x-1/2 -translate-y-1/2 transform rounded-3xl  border-2 border-white bg-black/60">
       <div className="relative flex h-full w-full flex-col items-center justify-around">
+        {/* centers the map to main location */}
+        <button
+          // onclick={()=>map.panto}
+          className="h-20 w-20 rounded-full border-2 border-white text-center "
+        >
+          Center
+        </button>
         {/* directions */}
         <Popover>
           {({ open }) => (
@@ -23,7 +29,7 @@ function Sidebar() {
                 leaveFrom="opacity-100 translate-x-0"
                 leaveTo="opacity-0 translate-x-1"
               >
-                <Popover.Panel className="absolute left-24 top-0 h-full w-96 rounded-3xl border-2 border-white p-4 bg-black/60">
+                <Popover.Panel className="absolute left-24 top-0 h-full w-96 rounded-3xl border-2 border-white bg-black/60 p-4">
                   <div className="flex flex-col gap-2">
                     <div className="flex flex-col">
                       {" "}
