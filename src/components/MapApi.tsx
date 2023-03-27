@@ -1,7 +1,6 @@
 import React, { useState } from "react"
 import {
   GoogleMap,
-  LoadScript,
   useJsApiLoader,
   Marker,
 } from "@react-google-maps/api"
@@ -18,29 +17,33 @@ const containerStyle = {
 // centers the map
 
 function MapApi({ center, setMap, map }) {
-  // const { isLoaded } = useJsApiLoader({
-  //   googleMapsApiKey: "AIzaSyAC-ZmHeOUM6VvIDtbc8y_sfKG-Lh7ZgME",
-  // })
+  const { isLoaded } = useJsApiLoader({
+    googleMapsApiKey: "AIzaSyAC-ZmHeOUM6VvIDtbc8y_sfKG-Lh7ZgME",
+    libraries: ["places"],
+  })
 
-  // if (!isLoaded) {
-  //   return <div>Loading...</div>
-  // }
+  if (!isLoaded) {
+    return <div className="flex items-center justify-center">Loading...</div>
+  }
+
+  const containerStyle = {
+    width: "100%",
+    height: "100%",
+  }
 
   return (
     <div className="-mx-20  h-full">
-      <LoadScript googleMapsApiKey="AIzaSyAC-ZmHeOUM6VvIDtbc8y_sfKG-Lh7ZgME">
-        <GoogleMap
-          mapContainerStyle={containerStyle}
-          center={center}
-          zoom={10}
-          onLoad={setMap}
-        >
-          {/* Child components, such as markers, info windows, etc. */}
-          <>
-            <Marker position={center} />
-          </>
-        </GoogleMap>
-      </LoadScript>
+      <GoogleMap
+        mapContainerStyle={containerStyle}
+        center={center}
+        zoom={10}
+        onLoad={setMap}
+      >
+        {/* Child components, such as markers, info windows, etc. */}
+        <>
+          <Marker position={center} />
+        </>
+      </GoogleMap>
     </div>
   )
 }

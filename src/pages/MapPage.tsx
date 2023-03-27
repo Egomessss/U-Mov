@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar"
 import Sidebar from "@/components/Sidebar"
 import React, { useState } from "react"
 
+
 function MapPage() {
   const [map, setMap] = useState(/** @type google.maps.Map */( null))
 

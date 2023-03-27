@@ -1,6 +1,10 @@
 import { Popover, Transition } from "@headlessui/react"
-import { ArrowRightIcon, ViewfinderCircleIcon } from "@heroicons/react/24/outline"
+import {
+  ArrowRightIcon,
+  ViewfinderCircleIcon,
+} from "@heroicons/react/24/outline"
 import React, { Fragment, useState } from "react"
+import { Autocomplete } from "@react-google-maps/api"
 
 function Sidebar({ centerMap }) {
   return (
@@ -9,9 +13,9 @@ function Sidebar({ centerMap }) {
         {/* centers the map to main location */}
         <button
           onClick={centerMap}
-          className="h-20 w-20 rounded-full border-2 border-white flex justify-center items-center"
+          className="flex h-20 w-20 items-center justify-center rounded-full border-2 border-white"
         >
-           <ViewfinderCircleIcon className="h-8" />
+          <ViewfinderCircleIcon className="h-8" />
         </button>
         {/* directions */}
         <Popover>
@@ -34,7 +38,9 @@ function Sidebar({ centerMap }) {
                     <div className="flex flex-col">
                       {" "}
                       <h3>Add main location</h3>
-                      <input type="text" />
+                      <Autocomplete>
+                        <input type="text" />
+                      </Autocomplete>
                     </div>
                     <button>Add more</button>
                   </div>
@@ -50,7 +56,9 @@ function Sidebar({ centerMap }) {
                     <h3> Add destinations</h3>
                     <div className="flex flex-col">
                       <label htmlFor="">Give it a name</label>
-                      <input type="text" />
+                      <Autocomplete>
+                        <input type="text" />
+                      </Autocomplete>
                     </div>
                     <button>Add more</button>
                   </div>
