@@ -6,7 +6,7 @@ import {
 import React, { Fragment, useState } from "react"
 import { Autocomplete } from "@react-google-maps/api"
 
-function Sidebar({ centerMap }) {
+function Sidebar({ centerMap, originRef, destinationRef, calculateRoute, clearRoute, duration, distance  }) {
   return (
     <div className="absolute top-1/2 left-5 z-50 h-[80%] w-24 -translate-x-1/2 -translate-y-1/2 transform rounded-3xl  border-2 border-white bg-black/60">
       <div className="relative flex h-full w-full flex-col items-center justify-around">
@@ -39,7 +39,7 @@ function Sidebar({ centerMap }) {
                       {" "}
                       <h3>Add main location</h3>
                       <Autocomplete>
-                        <input type="text" />
+                        <input type="text" placeholder="Origin" ref={originRef} />
                       </Autocomplete>
                     </div>
                     <button>Add more</button>
@@ -48,7 +48,7 @@ function Sidebar({ centerMap }) {
                     <div className="flex flex-col">
                       {" "}
                       <h3>Add middle routes</h3>
-                      <input type="text" />
+                      <input type="text" placeholder="middle" />
                     </div>
                     <button>Add more</button>
                   </div>
@@ -57,17 +57,20 @@ function Sidebar({ centerMap }) {
                     <div className="flex flex-col">
                       <label htmlFor="">Give it a name</label>
                       <Autocomplete>
-                        <input type="text" />
+                      <input type="text" placeholder="Origin" ref={destinationRef} />
                       </Autocomplete>
                     </div>
                     <button>Add more</button>
                   </div>
+                  <button onClick={calculateRoute}>Get Route</button>
+                  <button onClick={clearRoute}>Clear selection</button>
                   <h1>Summary</h1>
                   <div className="flex flex-col gap-2">
                     <h3>Distance</h3>
                     <div className="flex justify-between">
                       <span>Point A</span>
-                      <span>distance</span>
+                      <span>distance: {distance}</span>
+                      <span>duration: {duration}</span>
                       <span>Point b</span>
                     </div>
                   </div>

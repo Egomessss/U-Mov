@@ -1,9 +1,5 @@
 import React, { useState } from "react"
-import {
-  GoogleMap,
-  useJsApiLoader,
-  Marker,
-} from "@react-google-maps/api"
+import { GoogleMap, useJsApiLoader, Marker, DirectionsRenderer } from "@react-google-maps/api"
 
 //  Make sure you cache the props passed to GoogleMap to avoid re-renders that may harm the performance.
 // restringir a api somente para o site
@@ -16,7 +12,7 @@ const containerStyle = {
 
 // centers the map
 
-function MapApi({ center, setMap, map }) {
+function MapApi({ center, setMap, map, directions}) {
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: "AIzaSyAC-ZmHeOUM6VvIDtbc8y_sfKG-Lh7ZgME",
     libraries: ["places"],
@@ -42,6 +38,7 @@ function MapApi({ center, setMap, map }) {
         {/* Child components, such as markers, info windows, etc. */}
         <>
           <Marker position={center} />
+          {directions && <DirectionsRenderer directions={directions}/>}
         </>
       </GoogleMap>
     </div>
