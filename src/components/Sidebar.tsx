@@ -1,4 +1,4 @@
-import { Popover, Transition } from "@headlessui/react"
+import { Disclosure, Popover, Transition } from "@headlessui/react"
 import {
   ArrowRightIcon,
   ClockIcon,
@@ -44,20 +44,74 @@ function Sidebar({
               >
                 <Popover.Panel className="absolute left-24 top-0 h-full w-96 rounded-3xl  bg-white p-4 text-black">
                   <div className="flex flex-col gap-2">
-                    <div className="flex flex-col">
-                      <h3>Add main location</h3>
-                      <Autocomplete>
-                        <input
-                          className="w-full rounded-md border-2 bg-white px-2"
-                          type="text"
-                          placeholder="Origin"
-                          ref={originRef}
-                        />
-                      </Autocomplete>
+                    <h2>Main routes</h2>
+                    <div>
+                      <div className="flex items-center justify-center gap-2">
+                        <h3>Home</h3>
+                        {/* this icons changes color according to user */}
+                        <ArrowRightIcon className="h-6" />
+                        <h3>Job</h3>
+                      </div>
+                      <div>
+                        <label htmlFor="home-input">Home</label>
+                        <Autocomplete>
+                          <input
+                            className="w-full  border-b-2 border-lightgray bg-white px-2"
+                            type="text"
+                            placeholder="Enter Your Home Adress"
+                            id="home-input"
+                            ref={originRef}
+                          />
+                        </Autocomplete>
+                      </div>
+                      <div>
+                        <label htmlFor="job-input">Job</label>
+                        <Autocomplete>
+                          <input
+                            className="w-full  border-b-2 border-lightgray bg-white px-2"
+                            type="text"
+                            placeholder="Enter Your Job Adress"
+                            id="job-input"
+                            ref={originRef}
+                          />
+                        </Autocomplete>
+                      </div>
                     </div>
-                    <button>Add more</button>
+
+                    {/* <div>
+                      <div className="flex items-center justify-between">
+                        <h3>Job</h3>
+                        <ArrowRightIcon className="h-6" />
+                        <h3>Home</h3>
+                      </div>
+                      <div>
+                        <label htmlFor="job-input">Job</label>
+                        <Autocomplete>
+                          <input
+                            className="w-full rounded-md border-2 bg-white px-2"
+                            type="text"
+                            placeholder="Enter Your Job Adress"
+                            id="job-input"
+                            ref={originRef}
+                          />
+                        </Autocomplete>
+                      </div>
+                      <div>
+                        <label htmlFor="home-input">Home</label>
+                        <Autocomplete>
+                          <input
+                            className="w-full rounded-md border-2 bg-white px-2"
+                            type="text"
+                            placeholder="Enter Your Home Adress"
+                            id="home-input"
+                            ref={originRef}
+                          />
+                        </Autocomplete>
+                      </div>
+                    </div> */}
                   </div>
-                  <div className="flex flex-col gap-2">
+
+                  {/* <div className="flex flex-col gap-2">
                     <div className="flex flex-col">
                       <h3>Add a deviation</h3>
                       <input
@@ -66,22 +120,17 @@ function Sidebar({
                         placeholder="Deviations"
                       />
                     </div>
-                    <button>Add more</button>
-                  </div>
+                  </div> */}
                   <div className="flex flex-col gap-2">
-                    <h3> Add destinations</h3>
-                    <div className="flex flex-col">
-                      <label htmlFor="">Give it a name</label>
-                      <Autocomplete>
-                        <input
-                          className="w-full rounded-md border-2 bg-white px-2"
-                          type="text"
-                          placeholder="Origin"
-                          ref={destinationRef}
-                        />
-                      </Autocomplete>
-                    </div>
-                    <button>Add more</button>
+                    <Disclosure>
+                      <Disclosure.Button className="py-2">
+                        Add a custom route
+                      </Disclosure.Button>
+                      <Disclosure.Panel className="text-gray-500">
+                        Yes! You can purchase a license that you can share with
+                        your entire team.
+                      </Disclosure.Panel>
+                    </Disclosure>
                   </div>
                   <div className="flex justify-between py-6">
                     {" "}

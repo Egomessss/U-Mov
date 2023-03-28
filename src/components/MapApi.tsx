@@ -46,3 +46,7 @@ function MapApi({ center, setMap, map, directions}) {
 }
 
 export default MapApi
+
+
+// option to choose an icon
+// option to choose a color for the route
