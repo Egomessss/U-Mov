@@ -11,13 +11,15 @@ function MapPage() {
   const [duration, setDuration] = useState("")
 
  /** @type React.MutableRefObject<HTMLInputElement> */
-  const originRef = useRef()
+  const originRef = useRef(null)
   console.log(originRef)
 
  /** @type React.MutableRefObject<HTMLInputElement> */
-  const destinationRef = useRef()
+  const destinationRef = useRef(null)
 
-  const calculateRoute = async () => {
+  const calculateRoute = async (e) => {
+    e.preventDefault()
+
     if (originRef.current.value === "" || destinationRef.current.value === "") {
       return
     }
@@ -75,3 +77,7 @@ function MapPage() {
 }
 
 export default MapPage
+function preventDefault() {
+  throw new Error("Function not implemented.")
+}
+

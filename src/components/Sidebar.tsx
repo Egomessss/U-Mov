@@ -72,7 +72,7 @@ function Sidebar({
                             type="text"
                             placeholder="Enter Your Job Adress"
                             id="job-input"
-                            ref={originRef}
+                            ref={destinationRef}
                           />
                         </Autocomplete>
                       </div>
