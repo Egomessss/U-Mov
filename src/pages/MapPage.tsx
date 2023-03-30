@@ -1,4 +1,5 @@
 import BottomNav from "@/components/BottomNav"
+import DistanceMatrix from "@/components/DistanceMatrix"
 import MapApi from "@/components/MapApi"
 import Navbar from "@/components/Navbar"
 import Sidebar from "@/components/Sidebar"
@@ -10,12 +11,14 @@ function MapPage() {
   const [distance, setDistance] = useState("")
   const [duration, setDuration] = useState("")
 
+ 
  /** @type React.MutableRefObject<HTMLInputElement> */
   const originRef = useRef(null)
-  console.log(originRef)
+  // console.log(originRef)
 
  /** @type React.MutableRefObject<HTMLInputElement> */
   const destinationRef = useRef(null)
+
 
   const calculateRoute = async (e) => {
     e.preventDefault()
@@ -36,6 +39,19 @@ function MapPage() {
     setDuration(results.routes[0].legs[0].duration.text)
   }
 
+
+
+
+
+
+
+
+  
+
+  
+
+
+
   const clearRoute = () => {
     setDirections(null)
     setDistance("")
@@ -43,6 +59,9 @@ function MapPage() {
     originRef.current.value = ""
     destinationRef.current.value = ""
   }
+
+
+
 
   const center = {
     lat: -3.745,
@@ -54,6 +73,7 @@ function MapPage() {
   return (
     <div className="flex h-[100dvh] flex-col bg-[#EEEEEE] px-6 pt-4 dark:bg-gradient-to-b dark:from-[#000000] dark:via-darkgray dark:to-darkgray dark:text-white lg:px-20 ">
       <Navbar />
+      <DistanceMatrix/>
       <div className="relative h-full">
         <Sidebar
           originRef={originRef}

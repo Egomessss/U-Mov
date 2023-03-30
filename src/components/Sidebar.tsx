@@ -144,6 +144,9 @@ function Sidebar({
                       <span>House</span>
                       <ArrowRightIcon className="h-6" />
                       <span>Job</span>
+                      {/* {distance.map(()=>{
+                        
+                      })} */}
                       <span>{distance}</span>
                       <div className="flex gap-2">
                         <ClockIcon className="h-6" />
