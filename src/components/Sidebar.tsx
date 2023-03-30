@@ -9,12 +9,12 @@ import { Autocomplete } from "@react-google-maps/api"
 
 function Sidebar({
   centerMap,
-  originRef,
-  destinationRef,
-  calculateRoute,
   clearRoute,
-  duration,
-  distance,
+  onPlaceChanged,
+  handleDestinationAddress,
+  handleNewDestinationAdress,
+  handleRemoveDestination,
+  destinationAddresses,
 }) {
   return (
     <div className="absolute top-1/2 left-5 z-50 h-[80%] w-24 -translate-x-1/2 -translate-y-1/2 transform rounded-3xl  border-2 border-white bg-white ">
@@ -54,27 +54,69 @@ function Sidebar({
                       </div>
                       <div>
                         <label htmlFor="home-input">Home</label>
-                        <Autocomplete>
+                        <Autocomplete
+                          onPlaceChanged={onPlaceChanged}
+                          // onLoad={onLoad}
+                        >
                           <input
                             className="w-full  border-b-2 border-lightgray bg-white px-2"
                             type="text"
                             placeholder="Enter Your Home Adress"
                             id="home-input"
-                            ref={originRef}
                           />
                         </Autocomplete>
                       </div>
                       <div>
-                        <label htmlFor="job-input">Job</label>
-                        <Autocomplete>
-                          <input
-                            className="w-full  border-b-2 border-lightgray bg-white px-2"
-                            type="text"
-                            placeholder="Enter Your Job Adress"
-                            id="job-input"
-                            ref={destinationRef}
-                          />
-                        </Autocomplete>
+                        <div>
+                          <form action="">
+                            <label htmlFor="job-input">Job</label>
+
+                            {/* <Autocomplete> */}
+                            <input
+                              className="w-full  border-b-2 border-lightgray bg-white px-2"
+                              type="text"
+                              placeholder="Add a destination adress"
+                              id="job-input"
+                              onChange={handleNewDestinationAdress}
+                              // ref={destinationRef}
+                            />
+                            {/* </Autocomplete> */}
+                          </form>
+
+                          <button onClick={handleDestinationAddress}>
+                            Add another destination
+                          </button>
+                        </div>
+                        <div className="pt-4">
+                          <ul className="flex flex-col gap-2">
+                            {destinationAddresses.map(
+                              ({ id, name, adress }) => (
+                                <li
+                                  className="border-b-2 pb-4"
+                                  key={id}
+                                >
+                                  <div className="flex gap-2">
+                                    <span>{name}</span>
+                                    <button className="rounded-md bg-orange px-2">
+                                      Edit
+                                    </button>
+                                  </div>
+                                  <div className="flex flex-col gap-2">
+                                    <div className=" flex gap-4">
+                                      <span>{adress}</span>
+                                      <button className="rounded-md bg-orange px-2">
+                                        Edit
+                                      </button>
+                                      <button className="rounded-md bg-orange px-2">
+                                        Remove
+                                      </button>
+                                    </div>
+                                  </div>
+                                </li>
+                              )
+                            )}
+                          </ul>
+                        </div>
                       </div>
                     </div>
 
@@ -121,21 +163,11 @@ function Sidebar({
                       />
                     </div>
                   </div> */}
-                  <div className="flex flex-col gap-2">
-                    <Disclosure>
-                      <Disclosure.Button className="py-2">
-                        Add a custom route
-                      </Disclosure.Button>
-                      <Disclosure.Panel className="text-gray-500">
-                        Yes! You can purchase a license that you can share with
-                        your entire team.
-                      </Disclosure.Panel>
-                    </Disclosure>
-                  </div>
+
                   <div className="flex justify-between py-6">
                     {" "}
-                    <button onClick={calculateRoute}>Get Route</button>
-                    <button onClick={clearRoute}>Clear selection</button>
+                    <button>Get Routes</button>
+                    <button>Clear selection</button>
                   </div>
 
                   <h3>Summary</h3>
@@ -147,10 +179,10 @@ function Sidebar({
                       {/* {distance.map(()=>{
                         
                       })} */}
-                      <span>{distance}</span>
+                      <span></span>
                       <div className="flex gap-2">
                         <ClockIcon className="h-6" />
-                        <span>{duration} </span>
+                        <span> </span>
                       </div>
                     </div>
                   </div>

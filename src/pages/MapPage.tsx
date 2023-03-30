@@ -1,56 +1,69 @@
 import BottomNav from "@/components/BottomNav"
-import DistanceMatrix from "@/components/DistanceMatrix"
+import DistanceMatrix from "@/components/RoutesApi"
 import MapApi from "@/components/MapApi"
 import Navbar from "@/components/Navbar"
 import Sidebar from "@/components/Sidebar"
 import React, { useRef, useState } from "react"
 
 function MapPage() {
-  const [map, setMap] = useState(/** @type google.maps.Map */ null)
-  const [directions, setDirections] = useState<any | null>(null)
-  const [distance, setDistance] = useState("")
-  const [duration, setDuration] = useState("")
+  const newID = (() => {
+    let id = 0
+    return () => id++
+  })()
 
- 
- /** @type React.MutableRefObject<HTMLInputElement> */
-  const originRef = useRef(null)
-  // console.log(originRef)
+  const INITIAL_TASKS = [
+    {
+      id: newID(),
+      name: "Job",
+      adress: "Parangaba, Fortaleza - State of Ceará,Brazil",
+    },
+    {
+      id: newID(),
+      name: "Kids school",
+      adress: "Parangaba, Fortaleza - State of Ceará,Brazil",
+    },
+    {
+      id: newID(),
+      name: "Wife",
+      adress: "Parangaba, Fortaleza - State of Ceará,Brazil",
+    },
+  ]
 
- /** @type React.MutableRefObject<HTMLInputElement> */
-  const destinationRef = useRef(null)
-
-
-  const calculateRoute = async (e) => {
-    e.preventDefault()
-
-    if (originRef.current.value === "" || destinationRef.current.value === "") {
-      return
+  const onPlaceChanged = () => {
+    if (origins != null) {
+      const place = origins.getPlace()
+      setOrigins(place.formatted_address)
+    } else {
+      alert("Please enter text")
     }
-    const directionsService = new google.maps.DirectionsService()
+  }
+  const [destinationAddresses, setDestinationAddresses] =
+    useState(INITIAL_TASKS) // initialize state with an empty array
+  console.log(destinationAddresses)
 
-    const results = await directionsService.route({
-      origin: originRef.current.value,
-      destination: destinationRef.current.value,
-      travelMode: google.maps.TravelMode.DRIVING,
-    })
+  const [newDestination, setNewDestination] = useState<string>("")
+  // console.log(newDestination)
 
-    setDirections(results)
-    setDistance(results.routes[0].legs[0].distance.text)
-    setDuration(results.routes[0].legs[0].duration.text)
+  const handleNewDestinationAdress = (e) => setNewDestination(e.target.value)
+
+  const handleDestinationAddress = () => {
+    if (newDestination.trim() !== "") {
+      const newAddress = {
+        id: Date.now(),
+        address: newDestination.trim(),
+      }
+      setDestinationAddresses([...destinationAddresses, newAddress])
+      setNewDestination("")
+    }
   }
 
+  const handleRemoveDestination = (index) => {
+    const newAdresses = [...destinationAddresses]
+    newAdresses.splice(index, 1)
+    setDestinationAddresses(newAdresses)
+  }
 
-
-
-
-
-
-
-  
-
-  
-
-
+  const [map, setMap] = useState(/** @type google.maps.Map */ null)
 
   const clearRoute = () => {
     setDirections(null)
@@ -59,9 +72,6 @@ function MapPage() {
     originRef.current.value = ""
     destinationRef.current.value = ""
   }
-
-
-
 
   const center = {
     lat: -3.745,
@@ -73,19 +83,19 @@ function MapPage() {
   return (
     <div className="flex h-[100dvh] flex-col bg-[#EEEEEE] px-6 pt-4 dark:bg-gradient-to-b dark:from-[#000000] dark:via-darkgray dark:to-darkgray dark:text-white lg:px-20 ">
       <Navbar />
-      <DistanceMatrix/>
+      {/* <DistanceMatrix /> */}
       <div className="relative h-full">
         <Sidebar
-          originRef={originRef}
-          destinationRef={destinationRef}
           centerMap={handleCenter}
-          calculateRoute={calculateRoute}
           clearRoute={clearRoute}
-          distance={distance}
-          duration={duration}
+          handleDestinationAddress={handleDestinationAddress}
+          handleNewDestinationAdress={handleNewDestinationAdress}
+          handleRemoveDestination={handleRemoveDestination}
+          onPlaceChanged={onPlaceChanged}
+          destinationAddresses={destinationAddresses}
         />
         <MapApi
-          directions={directions}
+          // directions={directions}
           map={map}
           setMap={(map) => setMap(map)}
           center={center}
@@ -97,7 +107,3 @@ function MapPage() {
 }
 
 export default MapPage
-function preventDefault() {
-  throw new Error("Function not implemented.")
-}
-
