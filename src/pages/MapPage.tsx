@@ -15,17 +15,17 @@ function MapPage() {
     {
       id: newID(),
       name: "Job",
-      adress: "Parangaba, Fortaleza - State of Ceará,Brazil",
+      address: "Parangaba, Fortaleza - State of Ceará,Brazil",
     },
     {
       id: newID(),
       name: "Kids school",
-      adress: "Parangaba, Fortaleza - State of Ceará,Brazil",
+      address: "Parangaba, Fortaleza - State of Ceará,Brazil",
     },
     {
       id: newID(),
       name: "Wife",
-      adress: "Parangaba, Fortaleza - State of Ceará,Brazil",
+      address: "Parangaba, Fortaleza - State of Ceará,Brazil",
     },
   ]
 
@@ -41,21 +41,58 @@ function MapPage() {
     useState(INITIAL_TASKS) // initialize state with an empty array
   console.log(destinationAddresses)
 
-  const [newDestination, setNewDestination] = useState<string>("")
+
+
+
+  const [newDestination, setNewDestination] = useState({
+    name: "",
+    address: "",
+  })
   // console.log(newDestination)
 
-  const handleNewDestinationAdress = (e) => setNewDestination(e.target.value)
+  const handleNewDestinationName = (event) => {
+    setNewDestination({ ...newDestination, name: event.target.value })
+  }
 
-  const handleDestinationAddress = () => {
-    if (newDestination.trim() !== "") {
+
+
+
+
+  const handleNewDestinationAddress = (event) => {
+    setNewDestination({ ...newDestination, address: event.target.value })
+  }
+
+
+
+
+
+  const handleDestinationAddress = (event) => {
+    event.preventDefault()
+
+    if (
+      newDestination.name.trim() !== "" &&
+      newDestination.address.trim() !== ""
+    ) {
       const newAddress = {
-        id: Date.now(),
-        address: newDestination.trim(),
+        id: newID(),
+        name: newDestination.name.trim(),
+        address: newDestination.address.trim(),
       }
       setDestinationAddresses([...destinationAddresses, newAddress])
-      setNewDestination("")
+      setNewDestination({ name: "", address: "" })
     }
   }
+
+
+
+
+
+
+
+
+
+
+
 
   const handleRemoveDestination = (index) => {
     const newAdresses = [...destinationAddresses]
@@ -89,7 +126,8 @@ function MapPage() {
           centerMap={handleCenter}
           clearRoute={clearRoute}
           handleDestinationAddress={handleDestinationAddress}
-          handleNewDestinationAdress={handleNewDestinationAdress}
+          handleNewDestinationName={handleNewDestinationName}
+          handleNewDestinationAddress={handleNewDestinationAddress}
           handleRemoveDestination={handleRemoveDestination}
           onPlaceChanged={onPlaceChanged}
           destinationAddresses={destinationAddresses}

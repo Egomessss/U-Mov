@@ -12,7 +12,8 @@ function Sidebar({
   clearRoute,
   onPlaceChanged,
   handleDestinationAddress,
-  handleNewDestinationAdress,
+  handleNewDestinationAddress,
+  handleNewDestinationName,
   handleRemoveDestination,
   destinationAddresses,
 }) {
@@ -68,45 +69,45 @@ function Sidebar({
                       </div>
                       <div>
                         <div>
-                          <form action="">
-                            <label htmlFor="job-input">Job</label>
-
+                          <form onSubmit={handleDestinationAddress}>
+                            <label htmlFor="job-input">Destination</label>
                             {/* <Autocomplete> */}
+                            <input
+                              className="w-full  border-b-2 border-lightgray bg-white px-2"
+                              type="text"
+                              placeholder="Add a name for the destination"
+                              id="job-input"
+                              onChange={handleNewDestinationName}
+                            
+                            />{" "}
+                            {/* </Autocomplete> */}
                             <input
                               className="w-full  border-b-2 border-lightgray bg-white px-2"
                               type="text"
                               placeholder="Add a destination adress"
                               id="job-input"
-                              onChange={handleNewDestinationAdress}
-                              // ref={destinationRef}
-                            />
-                            {/* </Autocomplete> */}
+                              onChange={handleNewDestinationAddress}
+                            
+                            /> 
+                            <button type="submit">Add another destination</button>
                           </form>
 
-                          <button onClick={handleDestinationAddress}>
-                            Add another destination
-                          </button>
+                         
                         </div>
                         <div className="pt-4">
                           <ul className="flex flex-col gap-2">
                             {destinationAddresses.map(
-                              ({ id, name, adress }) => (
+                              ({ id, name, address }) => (
                                 <li
                                   className="border-b-2 pb-4"
                                   key={id}
                                 >
                                   <div className="flex gap-2">
                                     <span>{name}</span>
-                                    <button className="rounded-md bg-orange px-2">
-                                      Edit
-                                    </button>
                                   </div>
                                   <div className="flex flex-col gap-2">
                                     <div className=" flex gap-4">
-                                      <span>{adress}</span>
-                                      <button className="rounded-md bg-orange px-2">
-                                        Edit
-                                      </button>
+                                      <span>{address}</span>
                                       <button className="rounded-md bg-orange px-2">
                                         Remove
                                       </button>
