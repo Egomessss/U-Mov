@@ -110,9 +110,10 @@ function MapPage() {
     destinationRef.current.value = ""
   }
 
-  const center = {
-    lat: -3.745,
-    lng: -38.523,
+// lisbon coordinates
+  const center = { 
+    lng: -9.13549,
+    lat: 38.7071
   }
 
   const handleCenter = () => map.panTo(center)
