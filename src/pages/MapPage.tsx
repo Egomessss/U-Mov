@@ -100,6 +100,8 @@ const handleSelectedTravelMode=(e)=> SetSelectedTravelMode(e.target.value)
 
 const [time, setTime] = useState('10:00')
 
+
+
   return (
     <div className="flex h-[100dvh] flex-col bg-[#EEEEEE] px-6 pt-4 dark:bg-gradient-to-b dark:from-[#000000] dark:via-darkgray dark:to-darkgray dark:text-white lg:px-20 ">
       <Navbar />

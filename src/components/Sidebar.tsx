@@ -3,6 +3,7 @@ import {
   ArrowRightIcon,
   ClockIcon,
   TrashIcon,
+  UserCircleIcon,
   ViewfinderCircleIcon,
 } from "@heroicons/react/24/outline"
 import React, { Fragment, useState } from "react"
@@ -25,7 +26,7 @@ function Sidebar({
   selectedTravelMode,
   SetSelectedTravelMode,
   time,
-  setTime
+  setTime,
 }) {
   return (
     <div className="absolute top-1/2 left-5 z-50 h-[80%] w-24 -translate-x-1/2 -translate-y-1/2 transform rounded-3xl  border-2 border-white bg-white ">
@@ -55,7 +56,7 @@ function Sidebar({
               >
                 <Popover.Panel className="absolute left-24 top-0 h-full w-96 rounded-3xl  bg-white p-4 text-black">
                   <div className="flex flex-col gap-2">
-                    <h2>Main routes</h2>
+                    <h2>Routes</h2>
                     <div>
                       <div className="flex items-center justify-center gap-2">
                         <h3>Home</h3>
@@ -64,7 +65,7 @@ function Sidebar({
                         <h3>Job</h3>
                       </div>
                       <div>
-                        <label htmlFor="home-input">Home</label>
+                        <label htmlFor="home-input">Main adress</label>
                         <Autocomplete
                           onPlaceChanged={onPlaceChanged}
                           // onLoad={onLoad}
@@ -80,7 +81,7 @@ function Sidebar({
                       <div>
                         <div>
                           <form onSubmit={handleDestinationAddress}>
-                            <label htmlFor="job-input">Destination</label>
+                            <label htmlFor="job-input">Destinations</label>
                             {/* <Autocomplete> */}
                             <input
                               className="w-full  border-b-2 border-lightgray bg-white px-2"
@@ -98,6 +99,117 @@ function Sidebar({
                               onChange={handleNewDestinationAddress}
                             />
                             <button type="submit">Add destinations</button>
+                            <div>
+                              {" "}
+                              <label htmlFor="travelMode">
+                                Pick travel mode:
+                              </label>
+                              <select
+                                id="travelMode"
+                                value={selectedTravelMode}
+                                onChange={SetSelectedTravelMode}
+                                className="w-full rounded-lg border-2 bg-white"
+                              >
+                                <option value="WALK">Walk</option>
+                                <option value="BICYCLE">Bycicle</option>
+                                <option value="TWO_WHEELER">
+                                  Two-wheeled, motorized vehicle
+                                </option>
+                                <option value="DRIVE">Drive</option>
+                              </select>
+                            </div>
+                            <h3> Fuel consumption</h3>
+                            <div>
+                              <label htmlFor="typeEngine">Type of engine</label>
+                              <select
+                                value={selectedTravelMode}
+                                onChange={SetSelectedTravelMode}
+                                className="w-full rounded-lg border-2 bg-white"
+                                id="typeEngine"
+                              >
+                                <option value="WALK">Diesel</option>
+                                <option value="BICYCLE">Unleaded</option>
+                                <option value="TWO_WHEELER">
+                                  Super-unleaded
+                                </option>
+                                <option value="DRIVE">Premium diesel</option>
+                                <option value="DRIVE">Electric</option>
+                              </select>
+                            </div>
+                            <div>
+                              <label htmlFor="consumption">Consumption</label>
+                              <input
+                                type="number"
+                                placeholder="l/km"
+                                className="w-full  border-b-2 border-lightgray bg-white px-2"
+                                id="consumption"
+                              />
+                              {/* if eletrci is selected */}
+                              <input
+                                type="number"
+                                placeholder="w/km"
+                                className="w-full  border-b-2 border-lightgray bg-white px-2"
+                                id="consumption"
+                              />
+                            </div>
+                            <div>
+                              <label htmlFor="traffic">Live traffic:</label>
+                              <select
+                                id="traffic"
+                                className="flex flex-wrap"
+                                value={selectedTravelMode}
+                                onChange={SetSelectedTravelMode}
+                              >
+                                <option value="WALK">TRAFFIC_AWARE</option>
+                                <option value="BICYCLE">
+                                  TRAFFIC_AWARE_OPTIMAL
+                                </option>
+                              </select>
+                            </div>
+                            <div>
+                              <div className="flex gap-2">
+                                <label htmlFor="tolls">Avoid tolls</label>
+                                <input
+                                  type="checkbox"
+                                  name=""
+                                  id="tolls"
+                                />
+                              </div>
+                              <div className="flex gap-2">
+                                <label htmlFor="highways">Avoid Highways</label>
+                                <input
+                                  type="checkbox"
+                                  name=""
+                                  id="highways"
+                                />
+                              </div>
+
+                              <div className="flex gap-2">
+                                <label htmlFor="ferries">Avoid ferries</label>
+                                <input
+                                  type="checkbox"
+                                  name=""
+                                  id="ferries"
+                                />
+                              </div>
+                              <div>
+                                <label htmlFor="units">Units</label>
+                                <select
+                                  value={selectedTravelMode}
+                                  onChange={SetSelectedTravelMode}
+                                  id="units"
+                                >
+                                  <option value="WALK">METRIC</option>
+                                  <option value="BICYCLE">IMPERIAL</option>
+                                </select>
+                              </div>
+
+                              <div className="flex justify-center gap-2">
+                                {" "}
+                                <button>Get Routes</button>
+                                <button>Clear selection</button>
+                              </div>
+                            </div>
                           </form>
                         </div>
                         <div className="pt-4">
@@ -130,105 +242,7 @@ function Sidebar({
                       </div>
                     </div>
                   </div>
-                  <div className="flex flex-col justify-between py-6">
-                    <form
-                      className="flex flex-wrap justify-between"
-                      action=""
-                    >
-                      
-                      <label>
-                        Pick travel mode:
-                        <select
-                          value={selectedTravelMode}
-                          onChange={SetSelectedTravelMode}
-                        >
-                          <option value="WALK">Walk</option>
-                          <option value="BICYCLE">Bycicle</option>
-                          <option value="TWO_WHEELER">
-                            Two-wheeled, motorized vehicle
-                          </option>
-                          <option value="DRIVE">Drive</option>
-                        </select>
-                      </label>
-                      <label>
-                        car type?
-                        <select
-                          value={selectedTravelMode}
-                          onChange={SetSelectedTravelMode}
-                        >
-                          <option value="WALK">Walk</option>
-                          <option value="BICYCLE">Bycicle</option>
-                          <option value="TWO_WHEELER">
-                            Two-wheeled, motorized vehicle
-                          </option>
-                          <option value="DRIVE">Drive</option>
-                        </select>
-                      </label>
-                      <label>
-                        Live traffic:
-                        <select
-                          className="flex flex-wrap"
-                          value={selectedTravelMode}
-                          onChange={SetSelectedTravelMode}
-                        >
-                          <option value="WALK">TRAFFIC_AWARE</option>
-                          <option value="BICYCLE">TRAFFIC_AWARE_OPTIMAL</option>
-                        </select>
-                      </label>
-                      <div>
-                        <div className="flex gap-2">
-                          <label htmlFor="tolls">Avoid tolls</label>
-                          <input
-                            type="checkbox"
-                            name=""
-                            id="tolls"
-                          />
-                        </div>
-                        <div className="flex gap-2">
-                          <label htmlFor="highways">Avoid Highways</label>
-                          <input
-                            type="checkbox"
-                            name=""
-                            id="highways"
-                          />
-                        </div>
-                        <div className="flex gap-2">
-                          <label htmlFor="highways">Avoid Highways</label>
-                          <input
-                            type="checkbox"
-                            name=""
-                            id="highways"
-                          />
-                        </div>
-                        <div className="flex gap-2">
-                          <label htmlFor="ferries">Avoid ferries</label>
-                          <input
-                            type="checkbox"
-                            name=""
-                            id="ferries"
-                          />
-                        </div>  
-                        <input placeholder="l/km" type="text" />
-                        <label>
-                        Units
-                        <select
-                          value={selectedTravelMode}
-                          onChange={SetSelectedTravelMode}
-                        >
-                          <option value="WALK">METRIC</option>
-                          <option value="BICYCLE">IMPERIAL</option>
-                         
-                        </select>
-                      </label>
-                      </div>
-                    
-                    </form>
-                    <div className="flex justify-center gap-2">
-                      {" "}
-                      <button>Get Routes</button>
-                      <button>Clear selection</button>
-                    </div>
-                  </div>
+
                   <h3>Summary</h3>
                   <ul className="flex flex-col gap-2">
                     {destinationAddresses.map(({ id, name, address }) => (
@@ -259,7 +273,7 @@ function Sidebar({
         <Popover>
           {({ open }) => (
             <>
-              <Popover.Button className="h-20 w-20 rounded-full border-2 border-white"></Popover.Button>
+              <Popover.Button className="h-20 w-20 rounded-full  bg-lightgray text-orange">Surroundings</Popover.Button>
               <Transition
                 as={Fragment}
                 enter="transition ease-out duration-200"
@@ -277,7 +291,7 @@ function Sidebar({
         <Popover>
           {({ open }) => (
             <>
-              <Popover.Button className="h-20 w-20 rounded-full border-2 border-white"></Popover.Button>
+              <Popover.Button className="h-20 w-20 rounded-full  bg-lightgray text-orange">Costs</Popover.Button>
               <Transition
                 as={Fragment}
                 enter="transition ease-out duration-200"
@@ -295,7 +309,7 @@ function Sidebar({
         <Popover>
           {({ open }) => (
             <>
-              <Popover.Button className="h-20 w-20 rounded-full border-2 border-white"></Popover.Button>
+              <Popover.Button className="h-20 w-20 rounded-full  bg-lightgray text-orange">Results</Popover.Button>
               <Transition
                 as={Fragment}
                 enter="transition ease-out duration-200"
@@ -313,7 +327,7 @@ function Sidebar({
         <Popover>
           {({ open }) => (
             <>
-              <Popover.Button className="h-20 w-20 rounded-full border-2 border-white"></Popover.Button>
+              <Popover.Button className="h-20 w-20 rounded-full  bg-lightgray text-orange"><UserCircleIcon className="p-4"/></Popover.Button>
               <Transition
                 as={Fragment}
                 enter="transition ease-out duration-200"
