@@ -28,6 +28,8 @@ function Sidebar({
   time,
   setTime,
 }) {
+  const [openDrive, setOpenDrive] = useState(false)
+  const [openEco, setOpenEco] = useState(false)
   return (
     <div className="absolute top-1/2 left-5 z-50 h-[80%] w-24 -translate-x-1/2 -translate-y-1/2 transform rounded-3xl  border-2 border-white bg-white ">
       <div className="relative flex h-full w-full flex-col items-center justify-around">
@@ -79,8 +81,12 @@ function Sidebar({
                         </Autocomplete>
                       </div>
                       <div>
-                        <div>
+                        <div>    
+                           <button>Eco options</button>
+                           <button>Car options</button>
                           <form onSubmit={handleDestinationAddress}>
+                            
+                       
                             <label htmlFor="job-input">Destinations</label>
                             {/* <Autocomplete> */}
                             <input
@@ -95,6 +101,13 @@ function Sidebar({
                               className="w-full  border-b-2 border-lightgray bg-white px-2"
                               type="text"
                               placeholder="Add a destination adress"
+                              id="job-input"
+                              onChange={handleNewDestinationAddress}
+                            />
+                            <input
+                              className="w-full  border-b-2 border-lightgray bg-white px-2"
+                              type="number"
+                              placeholder="Number of travels per month"
                               id="job-input"
                               onChange={handleNewDestinationAddress}
                             />
@@ -273,7 +286,9 @@ function Sidebar({
         <Popover>
           {({ open }) => (
             <>
-              <Popover.Button className="h-20 w-20 rounded-full  bg-lightgray text-orange">Surroundings</Popover.Button>
+              <Popover.Button className="h-20 w-20 rounded-full  bg-lightgray text-orange">
+                Surroundings
+              </Popover.Button>
               <Transition
                 as={Fragment}
                 enter="transition ease-out duration-200"
@@ -291,7 +306,9 @@ function Sidebar({
         <Popover>
           {({ open }) => (
             <>
-              <Popover.Button className="h-20 w-20 rounded-full  bg-lightgray text-orange">Costs</Popover.Button>
+              <Popover.Button className="h-20 w-20 rounded-full  bg-lightgray text-orange">
+                Costs
+              </Popover.Button>
               <Transition
                 as={Fragment}
                 enter="transition ease-out duration-200"
@@ -309,7 +326,9 @@ function Sidebar({
         <Popover>
           {({ open }) => (
             <>
-              <Popover.Button className="h-20 w-20 rounded-full  bg-lightgray text-orange">Results</Popover.Button>
+              <Popover.Button className="h-20 w-20 rounded-full  bg-lightgray text-orange">
+                Results
+              </Popover.Button>
               <Transition
                 as={Fragment}
                 enter="transition ease-out duration-200"
@@ -327,7 +346,9 @@ function Sidebar({
         <Popover>
           {({ open }) => (
             <>
-              <Popover.Button className="h-20 w-20 rounded-full  bg-lightgray text-orange"><UserCircleIcon className="p-4"/></Popover.Button>
+              <Popover.Button className="h-20 w-20 rounded-full  bg-lightgray text-orange">
+                <UserCircleIcon className="p-4" />
+              </Popover.Button>
               <Transition
                 as={Fragment}
                 enter="transition ease-out duration-200"
