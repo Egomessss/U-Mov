@@ -37,12 +37,8 @@ function MapPage() {
       alert("Please enter text")
     }
   }
-  const [destinationAddresses, setDestinationAddresses] =
-    useState(INITIAL_TASKS) // initialize state with an empty array
+  const [destinationAddresses, setDestinationAddresses] = useState<{}[]>([]) // initialize state with an empty array
   console.log(destinationAddresses)
-
-
-
 
   const [newDestination, setNewDestination] = useState({
     name: "",
@@ -54,17 +50,9 @@ function MapPage() {
     setNewDestination({ ...newDestination, name: event.target.value })
   }
 
-
-
-
-
   const handleNewDestinationAddress = (event) => {
     setNewDestination({ ...newDestination, address: event.target.value })
   }
-
-
-
-
 
   const handleDestinationAddress = (event) => {
     event.preventDefault()
@@ -83,24 +71,11 @@ function MapPage() {
     }
   }
 
-
-
-
-
-
-
-
-
-
-
-
   const handleRemoveDestination = (index) => {
     const newAdresses = [...destinationAddresses]
     newAdresses.splice(index, 1)
     setDestinationAddresses(newAdresses)
   }
-
-  const [map, setMap] = useState(/** @type google.maps.Map */ null)
 
   const clearRoute = () => {
     setDirections(null)
@@ -110,13 +85,20 @@ function MapPage() {
     destinationRef.current.value = ""
   }
 
-// lisbon coordinates
-  const center = { 
+  // lisbon coordinates
+  const center = {
     lng: -9.13549,
-    lat: 38.7071
+    lat: 38.7071,
   }
+  const [map, setMap] = useState(/** @type google.maps.Map */ null)
 
   const handleCenter = () => map.panTo(center)
+
+  const [selectedTravelMode, SetSelectedTravelMode] = useState("DRIVE")
+
+const handleSelectedTravelMode=(e)=> SetSelectedTravelMode(e.target.value)
+
+const [time, setTime] = useState('10:00')
 
   return (
     <div className="flex h-[100dvh] flex-col bg-[#EEEEEE] px-6 pt-4 dark:bg-gradient-to-b dark:from-[#000000] dark:via-darkgray dark:to-darkgray dark:text-white lg:px-20 ">
@@ -132,6 +114,11 @@ function MapPage() {
           handleRemoveDestination={handleRemoveDestination}
           onPlaceChanged={onPlaceChanged}
           destinationAddresses={destinationAddresses}
+          selectedTravelMode={selectedTravelMode}
+          SetSelectedTravelMode={handleSelectedTravelMode}
+          time={time}
+          setTime={setTime}
+
         />
         <MapApi
           // directions={directions}

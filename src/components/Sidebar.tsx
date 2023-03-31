@@ -2,20 +2,30 @@ import { Disclosure, Popover, Transition } from "@headlessui/react"
 import {
   ArrowRightIcon,
   ClockIcon,
+  TrashIcon,
   ViewfinderCircleIcon,
 } from "@heroicons/react/24/outline"
 import React, { Fragment, useState } from "react"
 import { Autocomplete } from "@react-google-maps/api"
+
+type centerMapProps = {
+  lng: number
+  lat: number
+}
 
 function Sidebar({
   centerMap,
   clearRoute,
   onPlaceChanged,
   handleDestinationAddress,
-  handleNewDestinationAddress,
   handleNewDestinationName,
+  handleNewDestinationAddress,
   handleRemoveDestination,
   destinationAddresses,
+  selectedTravelMode,
+  SetSelectedTravelMode,
+  time,
+  setTime
 }) {
   return (
     <div className="absolute top-1/2 left-5 z-50 h-[80%] w-24 -translate-x-1/2 -translate-y-1/2 transform rounded-3xl  border-2 border-white bg-white ">
@@ -78,7 +88,6 @@ function Sidebar({
                               placeholder="Add a name for the destination"
                               id="job-input"
                               onChange={handleNewDestinationName}
-                            
                             />{" "}
                             {/* </Autocomplete> */}
                             <input
@@ -87,12 +96,9 @@ function Sidebar({
                               placeholder="Add a destination adress"
                               id="job-input"
                               onChange={handleNewDestinationAddress}
-                            
-                            /> 
-                            <button type="submit">Add another destination</button>
+                            />
+                            <button type="submit">Add destinations</button>
                           </form>
-
-                         
                         </div>
                         <div className="pt-4">
                           <ul className="flex flex-col gap-2">
@@ -106,10 +112,13 @@ function Sidebar({
                                     <span>{name}</span>
                                   </div>
                                   <div className="flex flex-col gap-2">
-                                    <div className=" flex gap-4">
+                                    <div className=" flex justify-between">
                                       <span>{address}</span>
-                                      <button className="rounded-md bg-orange px-2">
-                                        Remove
+                                      <button
+                                        onClick={handleRemoveDestination}
+                                        className="rounded-md  px-2"
+                                      >
+                                        <TrashIcon className="h-6 text-orange" />
                                       </button>
                                     </div>
                                   </div>
@@ -120,73 +129,128 @@ function Sidebar({
                         </div>
                       </div>
                     </div>
-
-                    {/* <div>
-                      <div className="flex items-center justify-between">
-                        <h3>Job</h3>
-                        <ArrowRightIcon className="h-6" />
-                        <h3>Home</h3>
-                      </div>
-                      <div>
-                        <label htmlFor="job-input">Job</label>
-                        <Autocomplete>
-                          <input
-                            className="w-full rounded-md border-2 bg-white px-2"
-                            type="text"
-                            placeholder="Enter Your Job Adress"
-                            id="job-input"
-                            ref={originRef}
-                          />
-                        </Autocomplete>
-                      </div>
-                      <div>
-                        <label htmlFor="home-input">Home</label>
-                        <Autocomplete>
-                          <input
-                            className="w-full rounded-md border-2 bg-white px-2"
-                            type="text"
-                            placeholder="Enter Your Home Adress"
-                            id="home-input"
-                            ref={originRef}
-                          />
-                        </Autocomplete>
-                      </div>
-                    </div> */}
                   </div>
-
-                  {/* <div className="flex flex-col gap-2">
-                    <div className="flex flex-col">
-                      <h3>Add a deviation</h3>
-                      <input
-                        className="w-full rounded-md border-2 bg-white px-2"
-                        type="text"
-                        placeholder="Deviations"
-                      />
+                  <div className="flex flex-col justify-between py-6">
+                    <form
+                      className="flex flex-wrap justify-between"
+                      action=""
+                    >
+                      
+                      <label>
+                        Pick travel mode:
+                        <select
+                          value={selectedTravelMode}
+                          onChange={SetSelectedTravelMode}
+                        >
+                          <option value="WALK">Walk</option>
+                          <option value="BICYCLE">Bycicle</option>
+                          <option value="TWO_WHEELER">
+                            Two-wheeled, motorized vehicle
+                          </option>
+                          <option value="DRIVE">Drive</option>
+                        </select>
+                      </label>
+                      <label>
+                        car type?
+                        <select
+                          value={selectedTravelMode}
+                          onChange={SetSelectedTravelMode}
+                        >
+                          <option value="WALK">Walk</option>
+                          <option value="BICYCLE">Bycicle</option>
+                          <option value="TWO_WHEELER">
+                            Two-wheeled, motorized vehicle
+                          </option>
+                          <option value="DRIVE">Drive</option>
+                        </select>
+                      </label>
+                      <label>
+                        Live traffic:
+                        <select
+                          className="flex flex-wrap"
+                          value={selectedTravelMode}
+                          onChange={SetSelectedTravelMode}
+                        >
+                          <option value="WALK">TRAFFIC_AWARE</option>
+                          <option value="BICYCLE">TRAFFIC_AWARE_OPTIMAL</option>
+                        </select>
+                      </label>
+                      <div>
+                        <div className="flex gap-2">
+                          <label htmlFor="tolls">Avoid tolls</label>
+                          <input
+                            type="checkbox"
+                            name=""
+                            id="tolls"
+                          />
+                        </div>
+                        <div className="flex gap-2">
+                          <label htmlFor="highways">Avoid Highways</label>
+                          <input
+                            type="checkbox"
+                            name=""
+                            id="highways"
+                          />
+                        </div>
+                        <div className="flex gap-2">
+                          <label htmlFor="highways">Avoid Highways</label>
+                          <input
+                            type="checkbox"
+                            name=""
+                            id="highways"
+                          />
+                        </div>
+                        <div className="flex gap-2">
+                          <label htmlFor="ferries">Avoid ferries</label>
+                          <input
+                            type="checkbox"
+                            name=""
+                            id="ferries"
+                          />
+                        </div>  
+                        <input placeholder="l/km" type="text" />
+                        <label>
+                        Units
+                        <select
+                          value={selectedTravelMode}
+                          onChange={SetSelectedTravelMode}
+                        >
+                          <option value="WALK">METRIC</option>
+                          <option value="BICYCLE">IMPERIAL</option>
+                         
+                        </select>
+                      </label>
+                      </div>
+                    
+                    </form>
+                    <div className="flex justify-center gap-2">
+                      {" "}
+                      <button>Get Routes</button>
+                      <button>Clear selection</button>
                     </div>
-                  </div> */}
-
-                  <div className="flex justify-between py-6">
-                    {" "}
-                    <button>Get Routes</button>
-                    <button>Clear selection</button>
                   </div>
-
                   <h3>Summary</h3>
-                  <div className="flex flex-col gap-2">
-                    <div className="flex justify-between">
-                      <span>House</span>
-                      <ArrowRightIcon className="h-6" />
-                      <span>Job</span>
-                      {/* {distance.map(()=>{
-                        
-                      })} */}
-                      <span></span>
-                      <div className="flex gap-2">
-                        <ClockIcon className="h-6" />
-                        <span> </span>
-                      </div>
-                    </div>
-                  </div>
+                  <ul className="flex flex-col gap-2">
+                    {destinationAddresses.map(({ id, name, address }) => (
+                      <li
+                        className="border-b-2 pb-4"
+                        key={id}
+                      >
+                        <div className="flex flex-col gap-2">
+                          <div className="flex justify-between">
+                            <span>Home</span>
+                            <ArrowRightIcon className="h-6" />
+                            <span>{name}</span>
+                            <span>24 km</span>
+                            <div className="flex gap-2">
+                              <ClockIcon className="h-6" />
+                              <span>24mins</span>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
                 </Popover.Panel>
               </Transition>
             </>
