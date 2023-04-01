@@ -1,18 +1,18 @@
 import React, { useState } from "react"
-import { GoogleMap, useJsApiLoader, Marker, DirectionsRenderer } from "@react-google-maps/api"
+import {
+  GoogleMap,
+  useJsApiLoader,
+  Marker,
+  DirectionsRenderer,
+} from "@react-google-maps/api"
 
 //  Make sure you cache the props passed to GoogleMap to avoid re-renders that may harm the performance.
 // restringir a api somente para o site
 // hide the key?
 
-const containerStyle = {
-  width: "100%",
-  height: "100%",
-}
-
 // centers the map
 
-function MapApi({ center, setMap, map, directions}) {
+function MapApi({ center, setMap, map, directions }) {
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: "AIzaSyAC-ZmHeOUM6VvIDtbc8y_sfKG-Lh7ZgME",
     libraries: ["places"],
@@ -26,7 +26,7 @@ function MapApi({ center, setMap, map, directions}) {
     width: "100%",
     height: "100%",
   }
-
+  // console.log(directions)
   return (
     <div className="-mx-20  h-full">
       <GoogleMap
@@ -38,7 +38,15 @@ function MapApi({ center, setMap, map, directions}) {
         {/* Child components, such as markers, info windows, etc. */}
         <>
           <Marker position={center} />
-          {directions.map((direction, index)=>{return (<DirectionsRenderer key={index} directions={direction}  />)}) }
+          {directions.length > 0 &&
+            directions.map((direction, index) => {
+              return (
+                <DirectionsRenderer
+                  key={index}
+                  directions={direction}
+                />
+              )
+            })}
         </>
       </GoogleMap>
     </div>
@@ -46,7 +54,6 @@ function MapApi({ center, setMap, map, directions}) {
 }
 
 export default MapApi
-
 
 // option to choose an icon
 // option to choose a color for the route

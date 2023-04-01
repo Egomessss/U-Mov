@@ -5,6 +5,8 @@ import Navbar from "@/components/Navbar"
 import Sidebar from "@/components/Sidebar"
 import React, { useRef, useState } from "react"
 
+import results from "../../public/results.json"
+
 function MapPage() {
   //! Driving states
 
@@ -69,7 +71,8 @@ function MapPage() {
 
   //! public transport states
 
-  const [directions, setDirections] = useState<google.maps.DirectionsResult[]>([])
+  // const [directions, setDirections] = useState<google.maps.DirectionsResult[]>([])
+  const [directions, setDirections] = useState(results)
   console.log(directions)
   const [distance, setDistance] = useState("")
   const [duration, setDuration] = useState("")
@@ -125,6 +128,7 @@ function MapPage() {
 
   const handleDeleteRoute = (indexToDelete) => {
     const updatedDirections = [...directions]
+    console.log(updatedDirections)
     updatedDirections.splice(indexToDelete, 1)
     setDirections(updatedDirections)
   }
