@@ -38,7 +38,7 @@ function MapApi({ center, setMap, map, directions}) {
         {/* Child components, such as markers, info windows, etc. */}
         <>
           <Marker position={center} />
-          {directions.map((direction, index)=>{return (<DirectionsRenderer directions={direction} />)}) }
+          {directions.map((direction, index)=>{return (<DirectionsRenderer key={index} directions={direction}  />)}) }
         </>
       </GoogleMap>
     </div>

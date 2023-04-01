@@ -129,14 +129,6 @@ function MapPage() {
     setDirections(updatedDirections)
   }
 
-  const clearRoute = () => {
-    setDirections(null)
-    setDistance("")
-    setDuration("")
-    setPublicOrigin("")
-    setPublicDestinationAddresses("")
-  }
-
   //! lisbon coordinates
   const center = {
     lng: -9.13549,
@@ -151,10 +143,9 @@ function MapPage() {
       <Navbar />
       {/* <DistanceMatrix /> */}
       <div className="relative h-full">
-        <button onClick={calculateRoute}>click</button>
+        <button onClick={calculateRoute}>{distance}{duration}</button>
         <Sidebar
           centerMap={handleCenter}
-          clearRoute={clearRoute}
           handleDestinationAddress={handleDestinationAddress}
           handleNewDestinationName={handleNewDestinationName}
           handleNewDestinationAddress={handleNewDestinationAddress}
@@ -169,6 +160,7 @@ function MapPage() {
           handlePublicDestination={publicDestinationAddressesRef}
           calculateRoute={calculateRoute}
           handleDeleteRoute={handleDeleteRoute}
+          directions={directions}
         />
         <MapApi
           directions={directions}

@@ -17,7 +17,6 @@ type centerMapProps = {
 
 function Sidebar({
   centerMap,
-  clearRoute,
   onPlaceChanged,
   handleDestinationAddress,
   handleNewDestinationName,
@@ -31,7 +30,8 @@ function Sidebar({
   handlePublicOrigin,
   handlePublicDestination,
   calculateRoute,
-  handleDeleteRoute
+  handleDeleteRoute,
+  directions,
 }) {
   const [openDrive, setOpenDrive] = useState(false)
   const [openEco, setOpenEco] = useState(false)
@@ -325,8 +325,8 @@ function Sidebar({
                               <div>
                                 <label htmlFor="home-input">Main adress</label>
                                 <Autocomplete
-                                  // onPlaceChanged={handlePublicOrigin}
-                                  // onLoad={onLoad}
+                                // onPlaceChanged={handlePublicOrigin}
+                                // onLoad={onLoad}
                                 >
                                   <input
                                     className="w-full  border-b-2 border-lightgray bg-white px-2"
@@ -344,7 +344,7 @@ function Sidebar({
                                       Destinations
                                     </label>
                                     <Autocomplete
-                                      // onPlaceChanged={handlePublicDestination}
+                                    // onPlaceChanged={handlePublicDestination}
                                     >
                                       <input
                                         className="w-full  border-b-2 border-lightgray bg-white px-2"
@@ -354,24 +354,13 @@ function Sidebar({
                                         ref={handlePublicDestination}
                                       />
                                     </Autocomplete>
-                                    {/* <input
-                                      className="w-full  border-b-2 border-lightgray bg-white px-2"
-                                      type="text"
-                                      placeholder="Add a destination adress"
-                                      id="job-input"
-                                      onChange={handleNewDestinationAddress}
-                                    />
-                                    <input
-                                      className="w-full  border-b-2 border-lightgray bg-white px-2"
-                                      type="number"
-                                      placeholder="Number of travels per month"
-                                      id="job-input"
-                                      onChange={handleNewDestinationAddress}
-                                    /> */}
+
                                     <button onClick={calculateRoute}>
                                       Add destinations
                                     </button>
-                                    <button onClick={handleDeleteRoute}>delete</button>
+                                    <button onClick={handleDeleteRoute}>
+                                      delete
+                                    </button>
                                     <div>
                                       <div className="flex justify-center gap-2">
                                         {" "}
@@ -383,31 +372,26 @@ function Sidebar({
                                 </div>
                                 <div className="pt-4">
                                   <ul className="flex flex-col gap-2">
-                                    {/* {destinationAddresses.map(
-                                      ({ id, name, address }) => (
-                                        <li
-                                          className="border-b-2 pb-4"
-                                          key={id}
+                                    {directions.map((direction, index) => (
+                                      <div key={index}>
+                                        <p>Route {index + 1}</p>
+                                        <p>
+                                          Origin:
+                                          {direction.request.origin.query}
+                                        </p>
+                                        <p>
+                                          Destination:
+                                          {direction.request.destination.query}
+                                        </p>
+                                        <button
+                                          onClick={
+                                            handleDeleteRoute(index)
+                                          }
                                         >
-                                          <div className="flex gap-2">
-                                            <span>{name}</span>
-                                          </div>
-                                          <div className="flex flex-col gap-2">
-                                            <div className=" flex justify-between">
-                                              <span>{address}</span>
-                                              <button
-                                                onClick={
-                                                  handleRemoveDestination
-                                                }
-                                                className="rounded-md  px-2"
-                                              >
-                                                <TrashIcon className="h-6 text-orange" />
-                                              </button>
-                                            </div>
-                                          </div>
-                                        </li>
-                                      )
-                                    )} */}
+                                          Delete Route
+                                        </button>
+                                      </div>
+                                    ))}
                                   </ul>
                                 </div>
                               </div>
