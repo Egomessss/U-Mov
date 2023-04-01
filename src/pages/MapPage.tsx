@@ -6,28 +6,13 @@ import Sidebar from "@/components/Sidebar"
 import React, { useRef, useState } from "react"
 
 function MapPage() {
+
+  // Driving states
+
   const newID = (() => {
     let id = 0
     return () => id++
   })()
-
-  const INITIAL_TASKS = [
-    {
-      id: newID(),
-      name: "Job",
-      address: "Parangaba, Fortaleza - State of Ceará,Brazil",
-    },
-    {
-      id: newID(),
-      name: "Kids school",
-      address: "Parangaba, Fortaleza - State of Ceará,Brazil",
-    },
-    {
-      id: newID(),
-      name: "Wife",
-      address: "Parangaba, Fortaleza - State of Ceará,Brazil",
-    },
-  ]
 
   const onPlaceChanged = () => {
     if (origins != null) {
@@ -37,8 +22,9 @@ function MapPage() {
       alert("Please enter text")
     }
   }
+
   const [destinationAddresses, setDestinationAddresses] = useState<{}[]>([]) // initialize state with an empty array
-  console.log(destinationAddresses)
+  
 
   const [newDestination, setNewDestination] = useState({
     name: "",
@@ -85,6 +71,22 @@ function MapPage() {
     destinationRef.current.value = ""
   }
 
+ const [selectedTravelMode, SetSelectedTravelMode] = useState("DRIVE")
+
+  const handleSelectedTravelMode = (e) => SetSelectedTravelMode(e.target.value)
+
+  const [time, setTime] = useState("10:00")
+
+
+
+
+  // public transport states
+
+
+
+
+
+
   // lisbon coordinates
   const center = {
     lng: -9.13549,
@@ -94,13 +96,7 @@ function MapPage() {
 
   const handleCenter = () => map.panTo(center)
 
-  const [selectedTravelMode, SetSelectedTravelMode] = useState("DRIVE")
-
-const handleSelectedTravelMode=(e)=> SetSelectedTravelMode(e.target.value)
-
-const [time, setTime] = useState('10:00')
-
-
+ 
 
   return (
     <div className="flex h-[100dvh] flex-col bg-[#EEEEEE] px-6 pt-4 dark:bg-gradient-to-b dark:from-[#000000] dark:via-darkgray dark:to-darkgray dark:text-white lg:px-20 ">
@@ -120,7 +116,6 @@ const [time, setTime] = useState('10:00')
           SetSelectedTravelMode={handleSelectedTravelMode}
           time={time}
           setTime={setTime}
-
         />
         <MapApi
           // directions={directions}
