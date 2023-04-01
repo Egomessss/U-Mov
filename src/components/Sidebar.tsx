@@ -358,7 +358,7 @@ function Sidebar({
                                     <button onClick={calculateRoute}>
                                       Add destinations
                                     </button>
-                                    <button onClick={()=>handleDeleteRoute}>
+                                    <button onClick={()=>handleDeleteRoute(index)}>
                                       delete
                                     </button>
                                     <div>

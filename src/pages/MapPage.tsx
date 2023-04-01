@@ -73,7 +73,7 @@ function MapPage() {
 
   // const [directions, setDirections] = useState<google.maps.DirectionsResult[]>([])
   const [directions, setDirections] = useState(results)
-  console.log(directions)
+  // console.log(directions)
   const [distance, setDistance] = useState("")
   const [duration, setDuration] = useState("")
 
