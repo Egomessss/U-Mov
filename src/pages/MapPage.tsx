@@ -69,57 +69,64 @@ function MapPage() {
 
   //! public transport states
 
-  const [directions, setDirections] = useState<any | null>(null)
+  const [directions, setDirections] = useState<google.maps.DirectionsResult[]>([])
+  console.log(directions)
   const [distance, setDistance] = useState("")
   const [duration, setDuration] = useState("")
 
-  const publicOriginRef =useRef()
+  const publicOriginRef = useRef()
 
-  const publicDestinationAddressesRef =useRef()
+  const publicDestinationAddressesRef = useRef()
 
-    const handlePublicOrigin = () => {
-      if (publicOriginRef.current.value === '' || publicDestinationAddressesRef.current.value === '') {
-        return
-      }
-      if (publicOriginRef != null) {
-        const place = publicOriginRef.getPlace()
-        setPublicOrigin(place.formatted_address)
-      } else {
-        alert("Please enter text")
-      }
-    }
-
-    const handlePublicDestination = () => {
-      if (publicDestinationAddressesRef != null) {
-        const place = publicDestinationAddressesRef.getPlace()
-        setPublicDestinationAddresses(place.formatted_address)
-      } else {
-        alert("Please enter text")
-      }
-    }
-
-   
-
-  const calculateRoute = async () => {
-   
-    if (publicOriginRef === "" || publicDestinationAddressesRef === "") {
+  const handlePublicOrigin = () => {
+    if (
+      publicOriginRef.current.value === "" ||
+      publicDestinationAddressesRef.current.value === ""
+    ) {
       return
     }
+    if (publicOriginRef != null) {
+      const place = publicOriginRef.getPlace()
+      setPublicOrigin(place.formatted_address)
+    } else {
+      alert("Please enter text")
+    }
+  }
+
+  const handlePublicDestination = () => {
+    if (publicDestinationAddressesRef != null) {
+      const place = publicDestinationAddressesRef.getPlace()
+      setPublicDestinationAddresses(place.formatted_address)
+    } else {
+      alert("Please enter text")
+    }
+  }
+
+  const calculateRoute = async () => {
+    // if (publicOriginRef === "" || publicDestinationAddressesRef === "") {
+    //   return
+    // }
     const directionsService = new google.maps.DirectionsService()
 
     const results = await directionsService.route({
       origin: publicOriginRef.current.value,
       destination: publicDestinationAddressesRef.current.value,
       travelMode: google.maps.TravelMode.TRANSIT,
-      // transitOptions: {
-      //   modes: ["BUS"],
-      // },
+      transitOptions: {
+        modes: [google.maps.TransitMode.BUS],
+      },
       unitSystem: google.maps.UnitSystem.METRIC,
     })
 
-    setDirections(results)
+    setDirections((prevDirections) => [...prevDirections, results])
     setDistance(results.routes[0].legs[0].distance.text)
     setDuration(results.routes[0].legs[0].duration.text)
+  }
+
+  const handleDeleteRoute = (indexToDelete) => {
+    const updatedDirections = [...directions]
+    updatedDirections.splice(indexToDelete, 1)
+    setDirections(updatedDirections)
   }
 
   const clearRoute = () => {
@@ -161,7 +168,7 @@ function MapPage() {
           handlePublicOrigin={publicOriginRef}
           handlePublicDestination={publicDestinationAddressesRef}
           calculateRoute={calculateRoute}
-
+          handleDeleteRoute={handleDeleteRoute}
         />
         <MapApi
           directions={directions}

@@ -31,6 +31,7 @@ function Sidebar({
   handlePublicOrigin,
   handlePublicDestination,
   calculateRoute,
+  handleDeleteRoute
 }) {
   const [openDrive, setOpenDrive] = useState(false)
   const [openEco, setOpenEco] = useState(false)
@@ -370,6 +371,7 @@ function Sidebar({
                                     <button onClick={calculateRoute}>
                                       Add destinations
                                     </button>
+                                    <button onClick={handleDeleteRoute}>delete</button>
                                     <div>
                                       <div className="flex justify-center gap-2">
                                         {" "}
