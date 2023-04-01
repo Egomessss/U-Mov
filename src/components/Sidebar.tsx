@@ -28,6 +28,9 @@ function Sidebar({
   SetSelectedTravelMode,
   time,
   setTime,
+  handlePublicOrigin,
+  handlePublicDestination,
+  calculateRoute,
 }) {
   const [openDrive, setOpenDrive] = useState(false)
   const [openEco, setOpenEco] = useState(false)
@@ -321,7 +324,7 @@ function Sidebar({
                               <div>
                                 <label htmlFor="home-input">Main adress</label>
                                 <Autocomplete
-                                  onPlaceChanged={onPlaceChanged}
+                                  // onPlaceChanged={handlePublicOrigin}
                                   // onLoad={onLoad}
                                 >
                                   <input
@@ -329,6 +332,7 @@ function Sidebar({
                                     type="text"
                                     placeholder="Enter Your Home Adress"
                                     id="home-input"
+                                    ref={handlePublicOrigin}
                                   />
                                 </Autocomplete>
                               </div>
@@ -338,16 +342,18 @@ function Sidebar({
                                     <label htmlFor="job-input">
                                       Destinations
                                     </label>
-                                    {/* <Autocomplete> */}
-                                    <input
-                                      className="w-full  border-b-2 border-lightgray bg-white px-2"
-                                      type="text"
-                                      placeholder="Add a name for the destination"
-                                      id="job-input"
-                                      onChange={handleNewDestinationName}
-                                    />{" "}
-                                    {/* </Autocomplete> */}
-                                    <input
+                                    <Autocomplete
+                                      // onPlaceChanged={handlePublicDestination}
+                                    >
+                                      <input
+                                        className="w-full  border-b-2 border-lightgray bg-white px-2"
+                                        type="text"
+                                        placeholder="Add a name for the destination"
+                                        id="job-input"
+                                        ref={handlePublicDestination}
+                                      />
+                                    </Autocomplete>
+                                    {/* <input
                                       className="w-full  border-b-2 border-lightgray bg-white px-2"
                                       type="text"
                                       placeholder="Add a destination adress"
@@ -360,8 +366,8 @@ function Sidebar({
                                       placeholder="Number of travels per month"
                                       id="job-input"
                                       onChange={handleNewDestinationAddress}
-                                    />
-                                    <button type="submit">
+                                    /> */}
+                                    <button onClick={calculateRoute}>
                                       Add destinations
                                     </button>
                                     <div>

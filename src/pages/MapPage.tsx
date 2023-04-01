@@ -73,26 +73,48 @@ function MapPage() {
   const [distance, setDistance] = useState("")
   const [duration, setDuration] = useState("")
 
-  const [publicOrigin, setPublicOrigin] = useState("")
+  const publicOriginRef =useRef()
 
-  const [publicDestinationAddresses, setPublicDestinationAddresses] =
-    useState("")
+  const publicDestinationAddressesRef =useRef()
+
+    const handlePublicOrigin = () => {
+      if (publicOriginRef.current.value === '' || publicDestinationAddressesRef.current.value === '') {
+        return
+      }
+      if (publicOriginRef != null) {
+        const place = publicOriginRef.getPlace()
+        setPublicOrigin(place.formatted_address)
+      } else {
+        alert("Please enter text")
+      }
+    }
+
+    const handlePublicDestination = () => {
+      if (publicDestinationAddressesRef != null) {
+        const place = publicDestinationAddressesRef.getPlace()
+        setPublicDestinationAddresses(place.formatted_address)
+      } else {
+        alert("Please enter text")
+      }
+    }
+
+   
 
   const calculateRoute = async () => {
-    if (publicOrigin === "" || publicDestinationAddresses === "") {
+   
+    if (publicOriginRef === "" || publicDestinationAddressesRef === "") {
       return
     }
     const directionsService = new google.maps.DirectionsService()
 
     const results = await directionsService.route({
-      origin: publicOrigin,
-      destination: publicDestinationAddresses,
+      origin: publicOriginRef.current.value,
+      destination: publicDestinationAddressesRef.current.value,
       travelMode: google.maps.TravelMode.TRANSIT,
-      transitOptions: {
-        arrivalTime: Date,
-        departureTime: Date,
-        modes:["BUS"],
-      }
+      // transitOptions: {
+      //   modes: ["BUS"],
+      // },
+      unitSystem: google.maps.UnitSystem.METRIC,
     })
 
     setDirections(results)
@@ -122,6 +144,7 @@ function MapPage() {
       <Navbar />
       {/* <DistanceMatrix /> */}
       <div className="relative h-full">
+        <button onClick={calculateRoute}>click</button>
         <Sidebar
           centerMap={handleCenter}
           clearRoute={clearRoute}
@@ -135,19 +158,13 @@ function MapPage() {
           SetSelectedTravelMode={handleSelectedTravelMode}
           time={time}
           setTime={setTime}
+          handlePublicOrigin={publicOriginRef}
+          handlePublicDestination={publicDestinationAddressesRef}
+          calculateRoute={calculateRoute}
+
         />
         <MapApi
-          directions={{
-            origin: 38.70678203060142,-9.143493273210343,
-            destination: new google.maps.LatLng(38.70826772072013,-9.145886128710128),
-            travelMode: 'TRANSIT',
-            transitOptions: {
-              departureTime: new Date(1337675679473),
-              modes: ['BUS'],
-              routingPreference: 'FEWER_TRANSFERS'
-            },
-            unitSystem: google.maps.UnitSystem.IMPERIAL
-          }}
+          directions={directions}
           map={map}
           setMap={(map) => setMap(map)}
           center={center}
