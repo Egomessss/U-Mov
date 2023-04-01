@@ -375,7 +375,7 @@ function Sidebar({
                                 </div>
                                 <div className="pt-4">
                                   <ul className="flex flex-col gap-2">
-                                    {destinationAddresses.map(
+                                    {/* {destinationAddresses.map(
                                       ({ id, name, address }) => (
                                         <li
                                           className="border-b-2 pb-4"
@@ -399,7 +399,7 @@ function Sidebar({
                                           </div>
                                         </li>
                                       )
-                                    )}
+                                    )} */}
                                   </ul>
                                 </div>
                               </div>

@@ -6,8 +6,7 @@ import Sidebar from "@/components/Sidebar"
 import React, { useRef, useState } from "react"
 
 function MapPage() {
-
-  // Driving states
+  //! Driving states
 
   const newID = (() => {
     let id = 0
@@ -24,7 +23,6 @@ function MapPage() {
   }
 
   const [destinationAddresses, setDestinationAddresses] = useState<{}[]>([]) // initialize state with an empty array
-  
 
   const [newDestination, setNewDestination] = useState({
     name: "",
@@ -63,31 +61,54 @@ function MapPage() {
     setDestinationAddresses(newAdresses)
   }
 
-  const clearRoute = () => {
-    setDirections(null)
-    setDistance("")
-    setDuration("")
-    originRef.current.value = ""
-    destinationRef.current.value = ""
-  }
-
- const [selectedTravelMode, SetSelectedTravelMode] = useState("DRIVE")
+  const [selectedTravelMode, SetSelectedTravelMode] = useState("DRIVE")
 
   const handleSelectedTravelMode = (e) => SetSelectedTravelMode(e.target.value)
 
   const [time, setTime] = useState("10:00")
 
+  //! public transport states
 
+  const [directions, setDirections] = useState<any | null>(null)
+  const [distance, setDistance] = useState("")
+  const [duration, setDuration] = useState("")
 
+  const [publicOrigin, setPublicOrigin] = useState("")
 
-  // public transport states
+  const [publicDestinationAddresses, setPublicDestinationAddresses] =
+    useState("")
 
+  const calculateRoute = async () => {
+    if (publicOrigin === "" || publicDestinationAddresses === "") {
+      return
+    }
+    const directionsService = new google.maps.DirectionsService()
 
+    const results = await directionsService.route({
+      origin: publicOrigin,
+      destination: publicDestinationAddresses,
+      travelMode: google.maps.TravelMode.TRANSIT,
+      transitOptions: {
+        arrivalTime: Date,
+        departureTime: Date,
+        modes:["BUS"],
+      }
+    })
 
+    setDirections(results)
+    setDistance(results.routes[0].legs[0].distance.text)
+    setDuration(results.routes[0].legs[0].duration.text)
+  }
 
+  const clearRoute = () => {
+    setDirections(null)
+    setDistance("")
+    setDuration("")
+    setPublicOrigin("")
+    setPublicDestinationAddresses("")
+  }
 
-
-  // lisbon coordinates
+  //! lisbon coordinates
   const center = {
     lng: -9.13549,
     lat: 38.7071,
@@ -95,8 +116,6 @@ function MapPage() {
   const [map, setMap] = useState(/** @type google.maps.Map */ null)
 
   const handleCenter = () => map.panTo(center)
-
- 
 
   return (
     <div className="flex h-[100dvh] flex-col bg-[#EEEEEE] px-6 pt-4 dark:bg-gradient-to-b dark:from-[#000000] dark:via-darkgray dark:to-darkgray dark:text-white lg:px-20 ">
@@ -118,7 +137,17 @@ function MapPage() {
           setTime={setTime}
         />
         <MapApi
-          // directions={directions}
+          directions={{
+            origin: 38.70678203060142,-9.143493273210343,
+            destination: new google.maps.LatLng(38.70826772072013,-9.145886128710128),
+            travelMode: 'TRANSIT',
+            transitOptions: {
+              departureTime: new Date(1337675679473),
+              modes: ['BUS'],
+              routingPreference: 'FEWER_TRANSFERS'
+            },
+            unitSystem: google.maps.UnitSystem.IMPERIAL
+          }}
           map={map}
           setMap={(map) => setMap(map)}
           center={center}
