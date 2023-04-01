@@ -11,12 +11,9 @@ import {
 // hide the key?
 
 // centers the map
-const LIBRARIES =["places"]
+const LIBRARIES = ["places"]
 
 function MapApi({ center, setMap, map, directions }) {
-
-
-
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: "AIzaSyAC-ZmHeOUM6VvIDtbc8y_sfKG-Lh7ZgME",
     libraries: LIBRARIES,
@@ -30,7 +27,7 @@ function MapApi({ center, setMap, map, directions }) {
     width: "100%",
     height: "100%",
   }
-  // console.log(directions)
+  console.log(directions)
   return (
     <div className="-mx-20  h-full">
       <GoogleMap
@@ -45,7 +42,7 @@ function MapApi({ center, setMap, map, directions }) {
           {directions.map((direction, index) => {
             return (
               <DirectionsRenderer
-              key={`${index}-${Math.random()}`}
+                key={index}
                 directions={direction}
               />
             )
