@@ -127,6 +127,7 @@ function MapPage() {
   }
 
   const handleDeleteRoute = (indexToDelete) => {
+    setDirections(prev=> {return{...prev}})
     const updatedDirections = [...directions]
     console.log(updatedDirections)
     updatedDirections.splice(indexToDelete, 1)
