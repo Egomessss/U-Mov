@@ -7,6 +7,9 @@ import {
   UserCircleIcon,
   ViewfinderCircleIcon,
 } from "@heroicons/react/24/outline"
+import{BiDirections} from "react-icons/bi"
+
+
 import React, { Fragment, useState } from "react"
 import { Autocomplete } from "@react-google-maps/api"
 
@@ -33,8 +36,7 @@ function Sidebar({
   handleDeleteRoute,
   directions,
 }) {
-  const [openDrive, setOpenDrive] = useState(false)
-  const [openEco, setOpenEco] = useState(false)
+ 
   return (
     <div className="absolute top-1/2 left-5 z-50 h-[80%] w-24 -translate-x-1/2 -translate-y-1/2 transform rounded-3xl  border-2 border-white bg-white ">
       <div className="relative flex h-full w-full flex-col items-center justify-around">
@@ -50,7 +52,8 @@ function Sidebar({
           {({ open }) => (
             <>
               <Popover.Button className="h-20 w-20 rounded-full  bg-lightgray text-orange">
-                Directions
+                <BiDirections/>
+               <p>Directions</p> 
               </Popover.Button>
               <Transition
                 as={Fragment}
