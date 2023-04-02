@@ -35,6 +35,7 @@ function Sidebar({
   calculateRoute,
   handleDeleteRoute,
   directions,
+  toogleRoute
 }) {
   return (
     <div className="absolute top-1/2 left-5 z-50 h-[80%] w-24 -translate-x-1/2 -translate-y-1/2 transform rounded-3xl  border-2 border-white bg-white ">
@@ -62,6 +63,7 @@ function Sidebar({
           calculateRoute={calculateRoute}
           handleDeleteRoute={handleDeleteRoute}
           directions={directions}
+          toogleRoute={toogleRoute}
         />
         <Popover>
           {({ open }) => (

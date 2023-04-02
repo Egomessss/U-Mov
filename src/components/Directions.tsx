@@ -35,10 +35,8 @@ function Directions({
   calculateRoute,
   handleDeleteRoute,
   directions,
+  toogleRoute,
 }) {
-
-
-
   return (
     <Popover>
       {({ open }) => (
@@ -320,35 +318,29 @@ function Directions({
                               <button onClick={calculateRoute}>
                                 Add destinations
                               </button>
-                              <button onClick={() => handleDeleteRoute(index)}>
-                                delete
-                              </button>
-                              <div>
-                                <div className="flex justify-center gap-2">
-                                  {" "}
-                                  <button>Get Routes</button>
-                                  <button>Clear selection</button>
-                                </div>
-                              </div>
                             </form>
                           </div>
                           <div className="pt-4">
                             <ul className="flex flex-col gap-2">
                               {directions.map((direction, index) => (
                                 <div key={index}>
+                                  {/* <input type="text" /> */}
                                   <p>Route {index + 1}</p>
-                                  <p>
-                                    Origin:
-                                    {direction.request.origin.query}
-                                  </p>
-                                  <p>
-                                    Destination:
-                                    {direction.request.destination.query}
-                                  </p>
+                                  <p>Origin:</p>{" "}
+                                  <p>{direction.request.origin.query}</p>
+                                  <p>Destination:</p>
+                                  <p>{direction.request.destination.query}</p>
                                   <button
                                     onClick={() => handleDeleteRoute(index)}
+                                    class="btn-outline btn-warning btn-sm btn"
                                   >
                                     Delete Route
+                                  </button>
+                                  <button
+                                    onClick={()=>toogleRoute(index)}
+                                    class="btn-outline btn-warning btn-sm btn"
+                                  >
+                                    Hide Route
                                   </button>
                                 </div>
                               ))}
@@ -362,7 +354,7 @@ function Directions({
                   </Tab.Panels>
                 </Tab.Group>
               </div>
-              <div>
+              {/* <div>
                 <h3>Summary</h3>
                 <ul className="flex flex-col gap-2">
                   {destinationAddresses.map(({ id, name, address }) => (
@@ -385,7 +377,7 @@ function Directions({
                     </li>
                   ))}
                 </ul>
-              </div>
+              </div> */}
             </Popover.Panel>
           </Transition>
         </>

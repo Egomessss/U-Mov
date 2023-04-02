@@ -71,9 +71,10 @@ function MapPage() {
 
   //! public transport states
 
-  // const [directions, setDirections] = useState<google.maps.DirectionsResult[]>([])
+  
+  const [routeName, setRouteName] = useState('')
   const [directions, setDirections] = useState(results)
-  // console.log(directions)
+
   const [distance, setDistance] = useState("")
   const [duration, setDuration] = useState("")
 
@@ -81,34 +82,16 @@ function MapPage() {
 
   const publicDestinationAddressesRef = useRef()
 
-  const handlePublicOrigin = () => {
-    if (
-      publicOriginRef.current.value === "" ||
-      publicDestinationAddressesRef.current.value === ""
-    ) {
-      return
-    }
-    if (publicOriginRef != null) {
-      const place = publicOriginRef.getPlace()
-      setPublicOrigin(place.formatted_address)
-    } else {
-      alert("Please enter text")
-    }
-  }
+  const [showRoute, setShowRoute] =useState(true)
 
-  const handlePublicDestination = () => {
-    if (publicDestinationAddressesRef != null) {
-      const place = publicDestinationAddressesRef.getPlace()
-      setPublicDestinationAddresses(place.formatted_address)
-    } else {
-      alert("Please enter text")
-    }
-  }
 
   const calculateRoute = async () => {
-    // if (publicOriginRef === "" || publicDestinationAddressesRef === "") {
-    //   return
-    // }
+
+
+
+    if (publicOriginRef.current.value === "" || publicDestinationAddressesRef.current.value === "") {
+      return
+    }
     const directionsService = new google.maps.DirectionsService()
 
     const results = await directionsService.route({
@@ -124,6 +107,7 @@ function MapPage() {
     setDirections((prevDirections) => [...prevDirections, results])
     setDistance(results.routes[0].legs[0].distance.text)
     setDuration(results.routes[0].legs[0].duration.text)
+
   }
 
   const handleDeleteRoute = (indexToDelete) => {
@@ -133,6 +117,18 @@ function MapPage() {
     updatedDirections.splice(indexToDelete, 1)
     setDirections(updatedDirections)
   }
+
+  const toogleRoute=()=> setShowRoute(prevRoute=> !prevRoute) 
+
+  const [hiddenDirections, setHiddenDirections] = useState<number[]>([]);
+
+  const toggleDirections = (index) => {
+    setHiddenDirections(prev=> {return{...prev}})
+    setHiddenDirections(hiddenDirections.includes(index) 
+      ? hiddenDirections.filter(i => i !== index)
+      : [...hiddenDirections, index]
+    );
+  };
 
   //! lisbon coordinates
   const center = {
@@ -148,7 +144,7 @@ function MapPage() {
       <Navbar />
       {/* <DistanceMatrix /> */}
       <div className="relative h-full">
-        <button onClick={calculateRoute}>{distance}{duration}</button>
+        {/* <button onClick={calculateRoute}>{distance}{duration}</button> */}
         <Sidebar
           centerMap={handleCenter}
           handleDestinationAddress={handleDestinationAddress}
@@ -166,12 +162,15 @@ function MapPage() {
           calculateRoute={calculateRoute}
           handleDeleteRoute={handleDeleteRoute}
           directions={directions}
+          toogleRoute={toggleDirections}
         />
         <MapApi
           directions={directions}
           map={map}
           setMap={(map) => setMap(map)}
           center={center}
+          showRoute={hiddenDirections}
+          hiddenDirections={hiddenDirections}
         />
       </div>
       <BottomNav />
