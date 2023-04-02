@@ -1,4 +1,4 @@
-import { Disclosure, Popover, Transition } from "@headlessui/react"
+import { Disclosure, Popover, Transition, Tab } from "@headlessui/react"
 import {
   ArrowRightIcon,
   ChevronRightIcon,
@@ -7,63 +7,77 @@ import {
   UserCircleIcon,
   ViewfinderCircleIcon,
 } from "@heroicons/react/24/outline"
-import{BiDirections} from "react-icons/bi"
 
+import {
+  MdDirectionsCar,
+  MdDirectionsBusFilled,
+  MdOutlineDirectionsBike,
+  MdDirectionsWalk,
+} from "react-icons/md"
+import { BiDirections } from "react-icons/bi"
 
 import React, { Fragment, useState } from "react"
 import { Autocomplete } from "@react-google-maps/api"
 
 function Directions({
-    onPlaceChanged,
-    handleDestinationAddress,
-    handleNewDestinationName,
-    handleNewDestinationAddress,
-    handleRemoveDestination,
-    destinationAddresses,
-    selectedTravelMode,
-    SetSelectedTravelMode,
-    time,
-    setTime,
-    handlePublicOrigin,
-    handlePublicDestination,
-    calculateRoute,
-    handleDeleteRoute,
-    directions,
-  }) {
+  onPlaceChanged,
+  handleDestinationAddress,
+  handleNewDestinationName,
+  handleNewDestinationAddress,
+  handleRemoveDestination,
+  destinationAddresses,
+  selectedTravelMode,
+  SetSelectedTravelMode,
+  time,
+  setTime,
+  handlePublicOrigin,
+  handlePublicDestination,
+  calculateRoute,
+  handleDeleteRoute,
+  directions,
+}) {
+
+
+
   return (
     <Popover>
-    {({ open }) => (
-      <>
-        <Popover.Button className="h-20 w-20 rounded-full  bg-lightgray text-orange">
-          <BiDirections/>
-         <p>Directions</p> 
-        </Popover.Button>
-        <Transition
-          as={Fragment}
-          enter="transition ease-out duration-200"
-          enterFrom="opacity-0 translate-x-1"
-          enterTo="opacity-100 translate-x-0"
-          leave="transition ease-in duration-150"
-          leaveFrom="opacity-100 translate-x-0"
-          leaveTo="opacity-0 translate-x-1"
-        >
-          <Popover.Panel className="absolute left-24 top-0 h-full w-96 rounded-3xl  bg-white p-4 text-black">
-            <div className="flex flex-col gap-2">
-              <h2>Routes</h2>
-              {/* driving routes */}
-              <Disclosure>
-                {({ open }) => (
-                  /* Use the `open` state to conditionally change the direction of an icon. */
-                  <>
-                    <Disclosure.Button className="flex items-center gap-4">
+      {({ open }) => (
+        <>
+          <Popover.Button className="flex h-20 w-20  flex-col items-center justify-center rounded-full bg-lightgray text-orange">
+            <BiDirections className="text-xl" />
+            <p>Directions</p>
+          </Popover.Button>
+          <Transition
+            as={Fragment}
+            enter="transition ease-out duration-200"
+            enterFrom="opacity-0 translate-x-1"
+            enterTo="opacity-100 translate-x-0"
+            leave="transition ease-in duration-150"
+            leaveFrom="opacity-100 translate-x-0"
+            leaveTo="opacity-0 translate-x-1"
+          >
+            <Popover.Panel className="absolute left-24 top-0 h-full w-96 rounded-3xl  bg-white p-4 text-black">
+              <div className="flex flex-col gap-2">
+                <h2>Routes</h2>
+                <Tab.Group defaultIndex={1}>
+                  <Tab.List className="flex justify-between">
+                    <Tab>
+                      <MdDirectionsCar className="text-xl" />
+                    </Tab>
+                    <Tab>
+                      <MdDirectionsBusFilled className="text-xl" />
+                    </Tab>
+                    <Tab>
+                      <MdOutlineDirectionsBike className="text-xl" />
+                    </Tab>
+                    <Tab>
+                      <MdDirectionsWalk className="text-xl" />
+                    </Tab>
+                  </Tab.List>
+                  <Tab.Panels>
+                    {/* Driving */}
+                    <Tab.Panel>
                       <h3>Driving routes</h3>
-                      <ChevronRightIcon
-                        className={
-                          open ? "h-6 w-6 rotate-90 transform" : "h-6 w-6"
-                        }
-                      />
-                    </Disclosure.Button>
-                    <Disclosure.Panel>
                       <div>
                         <div className="flex items-center justify-center gap-2">
                           <h3>Home</h3>
@@ -90,9 +104,7 @@ function Directions({
                             <button>Eco options</button>
                             <button>Car options</button>
                             <form onSubmit={handleDestinationAddress}>
-                              <label htmlFor="job-input">
-                                Destinations
-                              </label>
+                              <label htmlFor="job-input">Destinations</label>
                               {/* <Autocomplete> */}
                               <input
                                 className="w-full  border-b-2 border-lightgray bg-white px-2"
@@ -116,9 +128,7 @@ function Directions({
                                 id="job-input"
                                 onChange={handleNewDestinationAddress}
                               />
-                              <button type="submit">
-                                Add destinations
-                              </button>
+                              <button type="submit">Add destinations</button>
                               <div>
                                 {" "}
                                 <label htmlFor="travelMode">
@@ -150,22 +160,16 @@ function Directions({
                                   id="typeEngine"
                                 >
                                   <option value="WALK">Diesel</option>
-                                  <option value="BICYCLE">
-                                    Unleaded
-                                  </option>
+                                  <option value="BICYCLE">Unleaded</option>
                                   <option value="TWO_WHEELER">
                                     Super-unleaded
                                   </option>
-                                  <option value="DRIVE">
-                                    Premium diesel
-                                  </option>
+                                  <option value="DRIVE">Premium diesel</option>
                                   <option value="DRIVE">Electric</option>
                                 </select>
                               </div>
                               <div>
-                                <label htmlFor="consumption">
-                                  Consumption
-                                </label>
+                                <label htmlFor="consumption">Consumption</label>
                                 <input
                                   type="number"
                                   placeholder="l/km"
@@ -181,18 +185,14 @@ function Directions({
                                 />
                               </div>
                               <div>
-                                <label htmlFor="traffic">
-                                  Live traffic:
-                                </label>
+                                <label htmlFor="traffic">Live traffic:</label>
                                 <select
                                   id="traffic"
                                   className="flex flex-wrap"
                                   value={selectedTravelMode}
                                   onChange={SetSelectedTravelMode}
                                 >
-                                  <option value="WALK">
-                                    TRAFFIC_AWARE
-                                  </option>
+                                  <option value="WALK">TRAFFIC_AWARE</option>
                                   <option value="BICYCLE">
                                     TRAFFIC_AWARE_OPTIMAL
                                   </option>
@@ -200,9 +200,7 @@ function Directions({
                               </div>
                               <div>
                                 <div className="flex gap-2">
-                                  <label htmlFor="tolls">
-                                    Avoid tolls
-                                  </label>
+                                  <label htmlFor="tolls">Avoid tolls</label>
                                   <input
                                     type="checkbox"
                                     name=""
@@ -221,9 +219,7 @@ function Directions({
                                 </div>
 
                                 <div className="flex gap-2">
-                                  <label htmlFor="ferries">
-                                    Avoid ferries
-                                  </label>
+                                  <label htmlFor="ferries">Avoid ferries</label>
                                   <input
                                     type="checkbox"
                                     name=""
@@ -238,9 +234,7 @@ function Directions({
                                     id="units"
                                   >
                                     <option value="WALK">METRIC</option>
-                                    <option value="BICYCLE">
-                                      IMPERIAL
-                                    </option>
+                                    <option value="BICYCLE">IMPERIAL</option>
                                   </select>
                                 </div>
 
@@ -267,9 +261,7 @@ function Directions({
                                       <div className=" flex justify-between">
                                         <span>{address}</span>
                                         <button
-                                          onClick={
-                                            handleRemoveDestination
-                                          }
+                                          onClick={handleRemoveDestination}
                                           className="rounded-md  px-2"
                                         >
                                           <TrashIcon className="h-6 text-orange" />
@@ -283,24 +275,10 @@ function Directions({
                           </div>
                         </div>
                       </div>
-                    </Disclosure.Panel>
-                  </>
-                )}
-              </Disclosure>
-              {/* public transport routes */}
-              <Disclosure>
-                {({ open }) => (
-                  /* Use the `open` state to conditionally change the direction of an icon. */
-                  <>
-                    <Disclosure.Button className="flex items-center gap-4">
+                    </Tab.Panel>
+                    {/* Public transport */}
+                    <Tab.Panel>
                       <h3>Public transport routes</h3>
-                      <ChevronRightIcon
-                        className={
-                          open ? "h-6 w-6 rotate-90 transform" : "h-6 w-6"
-                        }
-                      />
-                    </Disclosure.Button>
-                    <Disclosure.Panel>
                       <div>
                         <div className="flex items-center justify-center gap-2">
                           <h3>Home</h3>
@@ -326,9 +304,7 @@ function Directions({
                         <div>
                           <div>
                             <form onSubmit={handleDestinationAddress}>
-                              <label htmlFor="job-input">
-                                Destinations
-                              </label>
+                              <label htmlFor="job-input">Destinations</label>
                               <Autocomplete
                               // onPlaceChanged={handlePublicDestination}
                               >
@@ -344,7 +320,7 @@ function Directions({
                               <button onClick={calculateRoute}>
                                 Add destinations
                               </button>
-                              <button onClick={()=>handleDeleteRoute(index)}>
+                              <button onClick={() => handleDeleteRoute(index)}>
                                 delete
                               </button>
                               <div>
@@ -370,9 +346,7 @@ function Directions({
                                     {direction.request.destination.query}
                                   </p>
                                   <button
-                                    onClick={
-                                     ()=> handleDeleteRoute(index)
-                                    }
+                                    onClick={() => handleDeleteRoute(index)}
                                   >
                                     Delete Route
                                   </button>
@@ -382,40 +356,41 @@ function Directions({
                           </div>
                         </div>
                       </div>
-                    </Disclosure.Panel>
-                  </>
-                )}
-              </Disclosure>
-            </div>
-            <div>
-              <h3>Summary</h3>
-              <ul className="flex flex-col gap-2">
-                {destinationAddresses.map(({ id, name, address }) => (
-                  <li
-                    className="border-b-2 pb-4"
-                    key={id}
-                  >
-                    <div className="flex flex-col gap-2">
-                      <div className="flex justify-between">
-                        <span>Home</span>
-                        <ArrowRightIcon className="h-6" />
-                        <span>{name}</span>
-                        <span>24 km</span>
-                        <div className="flex gap-2">
-                          <ClockIcon className="h-6" />
-                          <span>24mins</span>
+                    </Tab.Panel>
+                    <Tab.Panel>Content 3</Tab.Panel>
+                    <Tab.Panel>Content 4</Tab.Panel>
+                  </Tab.Panels>
+                </Tab.Group>
+              </div>
+              <div>
+                <h3>Summary</h3>
+                <ul className="flex flex-col gap-2">
+                  {destinationAddresses.map(({ id, name, address }) => (
+                    <li
+                      className="border-b-2 pb-4"
+                      key={id}
+                    >
+                      <div className="flex flex-col gap-2">
+                        <div className="flex justify-between">
+                          <span>Home</span>
+                          <ArrowRightIcon className="h-6" />
+                          <span>{name}</span>
+                          <span>24 km</span>
+                          <div className="flex gap-2">
+                            <ClockIcon className="h-6" />
+                            <span>24mins</span>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </Popover.Panel>
-        </Transition>
-      </>
-    )}
-  </Popover>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </Popover.Panel>
+          </Transition>
+        </>
+      )}
+    </Popover>
   )
 }
 
