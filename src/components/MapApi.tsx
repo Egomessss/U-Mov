@@ -27,7 +27,7 @@ function MapApi({ center, setMap, map, directions, showRoute, hiddenDirections }
     width: "100%",
     height: "100%",
   }
-  console.log(directions)
+  // console.log(directions)
   return (
     <div className="-mx-20  h-full">
       <GoogleMap
@@ -45,6 +45,7 @@ function MapApi({ center, setMap, map, directions, showRoute, hiddenDirections }
                 <DirectionsRenderer
                   key={index}
                   directions={direction}
+                  
                 />
               )}
             </div>

@@ -71,8 +71,7 @@ function MapPage() {
 
   //! public transport states
 
-  
-  const [routeName, setRouteName] = useState('')
+  const [routeName, setRouteName] = useState("")
   const [directions, setDirections] = useState(results)
 
   const [distance, setDistance] = useState("")
@@ -82,14 +81,13 @@ function MapPage() {
 
   const publicDestinationAddressesRef = useRef()
 
-  const [showRoute, setShowRoute] =useState(true)
-
+  const [showRoute, setShowRoute] = useState(true)
 
   const calculateRoute = async () => {
-
-
-
-    if (publicOriginRef.current.value === "" || publicDestinationAddressesRef.current.value === "") {
+    if (
+      publicOriginRef.current.value === "" ||
+      publicDestinationAddressesRef.current.value === ""
+    ) {
       return
     }
     const directionsService = new google.maps.DirectionsService()
@@ -107,28 +105,51 @@ function MapPage() {
     setDirections((prevDirections) => [...prevDirections, results])
     setDistance(results.routes[0].legs[0].distance.text)
     setDuration(results.routes[0].legs[0].duration.text)
-
   }
 
   const handleDeleteRoute = (indexToDelete) => {
-    setDirections(prev=> {return{...prev}})
+    setDirections((prev) => {
+      return { ...prev }
+    })
     const updatedDirections = [...directions]
-    console.log(updatedDirections)
+    // console.log(updatedDirections)
     updatedDirections.splice(indexToDelete, 1)
     setDirections(updatedDirections)
   }
 
-  const toogleRoute=()=> setShowRoute(prevRoute=> !prevRoute) 
+  const toogleRoute = () => setShowRoute((prevRoute) => !prevRoute)
+  const [visibleDirections, setVisibleDirections] = useState<{}[]>([])
 
-  const [hiddenDirections, setHiddenDirections] = useState<number[]>([]);
+
+  const [hiddenDirections, setHiddenDirections] = useState<{}[]>([])
+ 
 
   const toggleDirections = (index) => {
-    setHiddenDirections(prev=> {return{...prev}})
-    setHiddenDirections(hiddenDirections.includes(index) 
-      ? hiddenDirections.filter(i => i !== index)
-      : [...hiddenDirections, index]
-    );
-  };
+    // setHiddenDirections((prev) => {
+    //   return [...prev]
+    // })
+    // console.log(hiddenDirections)
+
+    if (hiddenDirections.includes(index)) {
+      setHiddenDirections(hiddenDirections.filter((i) => i !== index))
+      setVisibleDirections([...visibleDirections, index])
+    } else {
+      setVisibleDirections(visibleDirections.filter((i) => i !== index))
+      setHiddenDirections([...hiddenDirections, index])
+    }
+ console.log("this is the visible direcitons", visibleDirections)
+  console.log("this is the hidden direcitons", hiddenDirections)
+    // if (directions.includes((_, i) => i === index)) {
+    //   setDirections(directions.filter((_, i) => i !== index));
+    //   setHiddenDirections([...hiddenDirections, index]);
+    // } else if(!directions.includes((_, i) => i === index)) {
+    //   setHiddenDirections(hiddenDirections.filter((i) => i !== index));
+    //   setDirections([...directions, results[index]]);
+    // }
+
+    // !if the button(to hide a route at first) is clicked use the index provided to shift that object to a hidden routes state
+    // ! if the button is clicked again we use the index to put that route back in the visible directions state
+  }
 
   //! lisbon coordinates
   const center = {
@@ -169,8 +190,8 @@ function MapPage() {
           map={map}
           setMap={(map) => setMap(map)}
           center={center}
-          showRoute={hiddenDirections}
-          hiddenDirections={hiddenDirections}
+          showRoute={visibleDirections}
+          hiddenDirections={visibleDirections}
         />
       </div>
       <BottomNav />
