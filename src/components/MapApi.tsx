@@ -13,7 +13,14 @@ import {
 // centers the map
 const LIBRARIES = ["places"]
 
-function MapApi({ center, setMap, map, directions, showRoute, hiddenDirections }) {
+function MapApi({
+  center,
+  setMap,
+  map,
+  directions,
+  showRoute,
+  hiddenDirections,
+}) {
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: "AIzaSyAC-ZmHeOUM6VvIDtbc8y_sfKG-Lh7ZgME",
     libraries: LIBRARIES,
@@ -41,13 +48,10 @@ function MapApi({ center, setMap, map, directions, showRoute, hiddenDirections }
           {/* <Marker position={center} /> */}
           {directions.map((direction, index) => (
             <div key={index}>
-              {hiddenDirections.includes(index) ? null : (
-                <DirectionsRenderer
-                  key={index}
-                  directions={direction}
-                  
-                />
-              )}
+              <DirectionsRenderer
+                key={index}
+                directions={direction}
+              />
             </div>
           ))}
         </>

@@ -332,13 +332,13 @@ function Directions({
                                   <p>{direction.request.destination.query}</p>
                                   <button
                                     onClick={() => handleDeleteRoute(index)}
-                                    class="btn-outline btn-warning btn-sm btn"
+                                    className="btn-outline btn-warning btn-sm btn"
                                   >
                                     Delete Route
                                   </button>
                                   <button
-                                    onClick={()=>toogleRoute(index)}
-                                    class="btn-outline btn-warning btn-sm btn"
+                                    onClick={()=>toogleRoute(direction.request.destination.query)}
+                                    className="btn-outline btn-warning btn-sm btn"
                                   >
                                     Hide Route
                                   </button>

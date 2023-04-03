@@ -69,7 +69,8 @@ function MapPage() {
 
   const [time, setTime] = useState("10:00")
 
-  //! public transport states
+  // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! public transport states
 
   const [routeName, setRouteName] = useState("")
   const [directions, setDirections] = useState(results)
@@ -117,39 +118,24 @@ function MapPage() {
     setDirections(updatedDirections)
   }
 
-  const toogleRoute = () => setShowRoute((prevRoute) => !prevRoute)
-  const [visibleDirections, setVisibleDirections] = useState<{}[]>([])
-
-
+  const [visibleDirections, setVisibleDirections] = useState<{}[]>(results)
   const [hiddenDirections, setHiddenDirections] = useState<{}[]>([])
+
  
-
   const toggleDirections = (index) => {
-    // setHiddenDirections((prev) => {
-    //   return [...prev]
-    // })
-    // console.log(hiddenDirections)
-
-    if (hiddenDirections.includes(index)) {
-      setHiddenDirections(hiddenDirections.filter((i) => i !== index))
-      setVisibleDirections([...visibleDirections, index])
-    } else {
-      setVisibleDirections(visibleDirections.filter((i) => i !== index))
-      setHiddenDirections([...hiddenDirections, index])
-    }
- console.log("this is the visible direcitons", visibleDirections)
-  console.log("this is the hidden direcitons", hiddenDirections)
-    // if (directions.includes((_, i) => i === index)) {
-    //   setDirections(directions.filter((_, i) => i !== index));
-    //   setHiddenDirections([...hiddenDirections, index]);
-    // } else if(!directions.includes((_, i) => i === index)) {
-    //   setHiddenDirections(hiddenDirections.filter((i) => i !== index));
-    //   setDirections([...directions, results[index]]);
-    // }
-
     // !if the button(to hide a route at first) is clicked use the index provided to shift that object to a hidden routes state
     // ! if the button is clicked again we use the index to put that route back in the visible directions state
+    const filteredResults = directions.find(
+      (route) => route.request.destination.query === index
+    )
+    setHiddenDirections(filteredResults)
+    setVisibleDirections((prevVisibleDirections)=> prevVisibleDirections.filter((route)=> route.request.destination.query !== filteredResults.request.destination.query))
+
   }
+
+
+  console.log("this is the visible direcitons", visibleDirections)
+  console.log("this is the hidden direcitons", hiddenDirections)
 
   //! lisbon coordinates
   const center = {
@@ -163,9 +149,14 @@ function MapPage() {
   return (
     <div className="flex h-[100dvh] flex-col bg-[#EEEEEE] px-6 pt-4 dark:bg-gradient-to-b dark:from-[#000000] dark:via-darkgray dark:to-darkgray dark:text-white lg:px-20 ">
       <Navbar />
-      {/* <DistanceMatrix /> */}
+
       <div className="relative h-full">
-        {/* <button onClick={calculateRoute}>{distance}{duration}</button> */}
+        <button
+          className="text-white"
+          onClick={toggleDirections}
+        >
+          helo
+        </button>
         <Sidebar
           centerMap={handleCenter}
           handleDestinationAddress={handleDestinationAddress}
