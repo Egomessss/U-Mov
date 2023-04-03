@@ -46,7 +46,7 @@ function MapApi({
         {/* Child components, such as markers, info windows, etc. */}
         <>
           {/* <Marker position={center} /> */}
-          {directions.map((direction, index) => (
+          {hiddenDirections.map((direction, index) => (
             <div key={index}>
               <DirectionsRenderer
                 key={index}

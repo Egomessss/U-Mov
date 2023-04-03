@@ -13,6 +13,7 @@ import {
   MdDirectionsBusFilled,
   MdOutlineDirectionsBike,
   MdDirectionsWalk,
+  MdOutlineVisibility,
 } from "react-icons/md"
 import { BiDirections } from "react-icons/bi"
 
@@ -340,7 +341,7 @@ function Directions({
                                     onClick={()=>toogleRoute(direction.request.destination.query)}
                                     className="btn-outline btn-warning btn-sm btn"
                                   >
-                                    Hide Route
+                                   <MdOutlineVisibility/>
                                   </button>
                                 </div>
                               ))}
