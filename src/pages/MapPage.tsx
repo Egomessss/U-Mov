@@ -121,18 +121,39 @@ function MapPage() {
   const [visibleDirections, setVisibleDirections] = useState<{}[]>(results)
   const [hiddenDirections, setHiddenDirections] = useState<{}[]>([])
 
- 
   const toggleDirections = (index) => {
     // !if the button(to hide a route at first) is clicked use the index provided to shift that object to a hidden routes state
     // ! if the button is clicked again we use the index to put that route back in the visible directions state
     const filteredResults = directions.find(
       (route) => route.request.destination.query === index
     )
-    setHiddenDirections(filteredResults)
-    setVisibleDirections((prevVisibleDirections)=> prevVisibleDirections.filter((route)=> route.request.destination.query !== filteredResults.request.destination.query))
+    setHiddenDirections([filteredResults])
 
+    setVisibleDirections((prevVisibleDirections) =>
+      prevVisibleDirections.filter(
+        (route) =>
+          route.request.destination.query !==
+          filteredResults.request.destination.query
+      )
+    )
+
+    if (hiddenDirections.length > 0) {
+      const isNotVisible =
+        hiddenDirections.some(
+          (route) =>
+            route.request.destination.query ===
+            filteredResult.request.destination.query
+        ) &&
+        visibleDirections.every(
+          (route) =>
+            route.request.destination.query !==
+            filteredResult.request.destination.query
+        )
+      console.log("visible", isNotVisible)
+    }
+
+    // if the object inside hidden directions isnt inside visible directions push it to visible directions
   }
-
 
   console.log("this is the visible direcitons", visibleDirections)
   console.log("this is the hidden direcitons", hiddenDirections)
