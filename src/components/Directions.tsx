@@ -19,6 +19,8 @@ import { BiDirections } from "react-icons/bi"
 
 import React, { Fragment, useState } from "react"
 import { Autocomplete } from "@react-google-maps/api"
+import { AiOutlineEyeInvisible } from "react-icons/ai"
+import { BsTrash3 } from "react-icons/bs"
 
 function Directions({
   onPlaceChanged,
@@ -36,7 +38,8 @@ function Directions({
   calculateRoute,
   handleDeleteRoute,
   directions,
-  toogleRoute,
+  hideDirections,
+  showDirections
 }) {
   return (
     <Popover>
@@ -327,18 +330,24 @@ function Directions({
                                 <div key={index}>
                                   {/* <input type="text" /> */}
                                   <p>Route {index + 1}</p>
-                                  <p>Origin:</p>{" "}
-                                  <p>{direction.request.origin.query}</p>
-                                  <p>Destination:</p>
-                                  <p>{direction.request.destination.query}</p>
+                                  <p className="font-semibold">Origin:</p>{" "}
+                                  <p className="text-xs">{direction.request.origin.query}</p>
+                                  <p className="font-semibold">Destination:</p>
+                                  <p className="text-xs">{direction.request.destination.query}</p>
                                   <button
                                     onClick={() => handleDeleteRoute(index)}
                                     className="btn-outline btn-warning btn-sm btn"
                                   >
-                                    Delete Route
+                                   <BsTrash3/>
                                   </button>
                                   <button
-                                    onClick={()=>toogleRoute(direction.request.destination.query)}
+                                    onClick={()=>hideDirections(direction.request.destination.query)}
+                                    className="btn-outline btn-warning btn-sm btn"
+                                  >
+                                   <AiOutlineEyeInvisible/>
+                                  </button>
+                                  <button
+                                    onClick={()=>showDirections(direction.request.destination.query)}
                                     className="btn-outline btn-warning btn-sm btn"
                                   >
                                    <MdOutlineVisibility/>

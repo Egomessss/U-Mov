@@ -82,7 +82,6 @@ function MapPage() {
 
   const publicDestinationAddressesRef = useRef()
 
-  const [showRoute, setShowRoute] = useState(true)
 
   const calculateRoute = async () => {
     if (
@@ -119,40 +118,60 @@ function MapPage() {
   }
 
   const [visibleDirections, setVisibleDirections] = useState<{}[]>(results)
-  const [hiddenDirections, setHiddenDirections] = useState<{}[]>([])
+  const [hiddenDirections, setHiddenDirections] = useState([])
+  // const [isHidden, setIsHidden] = useState(false)
 
-  const toggleDirections = (index) => {
-    // !if the button(to hide a route at first) is clicked use the index provided to shift that object to a hidden routes state
-    // ! if the button is clicked again we use the index to put that route back in the visible directions state
-    const filteredResults = directions.find(
+  // !if the button(to hide a route at first) is clicked use the index provided to shift that object to a hidden routes state
+  // ! if the button is clicked again we use the index to put that route back in the visible directions state
+
+  const hideDirections = (index) => {
+    const filterByIndex = directions.find(
       (route) => route.request.destination.query === index
     )
-    setHiddenDirections([filteredResults])
+
+    // check for duplicates
+    const isDuplicate = hiddenDirections.some(
+      (route) => route.request.destination.query === index
+    )
+
+    if (!isDuplicate) {
+      setHiddenDirections([...hiddenDirections, filterByIndex])
+    }
 
     setVisibleDirections((prevVisibleDirections) =>
       prevVisibleDirections.filter(
         (route) =>
           route.request.destination.query !==
-          filteredResults.request.destination.query
+          filterByIndex.request.destination.query
       )
     )
 
-    if (hiddenDirections.length > 0) {
-      const isNotVisible =
-        hiddenDirections.some(
-          (route) =>
-            route.request.destination.query ===
-            filteredResult.request.destination.query
-        ) &&
-        visibleDirections.every(
-          (route) =>
-            route.request.destination.query !==
-            filteredResult.request.destination.query
-        )
-      console.log("visible", isNotVisible)
+    // setIsHidden(true)
+  }
+
+  const showDirections = (index) => {
+    const filterByIndex = directions.find(
+      (route) => route.request.destination.query === index
+    )
+
+    // check for duplicates
+    const isDuplicate = visibleDirections.some(
+      (route) => route.request.destination.query === index
+    )
+
+    if (!isDuplicate) {
+      setVisibleDirections([...visibleDirections, filterByIndex])
     }
 
-    // if the object inside hidden directions isnt inside visible directions push it to visible directions
+    setHiddenDirections((prevHiddenDirections) =>
+      prevHiddenDirections.filter(
+        (route) =>
+          route.request.destination.query !==
+          filterByIndex.request.destination.query
+      )
+    )
+
+    // setIsHidden(true)
   }
 
   console.log("this is the visible direcitons", visibleDirections)
@@ -172,12 +191,6 @@ function MapPage() {
       <Navbar />
 
       <div className="relative h-full">
-        <button
-          className="text-white"
-          onClick={toggleDirections}
-        >
-          helo
-        </button>
         <Sidebar
           centerMap={handleCenter}
           handleDestinationAddress={handleDestinationAddress}
@@ -195,18 +208,18 @@ function MapPage() {
           calculateRoute={calculateRoute}
           handleDeleteRoute={handleDeleteRoute}
           directions={directions}
-          toogleRoute={toggleDirections}
+          hideDirections={hideDirections}
+          showDirections={showDirections}
+          // isHidden={isHidden}
         />
         <MapApi
           directions={directions}
           map={map}
           setMap={(map) => setMap(map)}
           center={center}
-          showRoute={visibleDirections}
-          hiddenDirections={visibleDirections}
+          routes={visibleDirections}
         />
       </div>
-      <BottomNav />
     </div>
   )
 }

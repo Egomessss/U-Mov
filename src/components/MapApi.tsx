@@ -18,8 +18,7 @@ function MapApi({
   setMap,
   map,
   directions,
-  showRoute,
-  hiddenDirections,
+  routes,
 }) {
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: "AIzaSyAC-ZmHeOUM6VvIDtbc8y_sfKG-Lh7ZgME",
@@ -46,7 +45,7 @@ function MapApi({
         {/* Child components, such as markers, info windows, etc. */}
         <>
           {/* <Marker position={center} /> */}
-          {hiddenDirections.map((direction, index) => (
+          {routes.map((direction, index) => (
             <div key={index}>
               <DirectionsRenderer
                 key={index}
