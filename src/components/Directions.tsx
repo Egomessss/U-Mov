@@ -357,6 +357,7 @@ function Directions({
                                       <MdOutlineVisibility />
                                     </button>
                                   ) : (
+                                    
                                     <button
                                       onClick={() =>
                                         hideDirections(

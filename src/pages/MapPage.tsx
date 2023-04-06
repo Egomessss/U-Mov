@@ -82,7 +82,6 @@ function MapPage() {
 
   const publicDestinationAddressesRef = useRef()
 
-
   const calculateRoute = async () => {
     if (
       publicOriginRef.current.value === "" ||
@@ -118,7 +117,7 @@ function MapPage() {
   }
 
   const [visibleDirections, setVisibleDirections] = useState<{}[]>(results)
-  const [hiddenDirections, setHiddenDirections] = useState([])
+  const [hiddenDirections, setHiddenDirections] = useState<{}[]>([])
   const [isHidden, setIsHidden] = useState(false)
 
   // !if the button(to hide a route at first) is clicked use the index provided to shift that object to a hidden routes state
@@ -129,17 +128,18 @@ function MapPage() {
       (route) => route.request.destination.query === index
     )
 
+    console.log("filter", filterByIndex)
     // check for duplicates
     const isDuplicate = hiddenDirections.some(
       (route) => route.request.destination.query === index
     )
 
     if (!isDuplicate) {
-      setHiddenDirections([...hiddenDirections, filterByIndex])
+      setHiddenDirections([...hiddenDirections, { filterByIndex }])
     }
 
-    setVisibleDirections((prevVisibleDirections) =>
-      prevVisibleDirections.filter(
+    setVisibleDirections(
+      visibleDirections.filter(
         (route) =>
           route.request.destination.query !==
           filterByIndex.request.destination.query
@@ -150,7 +150,7 @@ function MapPage() {
   }
 
   const showDirections = (index) => {
-    const filterByIndex = directions.find(
+    const filterByIndex = visibleDirections.find(
       (route) => route.request.destination.query === index
     )
 
@@ -160,11 +160,11 @@ function MapPage() {
     )
 
     if (!isDuplicate) {
-      setVisibleDirections([...visibleDirections, filterByIndex])
+      setVisibleDirections([...visibleDirections, { filterByIndex }])
     }
 
-    setHiddenDirections((prevHiddenDirections) =>
-      prevHiddenDirections.filter(
+    setHiddenDirections(
+      hiddenDirections.filter(
         (route) =>
           route.request.destination.query !==
           filterByIndex.request.destination.query
