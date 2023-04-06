@@ -119,7 +119,7 @@ function MapPage() {
 
   const [visibleDirections, setVisibleDirections] = useState<{}[]>(results)
   const [hiddenDirections, setHiddenDirections] = useState([])
-  // const [isHidden, setIsHidden] = useState(false)
+  const [isHidden, setIsHidden] = useState(false)
 
   // !if the button(to hide a route at first) is clicked use the index provided to shift that object to a hidden routes state
   // ! if the button is clicked again we use the index to put that route back in the visible directions state
@@ -146,7 +146,7 @@ function MapPage() {
       )
     )
 
-    // setIsHidden(true)
+    setIsHidden(true)
   }
 
   const showDirections = (index) => {
@@ -171,7 +171,7 @@ function MapPage() {
       )
     )
 
-    // setIsHidden(true)
+    setIsHidden(false)
   }
 
   console.log("this is the visible direcitons", visibleDirections)
@@ -210,7 +210,7 @@ function MapPage() {
           directions={directions}
           hideDirections={hideDirections}
           showDirections={showDirections}
-          // isHidden={isHidden}
+          isHidden={isHidden}
         />
         <MapApi
           directions={directions}

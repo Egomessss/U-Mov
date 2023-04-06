@@ -39,7 +39,8 @@ function Directions({
   handleDeleteRoute,
   directions,
   hideDirections,
-  showDirections
+  showDirections,
+  isHidden,
 }) {
   return (
     <Popover>
@@ -331,27 +332,42 @@ function Directions({
                                   {/* <input type="text" /> */}
                                   <p>Route {index + 1}</p>
                                   <p className="font-semibold">Origin:</p>{" "}
-                                  <p className="text-xs">{direction.request.origin.query}</p>
+                                  <p className="text-xs">
+                                    {direction.request.origin.query}
+                                  </p>
                                   <p className="font-semibold">Destination:</p>
-                                  <p className="text-xs">{direction.request.destination.query}</p>
+                                  <p className="text-xs">
+                                    {direction.request.destination.query}
+                                  </p>
                                   <button
                                     onClick={() => handleDeleteRoute(index)}
-                                    className="btn-outline btn-warning btn-sm btn"
+                                    className=" border-2  rounded-md p-1"
                                   >
-                                   <BsTrash3/>
+                                    <BsTrash3 />
                                   </button>
-                                  <button
-                                    onClick={()=>hideDirections(direction.request.destination.query)}
-                                    className="btn-outline btn-warning btn-sm btn"
-                                  >
-                                   <AiOutlineEyeInvisible/>
-                                  </button>
-                                  <button
-                                    onClick={()=>showDirections(direction.request.destination.query)}
-                                    className="btn-outline btn-warning btn-sm btn"
-                                  >
-                                   <MdOutlineVisibility/>
-                                  </button>
+                                  {isHidden ? (
+                                    <button
+                                      onClick={() =>
+                                        showDirections(
+                                          direction.request.destination.query
+                                        )
+                                      }
+                                      className=" border-2  rounded-md p-1"
+                                    >
+                                      <MdOutlineVisibility />
+                                    </button>
+                                  ) : (
+                                    <button
+                                      onClick={() =>
+                                        hideDirections(
+                                          direction.request.destination.query
+                                        )
+                                      }
+                                      className=" border-2  rounded-md p-1"
+                                    >
+                                      <AiOutlineEyeInvisible />
+                                    </button>
+                                  ) }
                                 </div>
                               ))}
                             </ul>
