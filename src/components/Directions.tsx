@@ -363,6 +363,7 @@ function Directions({
                                         hideDirections(
                                           direction.request.destination.query
                                         )
+                                        
                                       }
                                       className=" border-2  rounded-md p-1"
                                     >
