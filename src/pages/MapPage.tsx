@@ -130,7 +130,9 @@ function MapPage() {
   const hideDirections = (index) => {
     const filterByIndex = directions.find(
       (route) => route.request.destination.query === index
+      
     )
+
 
     console.log("filter", filterByIndex)
     // check for duplicates
