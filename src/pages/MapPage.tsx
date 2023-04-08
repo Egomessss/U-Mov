@@ -3,7 +3,7 @@ import DistanceMatrix from "@/components/RoutesApi"
 import MapApi from "@/components/MapApi"
 import Navbar from "@/components/Navbar"
 import Sidebar from "@/components/Sidebar"
-import React, { useRef, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 
 import results from "../../public/results.json"
 
@@ -116,12 +116,16 @@ function MapPage() {
     setDirections(updatedDirections)
   }
 
-  const [visibleDirections, setVisibleDirections] = useState<{}[]>(results)
+  const [visibleDirections, setVisibleDirections] = useState<{}[]>([])
   const [hiddenDirections, setHiddenDirections] = useState<{}[]>([])
   const [isHidden, setIsHidden] = useState(false)
 
   // !if the button(to hide a route at first) is clicked use the index provided to shift that object to a hidden routes state
   // ! if the button is clicked again we use the index to put that route back in the visible directions state
+
+  useEffect(() => {
+    setVisibleDirections(results)
+  }, [])
 
   const hideDirections = (index) => {
     const filterByIndex = directions.find(
