@@ -23,7 +23,10 @@ export default function Home() {
         />
       </Head>
       <>
-        <div className="h-[100dvh] bg-[#EEEEEE] px-6 py-4 dark:bg-gradient-to-b dark:from-[#000000] dark:via-darkgray dark:to-darkgray dark:text-white lg:px-20 ">
+        <div
+          className="h-[100dvh] bg-[#EEEEEE] px-6 py-4 dark:bg-gradient-to-b 
+        dark:from-[#000000] dark:via-darkgray dark:to-darkgray dark:text-white lg:px-20 "
+        >
           {/* Nav */}
           <Navbar />
           {/* Main  */}
@@ -32,31 +35,33 @@ export default function Home() {
             <Hero />
           </main>
           {/* hook */}
-          <div className='flex justify-between flex-col items-center gap-10 h-[350px]'>
-            <h2 className='text-6xl font-lilita'>All the advantages</h2>
+          <div className="flex h-[350px] flex-col items-center justify-between gap-10">
+            <h2 className="font-lilita text-6xl">All the advantages</h2>
 
-            <ul className='flex justify-between w-full'>
-              <li className='dark:bg-darkgray w-96 h-60 p-4 '>
-                <div className='flex gap-2 items-center text-3xl'>
+            <ul className="flex w-full justify-between">
+              <li className="h-60 w-96 p-4 dark:bg-darkgray ">
+                <div className="flex items-center gap-2 text-3xl">
                   <MdCompare />
-                  <h3 className='text-2xl font-bold'>Compare</h3>
+                  <h3 className="text-2xl font-bold">Compare</h3>
                 </div>
-                <p>Compare everything side by side and make the decision that suits you the best
+                <p>
+                  Compare everything side by side and make the decision that
+                  suits you the best
                 </p>
               </li>
-              <li className='dark:bg-darkgray w-96 h-60 p-4 '>
-                <div className='flex gap-2 items-center text-3xl'>
+              <li className="h-60 w-96 p-4 dark:bg-darkgray ">
+                <div className="flex items-center gap-2 text-3xl">
                   <AiOutlineSearch />
-                  <h3 className='text-2xl font-bold'>Search</h3></div>
-                <p>You dont know the location? use our extension
-                </p>
+                  <h3 className="text-2xl font-bold">Search</h3>
+                </div>
+                <p>You dont know the location? use our extension</p>
               </li>
-              <li className='dark:bg-darkgray w-96 h-60 p-4 '>
-                <div className='flex gap-2 items-center text-3xl'>
+              <li className="h-60 w-96 p-4 dark:bg-darkgray ">
+                <div className="flex items-center gap-2 text-3xl">
                   <AiFillBook />
-                  <h3 className='text-2xl font-bold'>Research</h3></div>
-                <p>Research every fact before you move
-                </p>
+                  <h3 className="text-2xl font-bold">Research</h3>
+                </div>
+                <p>Research every fact before you move</p>
               </li>
             </ul>
           </div>
