@@ -1,4 +1,4 @@
-import ThemeToggler from "@/hooks/ThemeToggler"
+import ThemeToggler from "@/ThemeToggler"
 import React, { Fragment } from "react"
 import { AiOutlineArrowRight } from "react-icons/ai"
 import { CgMenuGridR } from "react-icons/cg"
@@ -16,7 +16,7 @@ function Navbar() {
   return (
     <nav className="flex h-[50px] w-full justify-between font-lilita ">
       <div>
-        <h1 className="text-5xl ">u-Mov</h1>
+        <Link className="text-5xl " href={"/"}>u-Mov</Link>
       </div>
       <div className="flex items-center gap-4">
         <ThemeToggler />
@@ -39,7 +39,7 @@ function Navbar() {
               <button>Log in</button>
             </li>
           </ul>
-          <button className="flex w-[150px] items-center justify-center gap-2 rounded-md text-2xl uppercase dark:bg-orange-500 dark:text-black">
+          <button className="flex w-[150px] items-center justify-center gap-2 rounded-md text-2xl uppercase  ">
             <p>Sign up</p>
             <AiOutlineArrowRight />
           </button>
@@ -78,7 +78,7 @@ function Navbar() {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="h-[100dvh] w-full bg-darkgray px-6  py-4 text-left transition-all  md:hidden">
+                <Dialog.Panel className="h-[100dvh] w-full  px-6  py-4 text-left transition-all  md:hidden">
                   <header className="flex items-center justify-between">
                     <h1 className="font-lilita text-5xl">u-Mov</h1>
                     <div className="flex">

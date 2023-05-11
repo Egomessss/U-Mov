@@ -24,8 +24,8 @@ export default function Home() {
       </Head>
       <>
         <div
-          className="h-[100dvh] bg-[#EEEEEE] px-6 py-4 dark:bg-gradient-to-b 
-        dark:from-[#000000] dark:via-darkgray dark:to-darkgray dark:text-white lg:px-20 "
+          className="h-[100dvh] bg-white px-6 py-4 
+          lg:px-20 "
         >
           {/* Nav */}
           <Navbar />
@@ -36,10 +36,10 @@ export default function Home() {
           </main>
           {/* hook */}
           <div className="flex h-[350px] flex-col items-center justify-between gap-10">
-            <h2 className="font-lilita text-6xl">All the advantages</h2>
+            <h2 className="font-lilita text-6xl text-[#0069FF]">All the advantages</h2>
 
             <ul className="flex w-full justify-between">
-              <li className="h-60 w-96 p-4 dark:bg-darkgray ">
+              <li className="h-60 w-96 p-4 bg-[#0069FF] rounded-lg  ">
                 <div className="flex items-center gap-2 text-3xl">
                   <MdCompare />
                   <h3 className="text-2xl font-bold">Compare</h3>
@@ -49,14 +49,14 @@ export default function Home() {
                   suits you the best
                 </p>
               </li>
-              <li className="h-60 w-96 p-4 dark:bg-darkgray ">
+              <li className="h-60 w-96 p-4  ">
                 <div className="flex items-center gap-2 text-3xl">
                   <AiOutlineSearch />
                   <h3 className="text-2xl font-bold">Search</h3>
                 </div>
                 <p>You dont know the location? use our extension</p>
               </li>
-              <li className="h-60 w-96 p-4 dark:bg-darkgray ">
+              <li className="h-60 w-96 p-4  ">
                 <div className="flex items-center gap-2 text-3xl">
                   <AiFillBook />
                   <h3 className="text-2xl font-bold">Research</h3>
@@ -67,8 +67,8 @@ export default function Home() {
           </div>
         </div>
         {/*  */}
-        <div className="h-[800px] dark:bg-darkgray"></div>
-        <div className="h-[800px] dark:bg-darkgray"></div>
+        <div className="h-[800px] "></div>
+        <div className="h-[800px] "></div>
       </>
     </div>
   )

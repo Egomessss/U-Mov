@@ -7,7 +7,7 @@ function Hero() {
   return (
     <div>
       {/* full */}
-      <div className="hidden h-[600px] gap-10 dark:text-[#EEEEEE] md:flex">
+      <div className="hidden h-[600px] gap-10  md:flex">
         <div className="w-2/4">
           {/* text */}
           <div className="flex h-3/4 flex-col gap-12">
@@ -25,7 +25,7 @@ function Hero() {
           <div className="flex items-center gap-10 ">
             <div>
               <p>+465 users</p>
-              <div className="flex dark:text-orange">
+              <div className="flex ">
                 <AiFillStar />
                 <AiFillStar />
                 <AiFillStar />
@@ -34,7 +34,7 @@ function Hero() {
               </div>
             </div>
             <Link href={"/mappage"}>
-              <button className="flex h-[50px] w-[250px] items-center justify-center gap-2 rounded-md bg-orange font-lilita text-2xl font-bold uppercase dark:text-black">
+              <button className="flex h-[50px] w-[250px] items-center justify-center gap-2 rounded-md bg-orange font-lilita text-2xl font-bold uppercase ">
                 <p>Try u-Mov</p>
                 <AiOutlineArrowRight />
               </button>
@@ -51,7 +51,7 @@ function Hero() {
         </div>
       </div>
       <div className="flex flex-col items-center justify-center md:hidden ">
-        <div className="h-[400px] py-10 dark:text-[#EEEEEE]">
+        <div className="h-[400px] py-10 ">
           {/* image */}
           <img
             className="h-full w-full rounded-xl object-cover"
@@ -65,7 +65,7 @@ function Hero() {
             Moving has never been easier
           </h1>
           <Link href={"/mappage"}>
-            <button className="flex  h-[50px] w-[250px] items-center justify-center gap-2 rounded-md bg-orange font-lilita text-2xl font-bold uppercase dark:text-black">
+            <button className="flex  h-[50px] w-[250px] items-center justify-center gap-2 rounded-md bg-orange font-lilita text-2xl font-bold uppercase ">
               <p>Try u-Mov Free</p>
               <AiOutlineArrowRight />
             </button>

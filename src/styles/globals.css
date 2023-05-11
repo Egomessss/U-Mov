@@ -4,6 +4,12 @@
 @tailwind components;
 @tailwind utilities;
 
+/* main color white */
+/* secondary color #0069FF */
+/* accent color #0069FF */
+
+
+
 :root {
   box-sizing: border-box;
   font-family: "Montserrat", sans-serif;

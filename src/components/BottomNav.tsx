@@ -11,7 +11,7 @@ export default function BottomNav() {
   const spanStyle = "text-xs"
 
   return (
-    <div className="h-[50px] z-30 flex w-full items-center justify-center gap-4 bg-white py-2 shadow dark:bg-darkgray md:hidden">
+    <div className="h-[50px] z-30 flex w-full items-center justify-center gap-4 bg-white py-2 shadow y md:hidden">
       <Link href="/">
         <button
           className="focus:text-red-500 flex flex-col items-center"
