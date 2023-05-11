@@ -14,7 +14,7 @@ function Navbar() {
   const closeModal = () => setIsOpen(false)
 
   return (
-    <nav className="flex h-[50px] w-full justify-between font-lilita dark:text-[#EEEEEE]">
+    <nav className="flex h-[50px] w-full justify-between font-lilita ">
       <div>
         <h1 className="text-5xl ">u-Mov</h1>
       </div>
@@ -39,7 +39,7 @@ function Navbar() {
               <button>Log in</button>
             </li>
           </ul>
-          <button className="flex w-[150px] items-center justify-center gap-2 rounded-md text-2xl uppercase dark:bg-orange dark:text-black">
+          <button className="flex w-[150px] items-center justify-center gap-2 rounded-md text-2xl uppercase dark:bg-orange-500 dark:text-black">
             <p>Sign up</p>
             <AiOutlineArrowRight />
           </button>
