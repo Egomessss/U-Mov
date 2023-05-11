@@ -1,8 +1,23 @@
 import Navbar from "@/components/Navbar"
 import { Tab } from "@headlessui/react"
 import React, { useState } from "react"
+import { GoArrowUp, GoArrowDown } from "react-icons/go"
+import { IoMdAdd } from "react-icons/io"
 
 function BugFixes() {
+  const [isFormOpen, setIsFormOpen] = useState(false)
+
+  const handleFormOpen = () => {
+    setIsFormOpen((prev) => !prev)
+  }
+
+  let [value, setValue] = useState("")
+
+  let handleInputChange = (e) => {
+    let inputValue = e.target.value
+    setValue(inputValue)
+  }
+
   let BugFixesAndReport = {
     "Map/Directions/Places": [
       {
@@ -71,7 +86,7 @@ function BugFixes() {
   }
   return (
     <Tab.Group>
-      <Tab.List className=" flex space-x-1 rounded-xl p-1">
+      <Tab.List className=" flex w-full space-x-1 rounded-xl p-1">
         {Object.keys(BugFixesAndReport).map((category) => {
           return (
             <Tab
@@ -82,36 +97,84 @@ function BugFixes() {
             </Tab>
           )
         })}
+        <button
+          onClick={handleFormOpen}
+          className=" flex items-center gap-2 rounded-lg bg-white px-4 py-2"
+        >
+          <span>Add</span>
+          <IoMdAdd />
+        </button>
       </Tab.List>
-      <Tab.Panels className="mt-2">
+
+      {isFormOpen && (
+        <form
+          className="w-full"
+          action=""
+        >
+          <label htmlFor=" ">Title</label>
+          <input
+            type="text"
+            className="w-full rounded-md border-2 border-gray-200 p-2"
+            placeholder="Title..."
+          />
+          <label htmlFor=""></label>
+          <textarea
+            className="w-full resize-none rounded-md border-2 border-gray-200 p-2"
+            name=""
+            id=""
+            cols="30"
+            rows="10"
+            placeholder="Description of the feature..."
+          ></textarea>
+        </form>
+      )}
+      <Tab.Panels className="mt-2 w-full">
         {Object.values(BugFixesAndReport).map((posts, idx) => {
           return (
             <Tab.Panel
               key={idx}
-              className="ring-offset-blue-400 rounded-xl bg-white p-3 ring-white ring-opacity-60 ring-offset-2 focus:outline-none focus:ring-2"
+              className="w-full rounded-xl bg-white p-3 ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2"
             >
-              <ul>
+              <ul className="flex w-full flex-col gap-2">
                 {posts.map((post) => (
                   <li
                     key={post.id}
-                    className="hover:bg-gray-100 relative rounded-md p-3"
+                    className="relative flex w-full justify-between gap-2 rounded-md border-2 p-3 hover:bg-gray-100"
                   >
-                    <h3 className="text-sm font-medium leading-5">
-                      {post.title}
-                    </h3>
+                    <div className="flex flex-col">
+                      <div className="flex items-center gap-2">
+                        <h2 className=" leading-5">{post.title}</h2>
+                        <span>{post.date}</span>
+                        <span className="rounded-lg bg-green-500 px-2">
+                          Priority - In progress
+                        </span>
+                        <span className="rounded-lg bg-green-300 px-2">
+                          Added to Pipeline
+                        </span>
+                        <span className="rounded-lg bg-yellow-500 px-2">
+                          Low priority
+                        </span>
+                        <span className="rounded-lg bg-red-500 px-2">
+                          Rejected
+                        </span>
+                      </div>
+                      <p>
+                        Lorem ipsum, dolor sit amet consectetur adipisicing
+                        elit. Expedita debitis dolor voluptatibus veritatis
+                        inventore soluta eligendi harum qui dicta aut ab,
+                        explicabo blanditiis, iste perspiciatis quidem ipsam
+                        aperiam ad nemo.
+                      </p>
+                    </div>
 
-                    <ul className="text-gray-500 mt-1 flex space-x-1 text-xs font-normal leading-4">
-                      <li>{post.date}</li>
-                      <li>&middot;</li>
-                      <li>{post.commentCount} comments</li>
-                      <li>&middot;</li>
-                      <li>{post.shareCount} shares</li>
-                    </ul>
-
-                    <a
-                      href="#"
-                      className="ring-blue-400 absolute inset-0 rounded-md focus:z-10 focus:outline-none focus:ring-2"
-                    />
+                    <div className="flex w-8 flex-col gap-2 ">
+                      <button>
+                        <GoArrowUp className="text-blue-500 text-4xl" />
+                      </button>
+                      <button>
+                        <GoArrowDown className="text-orange-500 text-4xl" />
+                      </button>
+                    </div>
                   </li>
                 ))}
               </ul>
