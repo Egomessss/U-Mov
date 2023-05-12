@@ -1,13 +1,13 @@
 import React, { useState } from "react"
-import BugFixes from "@/components/BugFixes"
-import FeaturesWishlist from "@/components/FeaturesWishlist"
+import BugFixes from "@/pages/wishlist/BugFixes"
+import FeaturesWishlist from "@/pages/wishlist/FeaturesWishlist"
 import Navbar from "@/components/Navbar"
 import { Tab } from "@headlessui/react"
 
 import { GoArrowUp, GoArrowDown } from "react-icons/go"
 import { IoMdAdd } from "react-icons/io"
 
-function wishlist() {
+function Wishlist() {
   const [isFormOpen, setIsFormOpen] = useState(false)
 
   const handleFormOpen = () => {
@@ -239,4 +239,4 @@ function wishlist() {
   )
 }
 
-export default wishlist
+export default Wishlist

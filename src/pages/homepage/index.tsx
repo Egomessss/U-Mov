@@ -1,4 +1,4 @@
-import Hero from "@/components/Hero"
+import Hero from "@/pages/homepage/Hero"
 import Navbar from "@/components/Navbar"
 import Head from "next/head"
 import { AiFillBook, AiOutlineSearch } from "react-icons/ai"

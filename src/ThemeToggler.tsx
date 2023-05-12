@@ -5,7 +5,7 @@ import { BsMoonFill, BsFillSunFill } from "react-icons/bs"
 import { Switch } from "@headlessui/react"
 
 function ThemeToggler() {
-  const { theme, setTheme } = useTheme("")
+  const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
 
   // Only render UI after theme is loaded in client-side to prevent server-side hydration mismatch

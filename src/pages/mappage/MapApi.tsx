@@ -45,14 +45,14 @@ function MapApi({
         {/* Child components, such as markers, info windows, etc. */}
         <>
           {/* <Marker position={center} /> */}
-          {routes.map((direction, index) => (
+          {/* {routes.map((direction, index) => (
             <div key={index}>
               <DirectionsRenderer
                 key={index}
                 directions={direction}
               />
             </div>
-          ))}
+          ))} */}
         </>
       </GoogleMap>
     </div>

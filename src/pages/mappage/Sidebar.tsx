@@ -1,9 +1,5 @@
 import { Disclosure, Popover, Transition } from "@headlessui/react"
 import {
-  ArrowRightIcon,
-  ChevronRightIcon,
-  ClockIcon,
-  TrashIcon,
   UserCircleIcon,
   ViewfinderCircleIcon,
 } from "@heroicons/react/24/outline"
@@ -11,68 +7,30 @@ import { BiDirections } from "react-icons/bi"
 
 import React, { Fragment, useState } from "react"
 import { Autocomplete } from "@react-google-maps/api"
-import Directions from "./Directions"
+import Directions from "@/components/directions"
 
 type centerMapProps = {
   lng: number
   lat: number
 }
 
-function Sidebar({
-  centerMap,
-  onPlaceChanged,
-  handleDestinationAddress,
-  handleNewDestinationName,
-  handleNewDestinationAddress,
-  handleRemoveDestination,
-  destinationAddresses,
-  selectedTravelMode,
-  SetSelectedTravelMode,
-  time,
-  setTime,
-  handlePublicOrigin,
-  handlePublicDestination,
-  calculateRoute,
-  handleDeleteRoute,
-  directions,
-  hideDirections,
-  showDirections,
-  isHidden
-}) {
+function Sidebar({ centerMap }) {
   return (
     <div className="absolute top-1/2 left-5 z-50 h-[80%] w-24 -translate-x-1/2 -translate-y-1/2 transform rounded-3xl  border-2 border-white bg-white ">
       <div className="relative flex h-full w-full flex-col items-center justify-around">
         {/* centers the map to main location */}
         <button
           onClick={centerMap}
-          className="flex h-20 w-20 items-center justify-center rounded-full border-2 bg-lightgray"
+          className="bg-lightgray flex h-20 w-20 items-center justify-center rounded-full border-2"
         >
-          <ViewfinderCircleIcon className="h-8 text-orange" />
+          <ViewfinderCircleIcon className="text-orange h-8" />
         </button>
-        <Directions
-          handleDestinationAddress={handleDestinationAddress}
-          handleNewDestinationName={handleNewDestinationName}
-          handleNewDestinationAddress={handleNewDestinationAddress}
-          handleRemoveDestination={handleRemoveDestination}
-          onPlaceChanged={onPlaceChanged}
-          destinationAddresses={destinationAddresses}
-          selectedTravelMode={selectedTravelMode}
-          SetSelectedTravelMode={SetSelectedTravelMode}
-          time={time}
-          setTime={setTime}
-          handlePublicOrigin={handlePublicOrigin}
-          handlePublicDestination={handlePublicDestination}
-          calculateRoute={calculateRoute}
-          handleDeleteRoute={handleDeleteRoute}
-          directions={directions}
-          hideDirections={hideDirections}
-          showDirections={showDirections}
-          isHidden={isHidden}
-        />
+        {/* Directions */}
+        <Directions />
         <Popover>
           {({ open }) => (
             <>
-              <Popover.Button className="h-20 w-20 rounded-full  bg-lightgray text-orange">
+              <Popover.Button className="bg-lightgray text-orange h-20  w-20 rounded-full">
                 Surroundings
               </Popover.Button>
               <Transition
@@ -92,7 +50,7 @@ function Sidebar({
         <Popover>
           {({ open }) => (
             <>
-              <Popover.Button className="h-20 w-20 rounded-full  bg-lightgray text-orange">
+              <Popover.Button className="bg-lightgray text-orange h-20  w-20 rounded-full">
                 Costs
               </Popover.Button>
               <Transition
@@ -112,7 +70,7 @@ function Sidebar({
         <Popover>
           {({ open }) => (
             <>
-              <Popover.Button className="h-20 w-20 rounded-full  bg-lightgray text-orange">
+              <Popover.Button className="bg-lightgray text-orange h-20  w-20 rounded-full">
                 Results
               </Popover.Button>
               <Transition
@@ -132,7 +90,7 @@ function Sidebar({
         <Popover>
           {({ open }) => (
             <>
-              <Popover.Button className="h-20 w-20 rounded-full  bg-lightgray text-orange">
+              <Popover.Button className="bg-lightgray text-orange h-20  w-20 rounded-full">
                 <UserCircleIcon className="p-4" />
               </Popover.Button>
               <Transition
