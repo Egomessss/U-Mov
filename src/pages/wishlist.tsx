@@ -1,6 +1,6 @@
 import React, { useState } from "react"
-import BugFixes from "@/pages/wishlist/BugFixes"
-import FeaturesWishlist from "@/pages/wishlist/FeaturesWishlist"
+import BugFixes from "@/components/wishlist/BugFixes"
+import FeaturesWishlist from "@/components/wishlist/FeaturesWishlist"
 import Navbar from "@/components/Navbar"
 import { Tab } from "@headlessui/react"
 

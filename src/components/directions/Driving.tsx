@@ -1,9 +1,26 @@
 import { Tab } from "@headlessui/react"
 import { ArrowRightIcon, TrashIcon } from "@heroicons/react/24/outline"
 import { Autocomplete } from "@react-google-maps/api"
-import React, { useState } from "react"
+import React, { useContext, useState } from "react"
+import { createContext } from "vm"
+import { DrivingContext } from "../../context/DrivingContextProvider"
+import results from "../../../public/results.json"
+import { AiOutlineEyeInvisible } from "react-icons/ai"
+import { MdOutlineVisibility } from "react-icons/md"
+import { BsTrash3 } from "react-icons/bs"
+
 
 function Driving() {
+  const { drivingDirections, setDrivingDirections } = useContext(DrivingContext)
+
+
+  const [destinationAddresses, setDestinationAddresses] = useState<{}[]>([]) // initialize state with an empty array
+
+  const [newDestination, setNewDestination] = useState({
+    name: "",
+    address: "",
+  })
+
   const newID = (() => {
     let id = 0
     return () => id++
@@ -18,50 +35,44 @@ function Driving() {
     }
   }
 
-  const [destinationAddresses, setDestinationAddresses] = useState<{}[]>([]) // initialize state with an empty array
-
-  const [newDestination, setNewDestination] = useState({
-    name: "",
-    address: "",
-  })
   // console.log(newDestination)
 
-  const handleNewDestinationName = (event) => {
-    setNewDestination({ ...newDestination, name: event.target.value })
-  }
+  // const handleNewDestinationName = (event) => {
+  //   setNewDestination({ ...newDestination, name: event.target.value })
+  // }
 
-  const handleNewDestinationAddress = (event) => {
-    setNewDestination({ ...newDestination, address: event.target.value })
-  }
+  // const handleNewDestinationAddress = (event) => {
+  //   setNewDestination({ ...newDestination, address: event.target.value })
+  // }
 
-  const handleDestinationAddress = (event) => {
-    event.preventDefault()
+  // const handleDestinationAddress = (event) => {
+  //   event.preventDefault()
 
-    if (
-      newDestination.name.trim() !== "" &&
-      newDestination.address.trim() !== ""
-    ) {
-      const newAddress = {
-        id: newID(),
-        name: newDestination.name.trim(),
-        address: newDestination.address.trim(),
-      }
-      setDestinationAddresses([...destinationAddresses, newAddress])
-      setNewDestination({ name: "", address: "" })
-    }
-  }
+  //   if (
+  //     newDestination.name.trim() !== "" &&
+  //     newDestination.address.trim() !== ""
+  //   ) {
+  //     const newAddress = {
+  //       id: newID(),
+  //       name: newDestination.name.trim(),
+  //       address: newDestination.address.trim(),
+  //     }
+  //     setDestinationAddresses([...destinationAddresses, newAddress])
+  //     setNewDestination({ name: "", address: "" })
+  //   }
+  // }
 
-  const handleRemoveDestination = (index) => {
-    const newAdresses = [...destinationAddresses]
-    newAdresses.splice(index, 1)
-    setDestinationAddresses(newAdresses)
-  }
+  // const handleRemoveDestination = (index) => {
+  //   const newAdresses = [...destinationAddresses]
+  //   newAdresses.splice(index, 1)
+  //   setDestinationAddresses(newAdresses)
+  // }
 
-  const [selectedTravelMode, SetSelectedTravelMode] = useState("DRIVE")
+  // const [selectedTravelMode, SetSelectedTravelMode] = useState("DRIVE")
 
-  const handleSelectedTravelMode = (e) => SetSelectedTravelMode(e.target.value)
+  // const handleSelectedTravelMode = (e) => SetSelectedTravelMode(e.target.value)
 
-  const [time, setTime] = useState("10:00")
+  // const [time, setTime] = useState("10:00")
 
   return (
     <Tab.Panel>
@@ -73,11 +84,12 @@ function Driving() {
           <ArrowRightIcon className="h-6" />
           <h3>Job</h3>
         </div>
+        <button onClick={() => setDrivingDirections(results)}>Click me</button>
         <div>
           <label htmlFor="home-input">Main adress</label>
           <Autocomplete
-            onPlaceChanged={onPlaceChanged}
-            // onLoad={onLoad}
+          onPlaceChanged={onPlaceChanged}
+          // onLoad={onLoad}
           >
             <input
               className="border-lightgray  w-full border-b-2 bg-white px-2"
@@ -87,13 +99,14 @@ function Driving() {
             />
           </Autocomplete>
         </div>
-        <div>
+        {/* 2nd phase options */}
+        {/* <div>
           <div>
             <button>Eco options</button>
             <button>Car options</button>
             <form onSubmit={handleDestinationAddress}>
               <label htmlFor="job-input">Destinations</label>
-              {/* <Autocomplete> */}
+             
               <input
                 className="border-lightgray  w-full border-b-2 bg-white px-2"
                 type="text"
@@ -101,7 +114,7 @@ function Driving() {
                 id="job-input"
                 onChange={handleNewDestinationName}
               />{" "}
-              {/* </Autocomplete> */}
+            
               <input
                 className="border-lightgray  w-full border-b-2 bg-white px-2"
                 type="text"
@@ -158,7 +171,7 @@ function Driving() {
                   className="border-lightgray  w-full border-b-2 bg-white px-2"
                   id="consumption"
                 />
-                {/* if eletrci is selected */}
+              
                 <input
                   type="number"
                   placeholder="w/km"
@@ -249,6 +262,38 @@ function Driving() {
               ))}
             </ul>
           </div>
+        </div> */}
+        <div className="pt-4">
+          <ul className="flex flex-col gap-2">
+            {drivingDirections.map((direction, index) => (
+              <div key={index}>
+                {/* <input type="text" /> */}
+                <p>Route {index + 1}</p>
+                <p className="font-semibold">Origin:</p>{" "}
+                <p className="text-xs">{direction.request.origin.query}</p>
+                <p className="font-semibold">Destination:</p>
+                <p className="text-xs">{direction.request.destination.query}</p>
+                <button className=" rounded-md  border-2 p-1">
+                  <BsTrash3 />
+                </button>
+                {/* {isHidden ? (
+                  <button
+                    // onClick={() => setIsHidden(true)}
+                    className=" rounded-md  border-2 p-1"
+                  >
+                    <MdOutlineVisibility />
+                  </button>
+                ) : (
+                  <button
+                    // onClick={() => setIsHidden(false)}
+                    className=" rounded-md  border-2 p-1"
+                  >
+                    <AiOutlineEyeInvisible />
+                  </button>
+                )} */}
+              </div>
+            ))}
+          </ul>
         </div>
       </div>
     </Tab.Panel>

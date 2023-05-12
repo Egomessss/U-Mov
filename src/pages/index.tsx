@@ -1,5 +1,5 @@
-import Hero from "@/pages/homepage/Hero"
-import Navbar from "@/components/Navbar"
+import Hero from "@/components/homepage/Hero"
+import Navbar from "@/components/homepage/Navbar"
 import Head from "next/head"
 import { AiFillBook, AiOutlineSearch } from "react-icons/ai"
 import { MdCompare } from "react-icons/md"

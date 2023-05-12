@@ -1,10 +1,11 @@
-import React, { useState } from "react"
+import React, { useContext, useState } from "react"
 import {
   GoogleMap,
   useJsApiLoader,
   Marker,
   DirectionsRenderer,
 } from "@react-google-maps/api"
+import { DrivingContext } from "../../context/DrivingContextProvider"
 
 //  Make sure you cache the props passed to GoogleMap to avoid re-renders that may harm the performance.
 // restringir a api somente para o site
@@ -13,13 +14,10 @@ import {
 // centers the map
 const LIBRARIES = ["places"]
 
-function MapApi({
-  center,
-  setMap,
-  map,
-  directions,
-  routes,
-}) {
+function MapApi({ center, setMap, map, directions, routes }) {
+  const { drivingDirections } = useContext(DrivingContext)
+  console.log(drivingDirections)
+
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: "AIzaSyAC-ZmHeOUM6VvIDtbc8y_sfKG-Lh7ZgME",
     libraries: LIBRARIES,
@@ -53,6 +51,12 @@ function MapApi({
               />
             </div>
           ))} */}
+          {drivingDirections.map((direction, index) => (
+            <DirectionsRenderer
+              key={index}
+              directions={direction}
+            />
+          ))}
         </>
       </GoogleMap>
     </div>
