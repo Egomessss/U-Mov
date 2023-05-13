@@ -1,6 +1,6 @@
 import { Popover, Tab, Transition } from "@headlessui/react"
 import React, { Fragment } from "react"
-import { BiDirections } from "react-icons/bi"
+import { GrDirections } from "react-icons/gr"
 import {
   MdDirectionsCar,
   MdDirectionsBusFilled,
@@ -15,9 +15,9 @@ function Directions() {
     <Popover>
       {({ open }) => (
         <>
-          <Popover.Button className="bg-lightgray text-orange flex  h-20 w-20 flex-col items-center justify-center rounded-full">
-            <BiDirections className="text-xl" />
-            <p>Directions</p>
+          <Popover.Button className="bg-lightgray text-orange flex  h-20 w-20 flex-col items-center justify-center rounded-full border-2 border-blue-500">
+            <GrDirections className="text-xl" />
+            <span className="text-sm">Directions</span>
           </Popover.Button>
           <Transition
             as={Fragment}

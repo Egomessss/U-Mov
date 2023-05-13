@@ -1,5 +1,6 @@
 [
   {
+    "visible": false,
     "geocoded_waypoints": [
       {
         "geocoder_status": "OK",
@@ -1174,6 +1175,7 @@
     }
   },
   {
+    "visible": true,
     "geocoded_waypoints": [
       {
         "geocoder_status": "OK",
@@ -3166,6 +3168,7 @@
     }
   },
   {
+    "visible": true,
     "geocoded_waypoints": [
       {
         "geocoder_status": "OK",

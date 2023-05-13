@@ -16,7 +16,7 @@ const LIBRARIES = ["places"]
 
 function MapApi({ center, setMap, map, directions, routes }) {
   const { drivingDirections } = useContext(DrivingContext)
-  console.log(drivingDirections)
+  // console.log(drivingDirections.map(obj => obj.visible))
 
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: "AIzaSyAC-ZmHeOUM6VvIDtbc8y_sfKG-Lh7ZgME",
@@ -51,12 +51,14 @@ function MapApi({ center, setMap, map, directions, routes }) {
               />
             </div>
           ))} */}
-          {drivingDirections.map((direction, index) => (
-            <DirectionsRenderer
-              key={index}
-              directions={direction}
-            />
-          ))}
+          {drivingDirections.filter(obj => obj.visible === true).map((direction, index) => {
+              return (
+                <DirectionsRenderer
+                  key={index}
+                  directions={direction}
+                />
+              )
+            })}
         </>
       </GoogleMap>
     </div>
