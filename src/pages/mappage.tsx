@@ -14,8 +14,6 @@ import React, {
 import results from "../../public/results.json"
 import DrivingContextProvider from "../context/DrivingContextProvider"
 
-
-
 function MapPage() {
   //! lisbon coordinates
   const center = {
@@ -27,21 +25,19 @@ function MapPage() {
   const handleCenter = () => map.panTo(center)
 
   return (
-    <div className="flex h-[100dvh] flex-col bg-[#EEEEEE] px-6 pt-4 lg:px-20 ">
+    <div className=" h-[100dvh]   lg:px-20 ">
       {/* <Navbar /> */}
       <div className="relative h-full">
-   
-          <DrivingContextProvider>
-            <Sidebar centerMap={handleCenter} />
-            <MapApi
-              // directions={publicTransportDirections}
-              map={map}
-              setMap={(map) => setMap(map)}
-              center={center}
-              // routes={publicTransportDirections}
-            />
-          </DrivingContextProvider>
-       
+        <DrivingContextProvider>
+          <Sidebar centerMap={handleCenter} />
+          <MapApi
+            // directions={publicTransportDirections}
+            map={map}
+            setMap={(map) => setMap(map)}
+            center={center}
+            // routes={publicTransportDirections}
+          />
+        </DrivingContextProvider>
       </div>
     </div>
   )

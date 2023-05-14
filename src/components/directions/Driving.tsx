@@ -333,7 +333,7 @@ function Driving() {
           </Tab.Panel>
           {/* results */}
           <Tab.Panel className="">
-            <ul className="flex h-[800px] flex-col gap-2 pt-4 overflow-y-scroll" >
+            <ul className="flex h-[800px] flex-col gap-2 overflow-y-scroll pt-4">
               {drivingDirections.map((direction, index) => (
                 <div key={index}>
                   {/* <input type="text" /> */}

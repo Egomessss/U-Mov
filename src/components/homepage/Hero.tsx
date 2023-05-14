@@ -13,7 +13,7 @@ function Hero() {
           <div className="flex h-3/4 flex-col gap-12">
             <h3 className="text-xl font-bold">Moving has never been easier</h3>
             <h1 className="font-lilita text-7xl uppercase">
-              Giving You Your time Back
+              You Can Change The Inside But Not The Location
             </h1>
 
             <p className="font-bold">

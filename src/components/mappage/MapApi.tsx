@@ -32,6 +32,14 @@ function MapApi({ center, setMap, map, directions, routes }) {
     height: "100%",
   }
   // console.log(directions)
+
+  const mapOptions = {
+    streetViewControl: false,
+    mapTypeControl: false,
+    mapTypeControlOptions: {
+      mapTypeIds: [google.maps.MapTypeId.ROADMAP]
+    }
+  }
   return (
     <div className="-mx-20  h-full">
       <GoogleMap
@@ -39,6 +47,7 @@ function MapApi({ center, setMap, map, directions, routes }) {
         center={center}
         zoom={10}
         onLoad={setMap}
+        options={mapOptions}
       >
         {/* Child components, such as markers, info windows, etc. */}
         <>
@@ -52,6 +61,7 @@ function MapApi({ center, setMap, map, directions, routes }) {
             </div>
           ))} */}
           {drivingDirections.filter(obj => obj.visible === true).map((direction, index) => {
+            // ver onDirecitons changed https://react-google-maps-api-docs.netlify.app/#directionsrenderer
               return (
                 <DirectionsRenderer
                   key={index}

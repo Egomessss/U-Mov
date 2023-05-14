@@ -16,7 +16,6 @@ export default function Home() {
         <meta
           name="viewport"
           content="width=device-width, initial-scale=1"
-          
         />
         <link
           rel="icon"
@@ -36,7 +35,7 @@ export default function Home() {
             <Hero />
           </main>
           {/* hook */}
-          <div className="flex h-[350px] flex-col items-center justify-between gap-10">
+          {/* <div className="flex h-[350px] flex-col items-center justify-between gap-10">
             <h2 className="font-lilita text-6xl text-[#0069FF]">All the advantages</h2>
 
             <ul className="flex w-full justify-between">
@@ -65,11 +64,11 @@ export default function Home() {
                 <p>Research every fact before you move</p>
               </li>
             </ul>
-          </div>
+          </div> */}
         </div>
         {/*  */}
-        <div className="h-[800px] "></div>
-        <div className="h-[800px] "></div>
+        {/* <div className="h-[800px] "></div>
+        <div className="h-[800px] "></div> */}
       </>
     </div>
   )
