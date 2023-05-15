@@ -11,9 +11,13 @@ import { BsTrash3 } from "react-icons/bs"
 import { GrDirections } from "react-icons/gr"
 import Tooltip from "../Tooltip"
 import { IoSettingsOutline } from "react-icons/io5"
+import axios from "axios"
 
 function Driving() {
   const { drivingDirections, setDrivingDirections } = useContext(DrivingContext)
+  const [fetchedDrivingDirections, setFetchedDrivingDirections] = useState<
+    {}[]
+  >([])
   const [origins, setOrigins] = useState<{}[]>([])
   console.log(origins)
 
@@ -44,7 +48,7 @@ function Driving() {
   const [drivingDestinations, setDrivingDestinations] = useState<{}[]>([]) // initialize state with an empty array
   console.log(drivingDestinations)
 
-  const [travelsPerMonth, setTravelsPerMonth] = useState(0) 
+  const [travelsPerMonth, setTravelsPerMonth] = useState(0)
   console.log(travelsPerMonth)
 
   const handleTravelsPerMonth = (e) => setTravelsPerMonth(e.target.value)
@@ -93,14 +97,96 @@ function Driving() {
 
   const [featuresOpen, setFeaturesOpen] = useState(false)
 
+  // ! calculate route
+
+  const calculateRoute = async () => {
+    if (
+      mainOriginRef.current.value === "" ||
+      destinationRef.current.value === ""
+    ) {
+      return
+    }
+    const directionsService = new google.maps.DirectionsService()
+
+    const results = await directionsService.route({
+      origin: mainOriginRef.current.value,
+      destination: destinationRef.current.value,
+      travelMode: selectedTravelMode,
+      unitSystem: google.maps.UnitSystem.METRIC,
+      routeModifiers: {
+        avoidTolls: false,
+        avoidHighways: false,
+      },
+    })
+
+    setDirections((prevDirections) => [...prevDirections, results])
+    setDistance(results.routes[0].legs[0].distance.text)
+    setDuration(results.routes[0].legs[0].duration.text)
+  }
+  //!
+  const fetchData = () => {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        "X-Goog-Api-Key": "AIzaSyAC-ZmHeOUM6VvIDtbc8y_sfKG-Lh7ZgME",
+        "X-Goog-FieldMask":
+          "routes.duration,routes.distanceMeters,routes.polyline.encodedPolyline",
+      },
+    }
+
+    const data = {
+      "origin":{
+        "location":{
+          "latLng":{
+            "latitude": 37.419734,
+            "longitude": -122.0827784
+          }
+        }
+      },
+      "destination":{
+        "location":{
+          "latLng":{
+            "latitude": 37.417670,
+            "longitude": -122.079595
+          }
+        }
+      },
+      "travelMode": "DRIVE",
+      "routingPreference": "TRAFFIC_AWARE",
+      "departureTime": "2023-10-15T15:01:23.045123456Z",
+      "computeAlternativeRoutes": false,
+      "routeModifiers": {
+        "avoidTolls": false,
+        "avoidHighways": false,
+        "avoidFerries": false
+      },
+      "languageCode": "en-US",
+      "units": "IMPERIAL"
+    }
+
+    axios
+      .post(
+        "https://routes.googleapis.com/directions/v2:computeRoutes",
+        data,
+        config
+      )
+      .then((response) => {
+        console.log(response.data)
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+  }
+
+  //!
+
   const handleRemoveDestination = (index) => {
     const newAddresses = [...destinationAddresses]
     newAddresses.splice(index, 1)
     setDestinationAddresses(newAddresses)
   }
 
-  useEffect(() => {}, [drivingDirections])
-
+  // ! hide directions
   const hideDirections = (index) => {
     const updatedDirections = drivingDirections.map((route) => {
       if (route.request.destination.query === index) {
@@ -111,6 +197,7 @@ function Driving() {
     setDrivingDirections(updatedDirections)
   }
 
+  // ! unhide directions
   const unhideDirections = (index) => {
     const updatedDirections = drivingDirections.map((route) => {
       if (route.request.destination.query === index) {
@@ -121,17 +208,30 @@ function Driving() {
     setDrivingDirections(updatedDirections)
   }
 
+  // ! delete route
+
+  const handleDeleteRoute = (indexToDelete) => {
+    setDirections((prev) => {
+      return { ...prev }
+    })
+    const updatedDirections = [...directions]
+    // console.log(updatedDirections)
+    updatedDirections.splice(indexToDelete, 1)
+    setDirections(updatedDirections)
+  }
+
   return (
     <Tab.Panel>
       <Tab.Group>
-        <Tab.List className="flex w-full">
+        <Tab.List className="flex w-full justify-between">
           <Tab
-            className="btn-success btn w-1/2 gap-x-2"
-            // className={
-            //   featuresOpen
-            //     ? "flex w-1/2 items-center gap-2 rounded-lg border-2 bg-blue-500 px-4 py-2"
-            //     : "flex w-1/2 items-center gap-2 rounded-lg bg-blue-500 px-4 py-2"
-            // }
+            onClick={() => setFeaturesOpen((prev) => !prev)}
+            // className="btn-success btn w-1/2 gap-x-2"
+            className={
+              featuresOpen
+                ? "btn-success btn flex w-[48%] items-center gap-2"
+                : "btn-outline  btn flex w-[48%] items-center gap-2"
+            }
           >
             <span>Options</span>
             <IoSettingsOutline className="text-xl" />
@@ -152,7 +252,10 @@ function Driving() {
           {/* routes */}
           <Tab.Panel>
             <div>
-              <button onClick={() => setDrivingDirections(results)}>
+              <button
+                // onClick={() => setDrivingDirections(results)}
+                onClick={() => fetchData()}
+              >
                 Click me
               </button>
               {/* 2nd phase options */}
@@ -196,7 +299,7 @@ function Driving() {
                   onClick={handleOrigins}
                   className="btn-success btn"
                 >
-                  Add main location
+                  Add Main Location
                 </button>
               </div>
               {/* destinations */}
@@ -233,7 +336,7 @@ function Driving() {
                   onClick={handleNewDestination}
                   className="btn-success btn"
                 >
-                  Add main location
+                  Add Destination
                 </button>
               </div>
               {/* <label

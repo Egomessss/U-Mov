@@ -33,7 +33,7 @@ function Directions() {
             <Popover.Panel className="absolute left-24 top-0 h-full w-96 rounded-3xl  bg-white p-4 text-black">
               <div className="flex flex-col gap-2">
                 <h2>Routes</h2>
-                <Tab.Group defaultIndex={1}>
+                <Tab.Group defaultIndex={0}>
                   <Tab.List className="flex justify-between">
                     <Tab>
                       <button className="btn gap-1">
