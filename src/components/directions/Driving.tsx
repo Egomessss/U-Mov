@@ -1,7 +1,7 @@
 import { Tab } from "@headlessui/react"
 import { ArrowRightIcon, TrashIcon } from "@heroicons/react/24/outline"
 import { Autocomplete } from "@react-google-maps/api"
-import React, { useContext, useEffect, useState } from "react"
+import React, { useContext, useEffect, useState, useRef } from "react"
 import { createContext } from "vm"
 import { DrivingContext } from "../../context/DrivingContextProvider"
 import results from "../../../public/results.json"
@@ -9,91 +9,89 @@ import { AiOutlineEyeInvisible } from "react-icons/ai"
 import { MdOutlineVisibility } from "react-icons/md"
 import { BsTrash3 } from "react-icons/bs"
 import { GrDirections } from "react-icons/gr"
+import Tooltip from "../Tooltip"
+import { IoSettingsOutline } from "react-icons/io5"
 
 function Driving() {
   const { drivingDirections, setDrivingDirections } = useContext(DrivingContext)
-  const [mainLocations, setMainLocations] = useState<{}[]>([])
-  console.log(mainLocations)
-  const [newMainLocations, setNewMainLocations] = useState({
-    name: "",
-    address: "",
-  })
-  console.log(newMainLocations)
+  const [origins, setOrigins] = useState<{}[]>([])
+  console.log(origins)
 
-  const handleNewMainDestinationName = (event) => {
-    setNewMainLocations({ ...newMainLocations, name: event.target.value })
-  }
+  // ! origin
+  /** @type React.MutableRefObject<HTMLInputElement> */
+  const mainOriginNameRef = useRef()
 
-  const handleMainDestinationAddress = (event) => {
-    setNewMainLocations({ ...newMainLocations, address: event.target.value })
-  }
+  /** @type React.MutableRefObject<HTMLInputElement> */
+  const mainOriginRef = useRef()
+  // console.log(mainOriginRef.current.value)
 
-  const handleMainAddress = () => {
-
+  const handleOrigins = () => {
     if (
-      newMainLocations.name.trim() !== "" &&
-      newMainLocations.address.trim() !== ""
+      mainOriginNameRef.current.value !== "" &&
+      mainOriginRef.current.value !== ""
     ) {
       const newAddress = {
-        name: newMainLocations.name.trim(),
-        address: newMainLocations.address.trim(),
+        name: mainOriginNameRef.current.value.trim(),
+        address: mainOriginRef.current.value.trim(),
       }
-      setMainLocations([...destinationAddresses, newAddress])
-      setNewMainLocations({ name: "", address: "" })
+      setOrigins([...origins, newAddress])
+      mainOriginNameRef.current.value = ""
+      mainOriginRef.current.value = ""
     }
   }
 
-  const onPlaceChanged = () => {
-    if (origins != null) {
-      const place = origins.getPlace()
-      setOrigins(place.formatted_address)
-    } else {
-      alert("Please enter text")
+  // ! destinations
+  const [drivingDestinations, setDrivingDestinations] = useState<{}[]>([]) // initialize state with an empty array
+  console.log(drivingDestinations)
+
+  const [travelsPerMonth, setTravelsPerMonth] = useState(0) 
+  console.log(travelsPerMonth)
+
+  const handleTravelsPerMonth = (e) => setTravelsPerMonth(e.target.value)
+
+  /** @type React.MutableRefObject<HTMLInputElement> */
+  const destinationNameRef = useRef()
+  /** @type React.MutableRefObject<HTMLInputElement> */
+  const destinationRef = useRef()
+
+  const handleNewDestination = () => {
+    if (
+      destinationNameRef.current.value !== "" &&
+      destinationRef.current.value !== ""
+    ) {
+      const newAddress = {
+        name: destinationNameRef.current.value.trim(),
+        address: destinationRef.current.value.trim(),
+      }
+      setDrivingDestinations([...drivingDestinations, newAddress])
+      destinationNameRef.current.value = ""
+      destinationRef.current.value = ""
+      setTravelsPerMonth(0)
     }
   }
-  console.log(drivingDirections)
-
-  const [destinationAddresses, setDestinationAddresses] = useState<{}[]>([]) // initialize state with an empty array
-
-  const [newDestination, setNewDestination] = useState({
-    name: "",
-    address: "",
-  })
-
+  // ! travel mode
   const [selectedTravelMode, SetSelectedTravelMode] = useState("DRIVE")
+  console.log(selectedTravelMode)
 
   const handleSelectedTravelMode = (e) => SetSelectedTravelMode(e.target.value)
 
-  const [time, setTime] = useState("10:00")
+  // ! Engine Type
+  const [selectedEngineType, SetSelectedEngineType] = useState("GASOLINE")
+  console.log(selectedEngineType)
+
+  const handleSelectedEngineType = (e) => SetSelectedEngineType(e.target.value)
+
+  // ! consumption
+
+  const [litersConsumed, setLitersConsumed] = useState(0)
+  console.log(litersConsumed)
+  const [wattsConsumed, setWattsConsumed] = useState(0)
+  console.log(wattsConsumed)
+
+  const handleLitersConsumed = (e) => setLitersConsumed(e.target.value)
+  const handleWattsConsumed = (e) => setWattsConsumed(e.target.value)
+
   const [featuresOpen, setFeaturesOpen] = useState(false)
-  
-
- 
-
-  const handleNewDestinationName = (event) => {
-    setNewDestination({ ...newDestination, name: event.target.value })
-  }
-
-  const handleNewDestinationAddress = (event) => {
-    setNewDestination({ ...newDestination, address: event.target.value })
-  }
-
-  const handleNewDestination = (event) => {
-    event.preventDefault()
-
-    if (
-      newDestination.name.trim() !== "" &&
-      newDestination.address.trim() !== ""
-    ) {
-      const newAddress = {
-      
-        name: newDestination.name.trim(),
-        address: newDestination.address.trim(),
-      }
-      setDestinationAddresses([...destinationAddresses, newAddress])
-      setNewDestination({ name: "", address: "" })
-    }
-  }
 
   const handleRemoveDestination = (index) => {
     const newAddresses = [...destinationAddresses]
@@ -128,32 +126,26 @@ function Driving() {
       <Tab.Group>
         <Tab.List className="flex w-full">
           <Tab
-            className={
-              featuresOpen
-                ? "flex w-1/2 items-center gap-2 rounded-lg border-2 bg-blue-500 px-4 py-2"
-                : "flex w-1/2 items-center gap-2 rounded-lg bg-blue-500 px-4 py-2"
-            }
+            className="btn-success btn w-1/2 gap-x-2"
+            // className={
+            //   featuresOpen
+            //     ? "flex w-1/2 items-center gap-2 rounded-lg border-2 bg-blue-500 px-4 py-2"
+            //     : "flex w-1/2 items-center gap-2 rounded-lg bg-blue-500 px-4 py-2"
+            // }
           >
             <span>Options</span>
+            <IoSettingsOutline className="text-xl" />
+          </Tab>
+          <Tab
+            className="btn-success btn w-1/2 gap-x-2"
+            // className={
+            //   featuresOpen
+            //     ? "bg-blue flex w-1/2 items-center gap-2 rounded-lg border-2 px-4 py-2"
+            //     : "flex w-1/2 items-center gap-2 rounded-lg bg-blue-500 px-4 py-2"
+            // }
+          >
+            <span>Routes</span>
             <GrDirections className="text-xl" />
-          </Tab>
-          <Tab
-            className={
-              featuresOpen
-                ? "bg-blue flex w-1/2 items-center gap-2 rounded-lg border-2 px-4 py-2"
-                : "flex w-1/2 items-center gap-2 rounded-lg bg-blue-500 px-4 py-2"
-            }
-          >
-            Routes
-          </Tab>
-          <Tab
-            className={
-              featuresOpen
-                ? "bg-blue flex w-1/2 items-center gap-2 rounded-lg border-2 px-4 py-2"
-                : "flex w-1/2 items-center gap-2 rounded-lg bg-blue-500 px-4 py-2"
-            }
-          >
-            Results
           </Tab>
         </Tab.List>
         <Tab.Panels>
@@ -164,138 +156,212 @@ function Driving() {
                 Click me
               </button>
               {/* 2nd phase options */}
-              <form
-                className="flex flex-col gap-2"
-                onSubmit={handleNewDestinationAddress}
+              {/* <label
+                className="font-bold"
+                htmlFor="home-input"
               >
-                <label
-                  className="font-bold"
-                  htmlFor="home-input"
-                >
-                  Main address
-                </label>
-                <input
-                  className="border-lightgray  w-full border-b-2 bg-white px-2"
-                  type="text"
-                  placeholder="Add a name for this main location"
-                  id="job-input"
-                  onChange={handleNewMainDestinationName}
-                />{" "}
-                <Autocomplete
-                onPlaceChanged={onPlaceChanged}
-                // onLoad={onLoad}
-                >
+                Main address
+              </label>
+              <input
+                className="border-lightgray  w-full border-b-2 bg-white px-2"
+                type="text"
+                placeholder="Add a name for this main location"
+                id="job-input"
+                ref={mainOriginNameRef}
+              /> */}
+              <div className="flex flex-col gap-2">
+                <div className="form-control w-full ">
+                  <label className="label">
+                    <span className="label-text">
+                      Add a name and address for this main location
+                    </span>
+                  </label>
                   <input
-                    className="border-lightgray  w-full border-b-2 bg-white px-2"
+                    type="text"
+                    placeholder="Add a name for this location"
+                    className="input-bordered input-accent input w-full bg-white"
+                    ref={mainOriginNameRef}
+                  />
+                </div>
+
+                <Autocomplete>
+                  <input
                     type="text"
                     placeholder="Enter the address"
-                    id="home-input"
-                    onChange={handleMainDestinationAddress}
+                    className="input-bordered input-accent input w-full bg-white"
+                    ref={mainOriginRef}
                   />
                 </Autocomplete>
                 <button
-                  onClick={handleMainAddress}
-                  className="rounded-lg bg-blue-500 px-4 py-2"
+                  onClick={handleOrigins}
+                  className="btn-success btn"
                 >
                   Add main location
                 </button>
-                <button className="rounded-lg bg-blue-500 px-4 py-2">
-                  Compare multiple locations
-                </button>
-                <label
-                  className="font-bold"
-                  htmlFor="job-input"
-                >
-                  Destinations
-                </label>
+              </div>
+              {/* destinations */}
+              <div className="flex flex-col gap-2">
+                <div className="form-control w-full ">
+                  <label className="label">
+                    <span className="label-text">
+                      Add a name and address for this destination
+                    </span>
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Add a name for this location"
+                    className="input-bordered input-accent input w-full bg-white"
+                    ref={destinationNameRef}
+                  />
+                </div>
+
+                <Autocomplete>
+                  <input
+                    type="text"
+                    placeholder="Enter the address"
+                    className="input-bordered input-accent input w-full bg-white"
+                    ref={destinationRef}
+                  />
+                </Autocomplete>
                 <input
-                  className="border-lightgray  w-full border-b-2 bg-white px-2"
                   type="text"
-                  placeholder="Add a name for the destination"
-                  id="job-input"
-                  onChange={handleNewDestinationName}
-                />{" "}
+                  placeholder="Number of travels per month"
+                  className="input-bordered input-accent input w-full bg-white"
+                  onChange={handleTravelsPerMonth}
+                />
+                <button
+                  onClick={handleNewDestination}
+                  className="btn-success btn"
+                >
+                  Add main location
+                </button>
+              </div>
+              {/* <label
+                className="font-bold"
+                htmlFor="job-input"
+              >
+                Destinations
+              </label>
+              <input
+                className="border-lightgray  w-full border-b-2 bg-white px-2"
+                type="text"
+                placeholder="Add a name for this destination"
+                id="job-input"
+                ref={destinationNameRef}
+              />
+              <Autocomplete>
                 <input
                   className="border-lightgray  w-full border-b-2 bg-white px-2"
                   type="text"
                   placeholder="Add a destination address"
                   id="job-input"
-                  onChange={handleNewDestinationAddress}
+                  ref={destinationRef}
                 />
-                <input
-                  className="border-lightgray  w-full border-b-2 bg-white px-2"
-                  type="number"
-                  placeholder="Number of travels per month"
-                  id="job-input"
-                  onChange={handleNewDestinationAddress}
-                />
-                <button
-                  type="submit"
-                  className="rounded-lg bg-blue-500 px-4 py-2"
-                >
-                  Add destination
-                </button>
-                <div>
-                  <label
-                    className="font-bold"
-                    htmlFor="travelMode"
-                  >
-                    Pick travel mode:
+              </Autocomplete>
+              <input
+                className="border-lightgray  w-full border-b-2 bg-white px-2"
+                type="number"
+                placeholder="Number of travels per month"
+                id="job-input"
+                // ref={destinationRef}
+              />
+
+              <button
+                onClick={handleNewDestination}
+                className="rounded-lg bg-blue-500 px-4 py-2"
+              >
+                Add destination
+              </button> */}
+              <form
+                className="flex flex-col gap-2"
+                // onSubmit={handleNewDestinationAddress}
+              >
+                <div className="form-control w-full ">
+                  <label className="label">
+                    <span className="label-text">Pick travel mode:</span>
                   </label>
                   <select
-                    id="travelMode"
-                    value={selectedTravelMode}
-                    onChange={SetSelectedTravelMode}
-                    className="w-full rounded-lg border-2 bg-white"
+                    className="select-accent select w-full bg-white "
+                    onChange={handleSelectedTravelMode}
                   >
+                    <option
+                      disabled
+                      selected
+                    >
+                      Pick travel mode:
+                    </option>
                     <option value="DRIVE">Car</option>
                     <option value="TWO_WHEELER">
                       Two-wheeled, motorized vehicle
                     </option>
                   </select>
                 </div>
-                <div>
-                  <label
-                    className="font-bold"
-                    htmlFor="typeEngine"
-                  >
-                    Type of engine
+
+                <div className="form-control w-full ">
+                  <label className="label">
+                    <span className="label-text">Type of engine</span>
                   </label>
                   <select
-                    value={selectedTravelMode}
-                    onChange={SetSelectedTravelMode}
-                    className="w-full rounded-lg border-2 bg-white"
-                    id="typeEngine"
+                    className="select-accent select w-full bg-white "
+                    onChange={handleSelectedEngineType}
                   >
-                    <option value="WALK">Diesel</option>
-                    <option value="BICYCLE">Unleaded</option>
-                    <option value="TWO_WHEELER">Super-unleaded</option>
+                    <option
+                      disabled
+                      selected
+                    >
+                      Select Type of engine
+                    </option>
+                    <option value="GASOLINE">
+                      Gasoline/petrol fueled vehicle
+                    </option>
+                    <option value="ELECTRIC">
+                      Electricity powered vehicle
+                    </option>
+                    <option value="HYBRID">Hybrid fuel vehicle</option>
                     <option value="DRIVE">Premium diesel</option>
-                    <option value="DRIVE">Electric</option>
+                    <option value="DIESEL"> Diesel fueled vehicle</option>
                   </select>
                 </div>
-                <div>
-                  <label
-                    className="font-bold"
-                    htmlFor="consumption"
-                  >
-                    Consumption
-                  </label>
-                  <input
-                    type="number"
-                    placeholder="l/km"
-                    className="border-lightgray  w-full border-b-2 bg-white px-2"
-                    id="consumption"
-                  />
 
-                  <input
-                    type="number"
-                    placeholder="w/km"
-                    className="border-lightgray  w-full border-b-2 bg-white px-2"
-                    id="consumption"
-                  />
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2">
+                    <label
+                      className="font-bold"
+                      htmlFor="consumption"
+                    >
+                      Consumption
+                    </label>
+                    <Tooltip
+                      color={"blue"}
+                      text={"Hellogfdddddddddddddho"}
+                      type={"info"}
+                    />
+                  </div>
+                  <div className="form-control w-full ">
+                    <label className="label">
+                      <span className="label-text">
+                        What is your consumption?
+                      </span>
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="liters/km"
+                      className="input-bordered input-accent input w-full bg-white"
+                      onChange={handleLitersConsumed}
+                    />
+                  </div>
+
+                  {(selectedEngineType === "HYBRID" ||
+                    selectedEngineType === "ELECTRIC") && (
+                    <input
+                      type="text"
+                      placeholder="kwh/km"
+                      className="input-bordered input-accent input w-full bg-white"
+                      onChange={handleWattsConsumed}
+                    />
+                  )}
                 </div>
-                <div>
+                {/* <div>
                   <label
                     htmlFor="traffic"
                     className="font-bold"
@@ -310,54 +376,85 @@ function Driving() {
                     <option value="WALK">TRAFFIC_AWARE</option>
                     <option value="BICYCLE">TRAFFIC_AWARE_OPTIMAL</option>
                   </select>
-                </div>
+                </div> */}
                 <div>
-                  <div className="flex justify-between">
-                    <label htmlFor="tolls">Avoid tolls</label>
-                    <input
-                      type="checkbox"
-                      name=""
-                      id="tolls"
-                    />
-                  </div>
-                  <div className="flex justify-between">
-                    <label htmlFor="highways">Avoid Highways</label>
-                    <input
-                      type="checkbox"
-                      name=""
-                      id="highways"
-                    />
+                  <div className="form-control">
+                    <label className="label cursor-pointer">
+                      <span className="label-text">Avoid tolls</span>
+                      <input
+                        type="checkbox"
+                        className="checkbox-accent checkbox"
+                      />
+                    </label>
                   </div>
 
-                  <div className="flex justify-between">
-                    <label htmlFor="ferries">Avoid ferries</label>
-                    <input
-                      type="checkbox"
-                      name=""
-                      id="ferries"
-                    />
+                  <div className="form-control">
+                    <label className="label cursor-pointer">
+                      <span className="label-text">Avoid Highways</span>
+                      <input
+                        type="checkbox"
+                        className="checkbox-accent checkbox"
+                      />
+                    </label>
                   </div>
-                  <div className="flex justify-between">
-                    <label htmlFor="units">Units</label>
-                    <select
-                      value={selectedTravelMode}
-                      onChange={SetSelectedTravelMode}
-                      id="units"
-                    >
-                      <option value="WALK">METRIC</option>
-                      <option value="BICYCLE">IMPERIAL</option>
+
+                  <div className="form-control w-full ">
+                    <label className="label">
+                      <span className="label-text">Units</span>
+                    </label>
+                    <select className="select-accent select w-full bg-white ">
+                      <option
+                        disabled
+                        selected
+                      >
+                        Units
+                      </option>
+                      <option>METRIC</option>
+                      <option>IMPERIAL</option>
                     </select>
                   </div>
                 </div>
               </form>
             </div>
             {/* routes */}
-            <div className="overlow-y-scroll pt-4">
+          </Tab.Panel>
+          {/* routes */}
+          <Tab.Panel className="h-[900px] overflow-y-scroll pt-4">
+            <div>
+              <h2>Origins:</h2>
               <ul className="flex flex-col gap-2">
-                {destinationAddresses.map(({ id, name, address }) => (
+                {origins.map(({ name, address }) => {
+                  return (
+                    <li
+                      className="border-b-2 pb-4"
+                      key={address}
+                    >
+                      <div className="flex gap-2">
+                        <span>{name}</span>
+                      </div>
+                      <div className="flex flex-col gap-2">
+                        <div className=" flex justify-between">
+                          <span>{address}</span>
+                          <button
+                            onClick={handleRemoveDestination}
+                            className="rounded-md  px-2"
+                          >
+                            <TrashIcon className="text-orange h-6" />
+                          </button>
+                        </div>
+                      </div>
+                    </li>
+                  )
+                })}
+              </ul>
+            </div>
+            <div>
+              <h2>Destinations:</h2>
+              <ul className="flex flex-col gap-2">
+                {drivingDestinations.map(({ id, name, address }) => (
                   <li
                     className="border-b-2 pb-4"
-                    key={id}
+                    key={address}
                   >
                     <div className="flex gap-2">
                       <span>{name}</span>
@@ -379,44 +476,6 @@ function Driving() {
             </div>
           </Tab.Panel>
           {/* results */}
-          <Tab.Panel className="h-[900px]  overflow-y-scroll py-2">
-            <ul className="flex  flex-col gap-2 pt-4">
-              {drivingDirections.map((direction, index) => (
-                <div key={index}>
-                  {/* <input type="text" /> */}
-                  <p>Route {index + 1}</p>
-                  <p className="font-semibold">Origin:</p>{" "}
-                  <p className="text-xs">{direction.request.origin.query}</p>
-                  <p className="font-semibold">Destination:</p>
-                  <p className="text-xs">
-                    {direction.request.destination.query}
-                  </p>
-                  <button className=" rounded-md  border-2 p-1">
-                    <BsTrash3 />
-                  </button>
-                  {direction.visible ? (
-                    <button
-                      onClick={() =>
-                        hideDirections(direction.request.destination.query)
-                      }
-                      className=" rounded-md  border-2 p-1"
-                    >
-                      <AiOutlineEyeInvisible />
-                    </button>
-                  ) : (
-                    <button
-                      onClick={() =>
-                        unhideDirections(direction.request.destination.query)
-                      }
-                      className=" rounded-md  border-2 p-1"
-                    >
-                      <MdOutlineVisibility />
-                    </button>
-                  )}
-                </div>
-              ))}
-            </ul>
-          </Tab.Panel>
         </Tab.Panels>
       </Tab.Group>
     </Tab.Panel>

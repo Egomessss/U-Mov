@@ -6,9 +6,11 @@ import {
   MdDirectionsBusFilled,
   MdOutlineDirectionsBike,
   MdDirectionsWalk,
+  MdDirections,
 } from "react-icons/md"
 import Driving from "./Driving"
 import PublicTransport from "./PublicTransport"
+import Tooltip from "../Tooltip"
 
 function Directions() {
   return (
@@ -34,16 +36,25 @@ function Directions() {
                 <Tab.Group defaultIndex={1}>
                   <Tab.List className="flex justify-between">
                     <Tab>
-                      <MdDirectionsCar className="text-xl" />
+                      <button className="btn gap-1">
+                        <MdDirections className="text-md" />
+                        <Tooltip text="Driving" />
+                      </button>
                     </Tab>
                     <Tab>
-                      <MdDirectionsBusFilled className="text-xl" />
+                      <button className="btn gap-1">
+                        <MdDirectionsBusFilled className="text-md" />
+                      </button>
                     </Tab>
                     <Tab>
-                      <MdOutlineDirectionsBike className="text-xl" />
+                      <button className="btn gap-1">
+                        <MdOutlineDirectionsBike className="text-md" />
+                      </button>
                     </Tab>
                     <Tab>
-                      <MdDirectionsWalk className="text-xl" />
+                      <button className="btn gap-1">
+                        <MdDirectionsWalk className="text-md" />
+                      </button>
                     </Tab>
                   </Tab.List>
                   <Tab.Panels>
