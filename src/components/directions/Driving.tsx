@@ -12,6 +12,45 @@ import { GrDirections } from "react-icons/gr"
 
 function Driving() {
   const { drivingDirections, setDrivingDirections } = useContext(DrivingContext)
+  const [mainLocations, setMainLocations] = useState<{}[]>([])
+  console.log(mainLocations)
+  const [newMainLocations, setNewMainLocations] = useState({
+    name: "",
+    address: "",
+  })
+  console.log(newMainLocations)
+
+  const handleNewMainDestinationName = (event) => {
+    setNewMainLocations({ ...newMainLocations, name: event.target.value })
+  }
+
+  const handleMainDestinationAddress = (event) => {
+    setNewMainLocations({ ...newMainLocations, address: event.target.value })
+  }
+
+  const handleMainAddress = () => {
+
+    if (
+      newMainLocations.name.trim() !== "" &&
+      newMainLocations.address.trim() !== ""
+    ) {
+      const newAddress = {
+        name: newMainLocations.name.trim(),
+        address: newMainLocations.address.trim(),
+      }
+      setMainLocations([...destinationAddresses, newAddress])
+      setNewMainLocations({ name: "", address: "" })
+    }
+  }
+
+  const onPlaceChanged = () => {
+    if (origins != null) {
+      const place = origins.getPlace()
+      setOrigins(place.formatted_address)
+    } else {
+      alert("Please enter text")
+    }
+  }
   console.log(drivingDirections)
 
   const [destinationAddresses, setDestinationAddresses] = useState<{}[]>([]) // initialize state with an empty array
@@ -27,19 +66,9 @@ function Driving() {
 
   const [time, setTime] = useState("10:00")
   const [featuresOpen, setFeaturesOpen] = useState(false)
-  const newID = (() => {
-    let id = 0
-    return () => id++
-  })()
+  
 
-  const onPlaceChanged = () => {
-    if (origins != null) {
-      const place = origins.getPlace()
-      setOrigins(place.formatted_address)
-    } else {
-      alert("Please enter text")
-    }
-  }
+ 
 
   const handleNewDestinationName = (event) => {
     setNewDestination({ ...newDestination, name: event.target.value })
@@ -49,7 +78,7 @@ function Driving() {
     setNewDestination({ ...newDestination, address: event.target.value })
   }
 
-  const handleDestinationAddress = (event) => {
+  const handleNewDestination = (event) => {
     event.preventDefault()
 
     if (
@@ -57,7 +86,7 @@ function Driving() {
       newDestination.address.trim() !== ""
     ) {
       const newAddress = {
-        id: newID(),
+      
         name: newDestination.name.trim(),
         address: newDestination.address.trim(),
       }
@@ -137,7 +166,7 @@ function Driving() {
               {/* 2nd phase options */}
               <form
                 className="flex flex-col gap-2"
-                onSubmit={handleDestinationAddress}
+                onSubmit={handleNewDestinationAddress}
               >
                 <label
                   className="font-bold"
@@ -145,17 +174,34 @@ function Driving() {
                 >
                   Main address
                 </label>
+                <input
+                  className="border-lightgray  w-full border-b-2 bg-white px-2"
+                  type="text"
+                  placeholder="Add a name for this main location"
+                  id="job-input"
+                  onChange={handleNewMainDestinationName}
+                />{" "}
                 <Autocomplete
-                  onPlaceChanged={onPlaceChanged}
-                  // onLoad={onLoad}
+                onPlaceChanged={onPlaceChanged}
+                // onLoad={onLoad}
                 >
                   <input
                     className="border-lightgray  w-full border-b-2 bg-white px-2"
                     type="text"
-                    placeholder="Enter Your Home Address"
+                    placeholder="Enter the address"
                     id="home-input"
+                    onChange={handleMainDestinationAddress}
                   />
                 </Autocomplete>
+                <button
+                  onClick={handleMainAddress}
+                  className="rounded-lg bg-blue-500 px-4 py-2"
+                >
+                  Add main location
+                </button>
+                <button className="rounded-lg bg-blue-500 px-4 py-2">
+                  Compare multiple locations
+                </button>
                 <label
                   className="font-bold"
                   htmlFor="job-input"
@@ -305,7 +351,8 @@ function Driving() {
                 </div>
               </form>
             </div>
-            <div className="pt-4">
+            {/* routes */}
+            <div className="overlow-y-scroll pt-4">
               <ul className="flex flex-col gap-2">
                 {destinationAddresses.map(({ id, name, address }) => (
                   <li
@@ -332,8 +379,8 @@ function Driving() {
             </div>
           </Tab.Panel>
           {/* results */}
-          <Tab.Panel className="">
-            <ul className="flex h-[800px] flex-col gap-2 overflow-y-scroll pt-4">
+          <Tab.Panel className="h-[900px]  overflow-y-scroll py-2">
+            <ul className="flex  flex-col gap-2 pt-4">
               {drivingDirections.map((direction, index) => (
                 <div key={index}>
                   {/* <input type="text" /> */}

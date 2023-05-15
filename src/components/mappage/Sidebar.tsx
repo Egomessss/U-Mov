@@ -16,7 +16,7 @@ type centerMapProps = {
 
 function Sidebar({ centerMap }) {
   return (
-    <div className="absolute h-full left-0 z-50  w-24     border-2  bg-white ">
+    <div className="absolute top-1/2 left-0 z-50 h-[90%] w-24 -translate-x-1/2 -translate-y-1/2 transform rounded-3xl  border-2 border-white bg-white ">
       <div className="relative flex h-full w-full flex-col items-center justify-around">
         {/* centers the map to main location */}
         <button

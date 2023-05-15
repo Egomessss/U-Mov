@@ -51,8 +51,8 @@ function Directions() {
                     <Driving />
                     {/* Public transport */}
                     {/* <PublicTransport /> */}
-                    <Tab.Panel>Cycling</Tab.Panel>
-                    <Tab.Panel>Walking</Tab.Panel>
+                    {/* <Tab.Panel>Cycling</Tab.Panel>
+                    <Tab.Panel>Walking</Tab.Panel> */}
                   </Tab.Panels>
                 </Tab.Group>
               </div>
