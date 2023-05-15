@@ -18,8 +18,13 @@ function Driving() {
   const [fetchedDrivingDirections, setFetchedDrivingDirections] = useState<
     {}[]
   >([])
+  console.log(fetchedDrivingDirections)
+  const [duration, setDuration] = useState("")
+  console.log(duration)
+  const [distance, setDistance] = useState("")
+  console.log(distance)
   const [origins, setOrigins] = useState<{}[]>([])
-  console.log(origins)
+  // console.log(origins)
 
   // ! origin
   /** @type React.MutableRefObject<HTMLInputElement> */
@@ -46,10 +51,10 @@ function Driving() {
 
   // ! destinations
   const [drivingDestinations, setDrivingDestinations] = useState<{}[]>([]) // initialize state with an empty array
-  console.log(drivingDestinations)
+  // console.log(drivingDestinations)
 
   const [travelsPerMonth, setTravelsPerMonth] = useState(0)
-  console.log(travelsPerMonth)
+  // console.log(travelsPerMonth)
 
   const handleTravelsPerMonth = (e) => setTravelsPerMonth(e.target.value)
 
@@ -75,55 +80,30 @@ function Driving() {
   }
   // ! travel mode
   const [selectedTravelMode, SetSelectedTravelMode] = useState("DRIVE")
-  console.log(selectedTravelMode)
+  // console.log(selectedTravelMode)
 
   const handleSelectedTravelMode = (e) => SetSelectedTravelMode(e.target.value)
 
   // ! Engine Type
   const [selectedEngineType, SetSelectedEngineType] = useState("GASOLINE")
-  console.log(selectedEngineType)
+  // console.log(selectedEngineType)
 
   const handleSelectedEngineType = (e) => SetSelectedEngineType(e.target.value)
 
   // ! consumption
 
   const [litersConsumed, setLitersConsumed] = useState(0)
-  console.log(litersConsumed)
+  // console.log(litersConsumed)
   const [wattsConsumed, setWattsConsumed] = useState(0)
-  console.log(wattsConsumed)
+  // console.log(wattsConsumed)
 
   const handleLitersConsumed = (e) => setLitersConsumed(e.target.value)
   const handleWattsConsumed = (e) => setWattsConsumed(e.target.value)
 
   const [featuresOpen, setFeaturesOpen] = useState(false)
 
-  // ! calculate route
+  // ! fetch route
 
-  const calculateRoute = async () => {
-    if (
-      mainOriginRef.current.value === "" ||
-      destinationRef.current.value === ""
-    ) {
-      return
-    }
-    const directionsService = new google.maps.DirectionsService()
-
-    const results = await directionsService.route({
-      origin: mainOriginRef.current.value,
-      destination: destinationRef.current.value,
-      travelMode: selectedTravelMode,
-      unitSystem: google.maps.UnitSystem.METRIC,
-      routeModifiers: {
-        avoidTolls: false,
-        avoidHighways: false,
-      },
-    })
-
-    setDirections((prevDirections) => [...prevDirections, results])
-    setDistance(results.routes[0].legs[0].distance.text)
-    setDuration(results.routes[0].legs[0].duration.text)
-  }
-  //!
   const fetchData = () => {
     const config = {
       headers: {
@@ -135,33 +115,33 @@ function Driving() {
     }
 
     const data = {
-      "origin":{
-        "location":{
-          "latLng":{
-            "latitude": 37.419734,
-            "longitude": -122.0827784
-          }
-        }
+      origin: {
+        location: {
+          latLng: {
+            latitude: 37.419734,
+            longitude: -122.0827784,
+          },
+        },
       },
-      "destination":{
-        "location":{
-          "latLng":{
-            "latitude": 37.417670,
-            "longitude": -122.079595
-          }
-        }
+      destination: {
+        location: {
+          latLng: {
+            latitude: 37.41767,
+            longitude: -122.079595,
+          },
+        },
       },
-      "travelMode": "DRIVE",
-      "routingPreference": "TRAFFIC_AWARE",
-      "departureTime": "2023-10-15T15:01:23.045123456Z",
-      "computeAlternativeRoutes": false,
-      "routeModifiers": {
-        "avoidTolls": false,
-        "avoidHighways": false,
-        "avoidFerries": false
+      travelMode: "DRIVE",
+      routingPreference: "TRAFFIC_AWARE",
+      departureTime: "2023-10-15T15:01:23.045123456Z",
+      computeAlternativeRoutes: false,
+      routeModifiers: {
+        avoidTolls: false,
+        avoidHighways: false,
+        avoidFerries: false,
       },
-      "languageCode": "en-US",
-      "units": "IMPERIAL"
+      languageCode: "en-US",
+      units: "IMPERIAL",
     }
 
     axios
@@ -171,7 +151,15 @@ function Driving() {
         config
       )
       .then((response) => {
-        console.log(response.data)
+        const data = response.data
+
+        const modifiedData = {
+          isVisible: true,
+          duration: data.routes[0].duration,
+          distance: data.routes[0].distanceMeters,
+          polyline: data.routes[0].polyline.encodedPolyline,
+        }
+        setFetchedDrivingDirections(modifiedData)
       })
       .catch((error) => {
         console.error(error)
@@ -258,127 +246,51 @@ function Driving() {
               >
                 Click me
               </button>
-              {/* 2nd phase options */}
-              {/* <label
-                className="font-bold"
-                htmlFor="home-input"
-              >
-                Main address
-              </label>
-              <input
-                className="border-lightgray  w-full border-b-2 bg-white px-2"
-                type="text"
-                placeholder="Add a name for this main location"
-                id="job-input"
-                ref={mainOriginNameRef}
-              /> */}
-              <div className="flex flex-col gap-2">
+
+              <form className="flex flex-col gap-2" action="">
                 <div className="form-control w-full ">
                   <label className="label">
                     <span className="label-text">
-                      Add a name and address for this main location
+                      Add a address for this main location
                     </span>
                   </label>
-                  <input
-                    type="text"
-                    placeholder="Add a name for this location"
-                    className="input-bordered input-accent input w-full bg-white"
-                    ref={mainOriginNameRef}
-                  />
+                  <Autocomplete>
+                    <input
+                      type="text"
+                      placeholder="Enter the address"
+                      className="input-bordered input-accent input w-full bg-white"
+                      ref={mainOriginRef}
+                    />
+                  </Autocomplete>
                 </div>
-
-                <Autocomplete>
-                  <input
-                    type="text"
-                    placeholder="Enter the address"
-                    className="input-bordered input-accent input w-full bg-white"
-                    ref={mainOriginRef}
-                  />
-                </Autocomplete>
-                <button
-                  onClick={handleOrigins}
-                  className="btn-success btn"
-                >
-                  Add Main Location
-                </button>
-              </div>
-              {/* destinations */}
-              <div className="flex flex-col gap-2">
+                {/* destinations */}
                 <div className="form-control w-full ">
                   <label className="label">
                     <span className="label-text">
                       Add a name and address for this destination
                     </span>
                   </label>
-                  <input
-                    type="text"
-                    placeholder="Add a name for this location"
-                    className="input-bordered input-accent input w-full bg-white"
-                    ref={destinationNameRef}
-                  />
+                  <Autocomplete>
+                    <input
+                      type="text"
+                      placeholder="Enter the address"
+                      className="input-bordered input-accent input w-full bg-white"
+                      ref={destinationRef}
+                    />
+                  </Autocomplete>
                 </div>
-
-                <Autocomplete>
-                  <input
-                    type="text"
-                    placeholder="Enter the address"
-                    className="input-bordered input-accent input w-full bg-white"
-                    ref={destinationRef}
-                  />
-                </Autocomplete>
                 <input
                   type="text"
                   placeholder="Number of travels per month"
                   className="input-bordered input-accent input w-full bg-white"
                   onChange={handleTravelsPerMonth}
                 />
-                <button
+                {/* <button
                   onClick={handleNewDestination}
                   className="btn-success btn"
                 >
                   Add Destination
-                </button>
-              </div>
-              {/* <label
-                className="font-bold"
-                htmlFor="job-input"
-              >
-                Destinations
-              </label>
-              <input
-                className="border-lightgray  w-full border-b-2 bg-white px-2"
-                type="text"
-                placeholder="Add a name for this destination"
-                id="job-input"
-                ref={destinationNameRef}
-              />
-              <Autocomplete>
-                <input
-                  className="border-lightgray  w-full border-b-2 bg-white px-2"
-                  type="text"
-                  placeholder="Add a destination address"
-                  id="job-input"
-                  ref={destinationRef}
-                />
-              </Autocomplete>
-              <input
-                className="border-lightgray  w-full border-b-2 bg-white px-2"
-                type="number"
-                placeholder="Number of travels per month"
-                id="job-input"
-                // ref={destinationRef}
-              />
-
-              <button
-                onClick={handleNewDestination}
-                className="rounded-lg bg-blue-500 px-4 py-2"
-              >
-                Add destination
-              </button> */}
-              <form
-                className="flex flex-col gap-2"
-                // onSubmit={handleNewDestinationAddress}
-              >
+                </button> */}
                 <div className="form-control w-full ">
                   <label className="label">
                     <span className="label-text">Pick travel mode:</span>
@@ -399,7 +311,6 @@ function Driving() {
                     </option>
                   </select>
                 </div>
-
                 <div className="form-control w-full ">
                   <label className="label">
                     <span className="label-text">Type of engine</span>
@@ -425,7 +336,6 @@ function Driving() {
                     <option value="DIESEL"> Diesel fueled vehicle</option>
                   </select>
                 </div>
-
                 <div className="space-y-2">
                   <div className="flex items-center gap-2">
                     <label
@@ -480,43 +390,49 @@ function Driving() {
                     <option value="BICYCLE">TRAFFIC_AWARE_OPTIMAL</option>
                   </select>
                 </div> */}
-                <div>
-                  <div className="form-control">
-                    <label className="label cursor-pointer">
-                      <span className="label-text">Avoid tolls</span>
-                      <input
-                        type="checkbox"
-                        className="checkbox-accent checkbox"
-                      />
-                    </label>
-                  </div>
 
-                  <div className="form-control">
-                    <label className="label cursor-pointer">
-                      <span className="label-text">Avoid Highways</span>
-                      <input
-                        type="checkbox"
-                        className="checkbox-accent checkbox"
-                      />
-                    </label>
-                  </div>
-
-                  <div className="form-control w-full ">
-                    <label className="label">
-                      <span className="label-text">Units</span>
-                    </label>
-                    <select className="select-accent select w-full bg-white ">
-                      <option
-                        disabled
-                        selected
-                      >
-                        Units
-                      </option>
-                      <option>METRIC</option>
-                      <option>IMPERIAL</option>
-                    </select>
-                  </div>
+                <div className="form-control">
+                  <label className="label cursor-pointer">
+                    <span className="label-text">Avoid tolls</span>
+                    <input
+                      type="checkbox"
+                      className="checkbox-accent checkbox"
+                    />
+                  </label>
                 </div>
+
+                <div className="form-control">
+                  <label className="label cursor-pointer">
+                    <span className="label-text">Avoid Highways</span>
+                    <input
+                      type="checkbox"
+                      className="checkbox-accent checkbox"
+                    />
+                  </label>
+                </div>
+
+                <div className="form-control w-full ">
+                  <label className="label">
+                    <span className="label-text">Units</span>
+                  </label>
+                  <select className="select-accent select w-full bg-white ">
+                    <option
+                      disabled
+                      selected
+                    >
+                      Units
+                    </option>
+                    <option>METRIC</option>
+                    <option>IMPERIAL</option>
+                  </select>
+                </div>
+
+                <button
+                  onClick={handleNewDestination}
+                  className="btn-success btn w-full"
+                >
+                  Add Route
+                </button>
               </form>
             </div>
             {/* routes */}
@@ -578,7 +494,6 @@ function Driving() {
               </ul>
             </div>
           </Tab.Panel>
-          {/* results */}
         </Tab.Panels>
       </Tab.Group>
     </Tab.Panel>
