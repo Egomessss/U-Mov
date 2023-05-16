@@ -3,7 +3,6 @@ import { ArrowRightIcon, TrashIcon } from "@heroicons/react/24/outline"
 import { Autocomplete } from "@react-google-maps/api"
 import React, { useContext, useEffect, useState, useRef } from "react"
 import { DrivingContext } from "../../context/DrivingContextProvider"
-import results from "../../../public/results.json"
 import { AiOutlineEyeInvisible } from "react-icons/ai"
 import { MdOutlineVisibility } from "react-icons/md"
 import { BsTrash3 } from "react-icons/bs"
@@ -12,26 +11,44 @@ import Tooltip from "../Tooltip"
 import { IoSettingsOutline } from "react-icons/io5"
 import axios from "axios"
 
+import results from "../../../public/results.json"
 import drivingData from "../../../public/drivingData.json"
+import drivingDataPromise from "../../../public/drivingDataPromise.json"
 function Driving() {
-  const { drivingDirections, setDrivingDirections } = useContext(DrivingContext)
+  // const { drivingDirections, setDrivingDirections } = useContext(DrivingContext)
   const [fetchedDrivingDirections, setFetchedDrivingDirections] =
-    useState(drivingData)
-  console.log(fetchedDrivingDirections.length)
+    useState(drivingDataPromise)
+  // console.log(fetchedDrivingDirections)
+
+  const [multipleHousesComparison, setMultipleHousesComparison] = useState({
+    "House 1": [],
+    "House 2": [],
+    "House 3": [],
+  })
+
+const [fetchedData, setFetchedData] = useState({})
+console.log(fetchedData)
+
+  // each button click will change the array of the multipleHousesComparison object
+  const handleHouseButtonClick = (id) => {
+    console.log(id)
+  }
 
   const [compareMultipleHouses, setCompareMultipleHouses] = useState(false)
   // console.log(fetchedDrivingDirections)
 
+  // useEffect(() => {}), []
+
   // ! origin and destination refs
 
   /** @type React.MutableRefObject<HTMLInputElement> */
-  const mainOriginRef = useRef()
+  const mainOriginRef = useRef(null)
 
   /** @type React.MutableRefObject<HTMLInputElement> */
-  const destinationRef = useRef()
+  const destinationRef = useRef(null)
   // console.log(destinationRef.current.value)
 
-  const numberOfTravelsRef = useRef()
+  const numberOfTravelsRef = useRef(null)
 
   //! units
   const [units, setUnits] = useState("IMPERIAL")
@@ -119,60 +136,111 @@ function Driving() {
   // ! button to add a new oriign using the same destinations config
   // ! iterate over the origins and destinations and fetch the routes, usin gthe fetch data
 
-  const fetchData = () => {
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        "X-Goog-Api-Key": "AIzaSyAC-ZmHeOUM6VvIDtbc8y_sfKG-Lh7ZgME",
-        "X-Goog-FieldMask":
-          "routes.duration,routes.distanceMeters,routes.polyline.encodedPolyline",
-      },
-    }
+  // const fetchData = () => {
+  //   const config = {
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       "X-Goog-Api-Key": "AIzaSyAC-ZmHeOUM6VvIDtbc8y_sfKG-Lh7ZgME",
+  //       "X-Goog-FieldMask":
+  //         "routes.duration,routes.distanceMeters,routes.polyline.encodedPolyline",
+  //     },
+  //   }
 
-    const data = {
-      origin: {
-        address: mainOriginRef.current.value,
-      },
-      destination: {
-        address: destinationRef.current.value,
-      },
-      travelMode: selectedTravelMode,
-      routingPreference: trafficPreference,
-      routeModifiers: {
-        avoidTolls: tollsPreference,
-        avoidHighways: highwaysPreference,
-      },
-      units: units,
-    }
+  //   const data = {
+  //     origin: {
+  //       address: mainOriginRef.current.value,
+  //     },
+  //     destination: {
+  //       address: destinationRef.current.value,
+  //     },
+  //     travelMode: selectedTravelMode,
+  //     routingPreference: trafficPreference,
+  //     routeModifiers: {
+  //       avoidTolls: tollsPreference,
+  //       avoidHighways: highwaysPreference,
+  //     },
+  //     units: units,
+  //   }
 
-    axios
-      .post(
-        "https://routes.googleapis.com/directions/v2:computeRoutes",
-        data,
-        config
-      )
-      .then((response) => {
-        const data = response.data
+  //   axios
+  //     .post(
+  //       "https://routes.googleapis.com/directions/v2:computeRoutes",
+  //       data,
+  //       config
+  //     )
+  //     .then((response) => {
+  //       const data = response.data
 
-        const modifiedData = {
-          "Origin 1": [
-            {
-              isVisible: true,
-              origin: mainOriginRef.current.value,
-              destination: destinationRef.current.value,
-              duration: data.routes[0].duration,
-              distance: data.routes[0].distanceMeters,
-              polyline: data.routes[0].polyline.encodedPolyline,
+  //       const modifiedData = {
+  //         isVisible: true,
+  //         origin: mainOriginRef.current.value,
+  //         destination: destinationRef.current.value,
+  //         duration: data.routes[0].duration,
+  //         distance: data.routes[0].distanceMeters,
+  //         polyline: data.routes[0].polyline.encodedPolyline,
+  //       }
+  //       setMultipleHousesComparison((house) => ({
+  //         ...house,
+  //         "House 1":modifiedData,
+  //       }))
+  //     }
+  //     .catch((error) => {
+  //       console.error(error)
+  //     })
+  // }
+
+  const fetchData = async () => {
+    try {
+      const promises = Object.entries(fetchedData).flatMap(([route, destinations]) => {
+        return destinations.map(({ origin, destination }) => {
+          const config = {
+            headers: {
+              'Content-Type': 'application/json',
+              'X-Goog-Api-Key': 'AIzaSyAC-ZmHeOUM6VvIDtbc8y_sfKG-Lh7ZgME',
+              'X-Goog-FieldMask': 'routes.duration,routes.distanceMeters,routes.polyline.encodedPolyline',
             },
-          ],
-        }
-        setFetchedDrivingDirections(modifiedData)
-      })
-      .catch((error) => {
-        console.error(error)
-      })
-  }
+          };
+          const data = {
+            origin: {
+              address: origin,
+            },
+            destination: {
+              address: destination,
+            },
+            travelMode: 'DRIVE',
+          };
 
+          const apiUrl = 'https://routes.googleapis.com/directions/v2:computeRoutes';
+
+          return axios.post(apiUrl, data, config)
+            .then(response => {
+              const routeData = response.data.routes[0];
+              const distance = routeData.distanceMeters;
+              const duration = routeData.duration;
+              const encodedPolyline = routeData.polyline.encodedPolyline;
+              return { route, origin, destination, distance, duration, encodedPolyline, isVisible: true };
+            })
+            .catch(error => {
+              console.error(`Error fetching data for route ${route}, origin ${origin}, destination ${destination}:`, error);
+              return { route, origin, destination, distance: null, duration: null, encodedPolyline: null, isVisible: true };
+            });
+        });
+      });
+
+      const results = await Promise.all(promises);
+      const updatedRoutesData = results.reduce((acc, result) => {
+        const { route, origin, destination, distance, duration, encodedPolyline, isVisible } = result;
+        if (!acc[route]) {
+          acc[route] = [];
+        }
+        acc[route].push({ origin, destination, distance, duration, encodedPolyline, isVisible });
+        return acc;
+      }, {});
+      setFetchedData(updatedRoutesData);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  }
   //! add data to routes
   // const addDataToRoutes = (data) => {
 
@@ -257,6 +325,26 @@ function Driving() {
               >
                 Click me
               </button>
+              <div className="flex justify-between">
+                <button
+                  onClick={() => handleHouseButtonClick(1)}
+                  className="btn-success btn w-[32%]"
+                >
+                  House 1
+                </button>
+                <button
+                  onClick={() => handleHouseButtonClick(2)}
+                  className="btn-success btn w-[32%]"
+                >
+                  House 2
+                </button>
+                <button
+                  onClick={() => handleHouseButtonClick(3)}
+                  className="btn-success btn w-[32%]"
+                >
+                  House 3
+                </button>
+              </div>
               <div
                 className="flex flex-col gap-2"
                 // action=""
@@ -459,7 +547,7 @@ function Driving() {
           {/* routes */}
           <Tab.Panel className="h-[900px] overflow-y-scroll pt-4">
             {/* fetchedDrivingDirections.length > 0 && */}
-            {Object.values(fetchedDrivingDirections).map((house, index) => {
+            {Object.values(results).map((house, index) => {
               return (
                 <div key={index}>
                   <h2>
@@ -467,7 +555,7 @@ function Driving() {
                   </h2>
                   <ul className="flex flex-col gap-2">
                     {house.map((route, subIndex) => {
-                      console.log(route)
+                      // console.log(route)
                       return (
                         <li
                           className="border-b-2 pb-4"
@@ -481,7 +569,6 @@ function Driving() {
                           </div>{" "}
                           <div className="flex items-center justify-between">
                             {" "}
-                           
                             {route.isVisible ? (
                               <button
                                 // onClick={() =>
@@ -500,7 +587,7 @@ function Driving() {
                               >
                                 <AiOutlineEyeInvisible />
                               </button>
-                            )} 
+                            )}
                             <button
                               // onClick={handleRemoveDestination}
                               className="rounded-md px-2"

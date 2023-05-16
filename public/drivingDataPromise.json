@@ -1,0 +1,29 @@
+{
+  "Route 1": [
+    {
+      "origin": "Algés, Portugal",
+      "destination": "Oriente, Lisboa, Portugal"
+    },
+    {
+      "origin": "Algés, Portugal",
+      "destination": "Moscavide, Portugal"
+    }
+    
+  ],
+  "Route 2": [
+    {
+      "origin": "Algés, Portugal",
+      "destination": "Sacavém, Portugal"
+    }
+  ],
+  "Route 3": [
+    {
+      "origin": "Algés, Portugal",
+      "destination": "Oriente, Lisboa, Portugal"
+    },
+    {
+      "origin": "Algés, Portugal",
+      "destination": "Moscavide, Portugal"
+    }
+  ]
+}
