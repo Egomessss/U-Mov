@@ -2,7 +2,6 @@ import { Tab } from "@headlessui/react"
 import { ArrowRightIcon, TrashIcon } from "@heroicons/react/24/outline"
 import { Autocomplete } from "@react-google-maps/api"
 import React, { useContext, useEffect, useState, useRef } from "react"
-import { createContext } from "vm"
 import { DrivingContext } from "../../context/DrivingContextProvider"
 import results from "../../../public/results.json"
 import { AiOutlineEyeInvisible } from "react-icons/ai"
@@ -13,71 +12,35 @@ import Tooltip from "../Tooltip"
 import { IoSettingsOutline } from "react-icons/io5"
 import axios from "axios"
 
+import drivingData from "../../../public/drivingData.json"
 function Driving() {
   const { drivingDirections, setDrivingDirections } = useContext(DrivingContext)
-  const [fetchedDrivingDirections, setFetchedDrivingDirections] = useState<
-    {}[]
-  >([])
-  console.log(fetchedDrivingDirections)
-  const [duration, setDuration] = useState("")
-  console.log(duration)
-  const [distance, setDistance] = useState("")
-  console.log(distance)
-  const [origins, setOrigins] = useState<{}[]>([])
-  // console.log(origins)
+  const [fetchedDrivingDirections, setFetchedDrivingDirections] =
+    useState(drivingData)
+  console.log(fetchedDrivingDirections.length)
 
-  // ! origin
-  /** @type React.MutableRefObject<HTMLInputElement> */
-  const mainOriginNameRef = useRef()
+  const [compareMultipleHouses, setCompareMultipleHouses] = useState(false)
+  // console.log(fetchedDrivingDirections)
+
+  // ! origin and destination refs
 
   /** @type React.MutableRefObject<HTMLInputElement> */
   const mainOriginRef = useRef()
-  // console.log(mainOriginRef.current.value)
 
-  const handleOrigins = () => {
-    if (
-      mainOriginNameRef.current.value !== "" &&
-      mainOriginRef.current.value !== ""
-    ) {
-      const newAddress = {
-        name: mainOriginNameRef.current.value.trim(),
-        address: mainOriginRef.current.value.trim(),
-      }
-      setOrigins([...origins, newAddress])
-      mainOriginNameRef.current.value = ""
-      mainOriginRef.current.value = ""
-    }
-  }
-
-  // ! destinations
-  const [drivingDestinations, setDrivingDestinations] = useState<{}[]>([]) // initialize state with an empty array
-  // console.log(drivingDestinations)
-
-  const [travelsPerMonth, setTravelsPerMonth] = useState(0)
-  // console.log(travelsPerMonth)
-
-  const handleTravelsPerMonth = (e) => setTravelsPerMonth(e.target.value)
-
-  /** @type React.MutableRefObject<HTMLInputElement> */
-  const destinationNameRef = useRef()
   /** @type React.MutableRefObject<HTMLInputElement> */
   const destinationRef = useRef()
+  // console.log(destinationRef.current.value)
 
-  const handleNewDestination = () => {
-    if (
-      destinationNameRef.current.value !== "" &&
-      destinationRef.current.value !== ""
-    ) {
-      const newAddress = {
-        name: destinationNameRef.current.value.trim(),
-        address: destinationRef.current.value.trim(),
-      }
-      setDrivingDestinations([...drivingDestinations, newAddress])
-      destinationNameRef.current.value = ""
-      destinationRef.current.value = ""
-      setTravelsPerMonth(0)
-    }
+  const numberOfTravelsRef = useRef()
+
+  //! units
+  const [units, setUnits] = useState("IMPERIAL")
+  // console.log(units)
+
+  const handleUnitsMeasure = (e) => {
+    setUnits(e.target.value)
   }
+
   // ! travel mode
   const [selectedTravelMode, SetSelectedTravelMode] = useState("DRIVE")
   // console.log(selectedTravelMode)
@@ -94,15 +57,67 @@ function Driving() {
 
   const [litersConsumed, setLitersConsumed] = useState(0)
   // console.log(litersConsumed)
+
+  const handleLitersConsumed = (e) => setLitersConsumed(e.target.value)
+
   const [wattsConsumed, setWattsConsumed] = useState(0)
   // console.log(wattsConsumed)
 
-  const handleLitersConsumed = (e) => setLitersConsumed(e.target.value)
   const handleWattsConsumed = (e) => setWattsConsumed(e.target.value)
+  //! traffic
+
+  const [trafficPreference, setTrafficPreference] = useState("TRAFFIC_UNAWARE")
+  // console.log(trafficPreference)
+
+  const handleTraffic = (e) => {
+    const isChecked = e.target.checked
+    if (isChecked) {
+      setTrafficPreference("TRAFFIC_AWARE")
+    } else {
+      setTrafficPreference("TRAFFIC_UNAWARE")
+    }
+  }
+
+  //! tolls
+  const [tollsPreference, setTollsPreference] = useState(false)
+  // console.log(tollsPreference)
+
+  const handleTolls = (e) => {
+    const isChecked = e.target.checked
+    if (isChecked) {
+      setTollsPreference(true)
+    } else {
+      setTollsPreference(false)
+    }
+  }
+
+  //! highways
+  const [highwaysPreference, setHighwaysPreference] = useState(false)
+  // console.log(highwaysPreference)
+
+  const handleHighways = (e) => {
+    const isChecked = e.target.checked
+    if (isChecked) {
+      setHighwaysPreference(true)
+    } else {
+      setHighwaysPreference(false)
+    }
+  }
 
   const [featuresOpen, setFeaturesOpen] = useState(false)
 
   // ! fetch route
+
+  // ! add one origin or origins
+  // ! add destinations
+
+  // ! button for comparing uses the destinations autocomplete to save autocomplete requests
+  //! create an array for the origins
+  //! create an array for the destinations
+
+  // ! button to add a new oriign using differnt destinations config
+  // ! button to add a new oriign using the same destinations config
+  // ! iterate over the origins and destinations and fetch the routes, usin gthe fetch data
 
   const fetchData = () => {
     const config = {
@@ -116,32 +131,18 @@ function Driving() {
 
     const data = {
       origin: {
-        location: {
-          latLng: {
-            latitude: 37.419734,
-            longitude: -122.0827784,
-          },
-        },
+        address: mainOriginRef.current.value,
       },
       destination: {
-        location: {
-          latLng: {
-            latitude: 37.41767,
-            longitude: -122.079595,
-          },
-        },
+        address: destinationRef.current.value,
       },
-      travelMode: "DRIVE",
-      routingPreference: "TRAFFIC_AWARE",
-      departureTime: "2023-10-15T15:01:23.045123456Z",
-      computeAlternativeRoutes: false,
+      travelMode: selectedTravelMode,
+      routingPreference: trafficPreference,
       routeModifiers: {
-        avoidTolls: false,
-        avoidHighways: false,
-        avoidFerries: false,
+        avoidTolls: tollsPreference,
+        avoidHighways: highwaysPreference,
       },
-      languageCode: "en-US",
-      units: "IMPERIAL",
+      units: units,
     }
 
     axios
@@ -154,10 +155,16 @@ function Driving() {
         const data = response.data
 
         const modifiedData = {
-          isVisible: true,
-          duration: data.routes[0].duration,
-          distance: data.routes[0].distanceMeters,
-          polyline: data.routes[0].polyline.encodedPolyline,
+          "Origin 1": [
+            {
+              isVisible: true,
+              origin: mainOriginRef.current.value,
+              destination: destinationRef.current.value,
+              duration: data.routes[0].duration,
+              distance: data.routes[0].distanceMeters,
+              polyline: data.routes[0].polyline.encodedPolyline,
+            },
+          ],
         }
         setFetchedDrivingDirections(modifiedData)
       })
@@ -166,8 +173,12 @@ function Driving() {
       })
   }
 
-  //!
+  //! add data to routes
+  // const addDataToRoutes = (data) => {
 
+  // }
+
+  //!
   const handleRemoveDestination = (index) => {
     const newAddresses = [...destinationAddresses]
     newAddresses.splice(index, 1)
@@ -246,8 +257,10 @@ function Driving() {
               >
                 Click me
               </button>
-
-              <form className="flex flex-col gap-2" action="">
+              <div
+                className="flex flex-col gap-2"
+                // action=""
+              >
                 <div className="form-control w-full ">
                   <label className="label">
                     <span className="label-text">
@@ -264,10 +277,27 @@ function Driving() {
                   </Autocomplete>
                 </div>
                 {/* destinations */}
+                {compareMultipleHouses && (
+                  <div className="form-control w-full ">
+                    <label className="label">
+                      <span className="label-text">
+                        Use Previous Destinations
+                      </span>
+                    </label>
+
+                    <label className="label cursor-pointer">
+                      <span className="label-text">Avoid Highways</span>
+                      <input
+                        type="checkbox"
+                        className="checkbox-accent checkbox"
+                      />
+                    </label>
+                  </div>
+                )}
                 <div className="form-control w-full ">
                   <label className="label">
                     <span className="label-text">
-                      Add a name and address for this destination
+                      Add a address for this destination
                     </span>
                   </label>
                   <Autocomplete>
@@ -283,7 +313,7 @@ function Driving() {
                   type="text"
                   placeholder="Number of travels per month"
                   className="input-bordered input-accent input w-full bg-white"
-                  onChange={handleTravelsPerMonth}
+                  ref={numberOfTravelsRef}
                 />
                 {/* <button
                   onClick={handleNewDestination}
@@ -293,18 +323,24 @@ function Driving() {
                 </button> */}
                 <div className="form-control w-full ">
                   <label className="label">
+                    <span className="label-text">Units</span>
+                  </label>
+                  <select
+                    className="select-accent select w-full bg-white "
+                    onChange={handleUnitsMeasure}
+                  >
+                    <option value="Metric">Metric</option>
+                    <option value="Imperial">Imperial</option>
+                  </select>
+                </div>
+                <div className="form-control w-full ">
+                  <label className="label">
                     <span className="label-text">Pick travel mode:</span>
                   </label>
                   <select
                     className="select-accent select w-full bg-white "
                     onChange={handleSelectedTravelMode}
                   >
-                    <option
-                      disabled
-                      selected
-                    >
-                      Pick travel mode:
-                    </option>
                     <option value="DRIVE">Car</option>
                     <option value="TWO_WHEELER">
                       Two-wheeled, motorized vehicle
@@ -319,12 +355,6 @@ function Driving() {
                     className="select-accent select w-full bg-white "
                     onChange={handleSelectedEngineType}
                   >
-                    <option
-                      disabled
-                      selected
-                    >
-                      Select Type of engine
-                    </option>
                     <option value="GASOLINE">
                       Gasoline/petrol fueled vehicle
                     </option>
@@ -374,125 +404,116 @@ function Driving() {
                     />
                   )}
                 </div>
-                {/* <div>
-                  <label
-                    htmlFor="traffic"
-                    className="font-bold"
-                  >
-                    Live traffic:
-                  </label>
-                  <select
-                    value={selectedTravelMode}
-                    onChange={SetSelectedTravelMode}
-                    className="w-full rounded-lg border-2 bg-white"
-                  >
-                    <option value="WALK">TRAFFIC_AWARE</option>
-                    <option value="BICYCLE">TRAFFIC_AWARE_OPTIMAL</option>
-                  </select>
-                </div> */}
-
                 <div className="form-control">
                   <label className="label cursor-pointer">
-                    <span className="label-text">Avoid tolls</span>
+                    <span className="label-text">
+                      Take Live Traffic Into Consideration?
+                    </span>
                     <input
                       type="checkbox"
                       className="checkbox-accent checkbox"
+                      onChange={handleTraffic}
                     />
                   </label>
                 </div>
 
                 <div className="form-control">
                   <label className="label cursor-pointer">
-                    <span className="label-text">Avoid Highways</span>
+                    <span className="label-text">Avoid tolls?</span>
                     <input
                       type="checkbox"
                       className="checkbox-accent checkbox"
+                      onChange={handleTolls}
                     />
                   </label>
                 </div>
 
-                <div className="form-control w-full ">
-                  <label className="label">
-                    <span className="label-text">Units</span>
+                <div className="form-control">
+                  <label className="label cursor-pointer">
+                    <span className="label-text">Avoid Highways?</span>
+                    <input
+                      type="checkbox"
+                      className="checkbox-accent checkbox"
+                      onChange={handleHighways}
+                    />
                   </label>
-                  <select className="select-accent select w-full bg-white ">
-                    <option
-                      disabled
-                      selected
-                    >
-                      Units
-                    </option>
-                    <option>METRIC</option>
-                    <option>IMPERIAL</option>
-                  </select>
                 </div>
 
+                {/* <button className="btn-success btn w-full">Add Route</button>
                 <button
-                  onClick={handleNewDestination}
+                  onClick={() => setCompareMultipleHouses(prev)}
                   className="btn-success btn w-full"
                 >
-                  Add Route
+                  Compare Multiple Houses
+                </button> */}
+                <button
+                  onClick={() => fetchData()}
+                  className="btn-success btn w-full"
+                >
+                  Fetch data
                 </button>
-              </form>
+              </div>
             </div>
             {/* routes */}
           </Tab.Panel>
           {/* routes */}
           <Tab.Panel className="h-[900px] overflow-y-scroll pt-4">
-            <div>
-              <h2>Origins:</h2>
-              <ul className="flex flex-col gap-2">
-                {origins.map(({ name, address }) => {
-                  return (
-                    <li
-                      className="border-b-2 pb-4"
-                      key={address}
-                    >
-                      <div className="flex gap-2">
-                        <span>{name}</span>
-                      </div>
-                      <div className="flex flex-col gap-2">
-                        <div className=" flex justify-between">
-                          <span>{address}</span>
-                          <button
-                            onClick={handleRemoveDestination}
-                            className="rounded-md  px-2"
-                          >
-                            <TrashIcon className="text-orange h-6" />
-                          </button>
-                        </div>
-                      </div>
-                    </li>
-                  )
-                })}
-              </ul>
-            </div>
-            <div>
-              <h2>Destinations:</h2>
-              <ul className="flex flex-col gap-2">
-                {drivingDestinations.map(({ id, name, address }) => (
-                  <li
-                    className="border-b-2 pb-4"
-                    key={address}
-                  >
-                    <div className="flex gap-2">
-                      <span>{name}</span>
-                    </div>
-                    <div className="flex flex-col gap-2">
-                      <div className=" flex justify-between">
-                        <span>{address}</span>
-                        <button
-                          onClick={handleRemoveDestination}
-                          className="rounded-md  px-2"
+            {/* fetchedDrivingDirections.length > 0 && */}
+            {Object.values(fetchedDrivingDirections).map((house, index) => {
+              return (
+                <div key={index}>
+                  <h2>
+                    House {index + 1} {house[0].origin}
+                  </h2>
+                  <ul className="flex flex-col gap-2">
+                    {house.map((route, subIndex) => {
+                      console.log(route)
+                      return (
+                        <li
+                          className="border-b-2 pb-4"
+                          key={route.distance}
                         >
-                          <TrashIcon className="text-orange h-6" />
-                        </button>
-                      </div>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </div>
+                          <span>Edit: Route {subIndex + 1}</span>
+                          <div className="flex flex-col gap-2">
+                            <div className="flex justify-between">
+                              <span>{route.destination}</span>
+                            </div>
+                          </div>{" "}
+                          <div className="flex items-center">
+                            {" "}
+                            <button
+                              // onClick={handleRemoveDestination}
+                              className="rounded-md px-2"
+                            >
+                              <TrashIcon className="text-orange h-6" />
+                            </button>
+                            {route.isVisible ? (
+                              <button
+                                // onClick={() =>
+                                //   showDirections(direction.request.destination.query)
+                                // }
+                                className=" rounded-md  border-2 p-1"
+                              >
+                                <MdOutlineVisibility />
+                              </button>
+                            ) : (
+                              <button
+                                // onClick={() =>
+                                //   hideDirections(direction.request.destination.query)
+                                // }
+                                className=" rounded-md  border-2 p-1"
+                              >
+                                <AiOutlineEyeInvisible />
+                              </button>
+                            )}
+                          </div>
+                        </li>
+                      )
+                    })}
+                  </ul>
+                </div>
+              )
+            })}
           </Tab.Panel>
         </Tab.Panels>
       </Tab.Group>

@@ -1,0 +1,54 @@
+{
+  "Route 1": [
+    {
+      "isVisible": true,
+      "origin": "Algés, Portugal",
+      "destination": "Oriente, Lisboa, Portugal",
+      "duration": "1239s",
+      "distance": 17260,
+      "polyline": "{_fkF`tiw@cMe@IdEmF_@wA]WAO}@KSaBiA]O}@qBY_@SQWAe@Fq@Cu@YWIuAu@IMw@{@USKMMBe@e@OSm@WgB}AOUEm@?IZe@nEsEHEj@EVQDWCKL]nHwHnDsD^M^BZPRZF`@?b@GZSZQHQBg@GgCoAqAc@c@Bm@QeC_@gBGwA?}CPwE^sBFcBAy@EmAWg@?aBc@gAa@cCgAgBgAwDyCgCkByCqCcAsAg@y@u@_BuJkWaAoC}B}FiAaCcB}Cc@k@{BkBgAu@eAe@gA[kBYcBGwADm@F{Bb@}HjCoAVmALwBDiBQa@IoA_@w@[aPwIwT_MyF{COYw@e@a@a@Wk@Q_ASiAMe@k@u@y@c@}@a@SQQUK[KgAGmAWs@QcCQeA[gA_@{@a@q@mAuAoImIwCuC_AkAm@eAq@gBa@eBqB_KcAuESu@s@aBw@qAeAoAu@m@wAw@uAm@sF_BmCw@kCcAoCuAyA_AqB{A}@u@{CyCsBeC}A{BgB{CaAqBqAuC}AuEgAuDg@gC{@{F]_Da@aHIkGBcDr@q_@TaOAiDOgE[}Dk@mEsHkg@o@gE_AuE{CkM[iAoA{Eo@sCmAeGq@gE_BuNaAkJc@oGSaFKsEAcHFmJFuPCaEKeCWkCe@oCi@qBq@sBoAoCqAsByBkCe@g@Ue@{BoCCMuCcCsCmBoDeBcDiA]GFcA@c@EOdAgTLeARmDVeJ^{GXcFL{Ct@gO`@kCPKN[Da@G_@KUKi@@s@AWnAwV@g@JSf@uKv@iOBgA^wGFm@JY^_@F]?KcJ[I]MOGm@A}BD_D"
+    },
+    {
+      "isVisible": true,
+      "origin": "Algés, Portugal",
+      "destination": "Moscavide, Portugal",
+      "duration": "2166s",
+      "distance": 19774,
+      "polyline": "{_fkF`tiw@_EOVuLf@BHA`AF\\J^TfCpA`@Fr@?XMLSBGd@c@ZOhAUhD_@ZKZ}@Pi@HQ`@OVBh@NnBpAv@sBb@aAH]xMqYf@uA\\qA`DiOL{@FcB?kBKmBDOUwFEOy@eSu@iPIy@?YeAsJIeAU}AoCqWq@wGBUaAeJGOWoGs@_VUoD_BuQ?W_AyJa@aFEKOgBo@kF}@_GgAqFqBwHgAkDmBkFmE}KEQkBkECIUKwAoAWMa@?QF_@AsCg@gCq@wE{@cAQeCq@a@GQBw@KiGWuA?uALqBd@_@LOJ_DlAeCz@cBp@iIzCoAVk@FiA?eBQ{QwDwAMaAAiAFcBVgD`AoALaA@sAKoBe@cD_As@Y}@u@QWa@{@_A}B[q@u@iAg@k@iAm@sAYk@K[KuE_A}AEa@Ok@g@e@}@So@]{BSg@sAuBqC}DYo@Ka@Ik@?kAHaBAu@Kw@Ie@]w@OUeA}@eEmBsO_Hy@m@mAsA_@g@oAyBcAkC_@qAeEwQw@{CsAwFgDqJiA}CSq@{DuKmEgMKm@{@cJq@yJ?Wo@qEc@cE_A_LMmDKyAByDHkBFqH\\}MB{GRGNYFo@JgDu@_@EL}AhDYNq@JGAsAP{@?qDeCu@_@eBg@eCOsDSyCIyBO]a@[y@LeCJ{@XeAf@aAz@iAjByBVc@Vm@Pm@P_AJaBDwF?c@MeASyAU{@u@_B_@o@c@mA]kBwC{Us@aFqBaPm@gFEk@UiBOgC?qKHsETuDLcE?kDEaDAUD[Em@IW_@MW@C@m@e@]UoFeBUOuHoCw@S_BWiAG}BBsFVyGNuKj@{A@kAFe@XgGP_EVwF\\mGRaGX}E`@yOp@[UoLl@eARa@P{DRe@YIUKwICgADM@aAM}EAWAC@_@U@y@PyAL_Ab@kCpAqC|@}Bl@}DtA"
+    },
+    {
+      "isVisible": true,
+      "origin": "Algés, Portugal",
+      "destination": "Sacavém, Portugal",
+      "duration": "2350s",
+      "distance": 22132,
+      "polyline": "{_fkF`tiw@_EOVuLf@BHA`AF\\J^TfCpA`@Fr@?XMLSBGd@c@ZOhAUhD_@ZKZ}@Pi@HQ`@OVBh@NnBpAv@sBb@aAH]xMqYf@uA\\qA`DiOL{@FcB?kBKmBDOUwFEOy@eSu@iPIy@?YeAsJIeAU}AoCqWq@wGBUaAeJGOWoGs@_VUoD_BuQ?W_AyJa@aFEKOgBo@kF}@_GgAqFqBwHgAkDmBkFmE}KEQkBkECIUKwAoAWMa@?QF_@AsCg@gCq@wE{@cAQeCq@a@GQBw@KiGWuA?uALqBd@_@LOJ_DlAeCz@cBp@iIzCoAVk@FiA?eBQ{QwDwAMaAAiAFcBVgD`AoALaA@sAKoBe@cD_As@Y}@u@QWa@{@_A}B[q@u@iAg@k@iAm@sAYk@K[KuE_A}AEa@Ok@g@e@}@So@]{BSg@sAuBqC}DYo@Ka@Ik@?kAHaBAu@Kw@Ie@]w@OUeA}@eEmBsO_Hy@m@mAsA_@g@oAyBcAkC_@qAeEwQw@{CsAwFgDqJiA}CSq@{DuKmEgMKm@{@cJq@yJ?Wo@qEc@cE_A_LMmDKyAByDHkBFqH\\}MB{GRGNYFo@JgDu@_@EL}AhDYNq@JGAsAP{@?qDeCu@_@eBg@eCOsDSyCIyBO]a@[y@LeCJ{@XeAf@aAz@iAjByBVc@Vm@Pm@P_AJaBDwF?c@MeASyAU{@u@_B_@o@c@mA]kBwC{Us@aFqBaPm@gFEk@UiBOgC?qKHsETuDLcE?kDEaDAUD[Em@IW_@MW@C@m@e@]UoFeBUOuHoCw@S_BWiAG}BBsFVyGNuKj@{A@kAFe@XgGP_EVwF\\mGRaGX}E`@yOp@[UoLl@eARa@PiET]POTCh@Ff@NZXPRBn@b@LTH`@?l@e@zD_@~A{@hCgBrDoAtBY\\KDy@Om@Ss@IkACCWMQSCQDMRATk@T}DtBcA`@iIRSuLOaLLy@@Sn@aA`@U|C?ZETONSJ]B_@Cc@Ka@QSSKWGwBKUGW_@?[KWSQ[@E@eBEcFXo@Nu@EwFy@g@?eBRs@?qD{@cBe@eC[cBIyBS}@Hu@Tu@DkDAaETUFaBD"
+    }
+  ],
+  "Route 2": [
+    {
+      "isVisible": true,
+      "origin": "Lisboa, Portugal",
+      "destination": "Oriente, Lisboa, Portugal",
+      "duration": "1239s",
+      "distance": 17260,
+      "polyline": "{_fkF`tiw@cMe@IdEmF_@wA]WAO}@KSaBiA]O}@qBY_@SQWAe@Fq@Cu@YWIuAu@IMw@{@USKMMBe@e@OSm@WgB}AOUEm@?IZe@nEsEHEj@EVQDWCKL]nHwHnDsD^M^BZPRZF`@?b@GZSZQHQBg@GgCoAqAc@c@Bm@QeC_@gBGwA?}CPwE^sBFcBAy@EmAWg@?aBc@gAa@cCgAgBgAwDyCgCkByCqCcAsAg@y@u@_BuJkWaAoC}B}FiAaCcB}Cc@k@{BkBgAu@eAe@gA[kBYcBGwADm@F{Bb@}HjCoAVmALwBDiBQa@IoA_@w@[aPwIwT_MyF{COYw@e@a@a@Wk@Q_ASiAMe@k@u@y@c@}@a@SQQUK[KgAGmAWs@QcCQeA[gA_@{@a@q@mAuAoImIwCuC_AkAm@eAq@gBa@eBqB_KcAuESu@s@aBw@qAeAoAu@m@wAw@uAm@sF_BmCw@kCcAoCuAyA_AqB{A}@u@{CyCsBeC}A{BgB{CaAqBqAuC}AuEgAuDg@gC{@{F]_Da@aHIkGBcDr@q_@TaOAiDOgE[}Dk@mEsHkg@o@gE_AuE{CkM[iAoA{Eo@sCmAeGq@gE_BuNaAkJc@oGSaFKsEAcHFmJFuPCaEKeCWkCe@oCi@qBq@sBoAoCqAsByBkCe@g@Ue@{BoCCMuCcCsCmBoDeBcDiA]GFcA@c@EOdAgTLeARmDVeJ^{GXcFL{Ct@gO`@kCPKN[Da@G_@KUKi@@s@AWnAwV@g@JSf@uKv@iOBgA^wGFm@JY^_@F]?KcJ[I]MOGm@A}BD_D"
+    },
+    {
+      "isVisible": true,
+      "origin": "Algés, Portugal",
+      "destination": "Moscavide, Portugal",
+      "duration": "2166s",
+      "distance": 19774,
+      "polyline": "{_fkF`tiw@_EOVuLf@BHA`AF\\J^TfCpA`@Fr@?XMLSBGd@c@ZOhAUhD_@ZKZ}@Pi@HQ`@OVBh@NnBpAv@sBb@aAH]xMqYf@uA\\qA`DiOL{@FcB?kBKmBDOUwFEOy@eSu@iPIy@?YeAsJIeAU}AoCqWq@wGBUaAeJGOWoGs@_VUoD_BuQ?W_AyJa@aFEKOgBo@kF}@_GgAqFqBwHgAkDmBkFmE}KEQkBkECIUKwAoAWMa@?QF_@AsCg@gCq@wE{@cAQeCq@a@GQBw@KiGWuA?uALqBd@_@LOJ_DlAeCz@cBp@iIzCoAVk@FiA?eBQ{QwDwAMaAAiAFcBVgD`AoALaA@sAKoBe@cD_As@Y}@u@QWa@{@_A}B[q@u@iAg@k@iAm@sAYk@K[KuE_A}AEa@Ok@g@e@}@So@]{BSg@sAuBqC}DYo@Ka@Ik@?kAHaBAu@Kw@Ie@]w@OUeA}@eEmBsO_Hy@m@mAsA_@g@oAyBcAkC_@qAeEwQw@{CsAwFgDqJiA}CSq@{DuKmEgMKm@{@cJq@yJ?Wo@qEc@cE_A_LMmDKyAByDHkBFqH\\}MB{GRGNYFo@JgDu@_@EL}AhDYNq@JGAsAP{@?qDeCu@_@eBg@eCOsDSyCIyBO]a@[y@LeCJ{@XeAf@aAz@iAjByBVc@Vm@Pm@P_AJaBDwF?c@MeASyAU{@u@_B_@o@c@mA]kBwC{Us@aFqBaPm@gFEk@UiBOgC?qKHsETuDLcE?kDEaDAUD[Em@IW_@MW@C@m@e@]UoFeBUOuHoCw@S_BWiAG}BBsFVyGNuKj@{A@kAFe@XgGP_EVwF\\mGRaGX}E`@yOp@[UoLl@eARa@P{DRe@YIUKwICgADM@aAM}EAWAC@_@U@y@PyAL_Ab@kCpAqC|@}Bl@}DtA"
+    },
+    {
+      "isVisible": true,
+      "origin": "Algés, Portugal",
+      "destination": "Sacavém, Portugal",
+      "duration": "2350s",
+      "distance": 22132,
+      "polyline": "{_fkF`tiw@_EOVuLf@BHA`AF\\J^TfCpA`@Fr@?XMLSBGd@c@ZOhAUhD_@ZKZ}@Pi@HQ`@OVBh@NnBpAv@sBb@aAH]xMqYf@uA\\qA`DiOL{@FcB?kBKmBDOUwFEOy@eSu@iPIy@?YeAsJIeAU}AoCqWq@wGBUaAeJGOWoGs@_VUoD_BuQ?W_AyJa@aFEKOgBo@kF}@_GgAqFqBwHgAkDmBkFmE}KEQkBkECIUKwAoAWMa@?QF_@AsCg@gCq@wE{@cAQeCq@a@GQBw@KiGWuA?uALqBd@_@LOJ_DlAeCz@cBp@iIzCoAVk@FiA?eBQ{QwDwAMaAAiAFcBVgD`AoALaA@sAKoBe@cD_As@Y}@u@QWa@{@_A}B[q@u@iAg@k@iAm@sAYk@K[KuE_A}AEa@Ok@g@e@}@So@]{BSg@sAuBqC}DYo@Ka@Ik@?kAHaBAu@Kw@Ie@]w@OUeA}@eEmBsO_Hy@m@mAsA_@g@oAyBcAkC_@qAeEwQw@{CsAwFgDqJiA}CSq@{DuKmEgMKm@{@cJq@yJ?Wo@qEc@cE_A_LMmDKyAByDHkBFqH\\}MB{GRGNYFo@JgDu@_@EL}AhDYNq@JGAsAP{@?qDeCu@_@eBg@eCOsDSyCIyBO]a@[y@LeCJ{@XeAf@aAz@iAjByBVc@Vm@Pm@P_AJaBDwF?c@MeASyAU{@u@_B_@o@c@mA]kBwC{Us@aFqBaPm@gFEk@UiBOgC?qKHsETuDLcE?kDEaDAUD[Em@IW_@MW@C@m@e@]UoFeBUOuHoCw@S_BWiAG}BBsFVyGNuKj@{A@kAFe@XgGP_EVwF\\mGRaGX}E`@yOp@[UoLl@eARa@PiET]POTCh@Ff@NZXPRBn@b@LTH`@?l@e@zD_@~A{@hCgBrDoAtBY\\KDy@Om@Ss@IkACCWMQSCQDMRATk@T}DtBcA`@iIRSuLOaLLy@@Sn@aA`@U|C?ZETONSJ]B_@Cc@Ka@QSSKWGwBKUGW_@?[KWSQ[@E@eBEcFXo@Nu@EwFy@g@?eBRs@?qD{@cBe@eC[cBIyBS}@Hu@Tu@DkDAaETUFaBD"
+    }
+  ]
+}
