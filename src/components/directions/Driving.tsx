@@ -479,14 +479,9 @@ function Driving() {
                               <span>{route.destination}</span>
                             </div>
                           </div>{" "}
-                          <div className="flex items-center">
+                          <div className="flex items-center justify-between">
                             {" "}
-                            <button
-                              // onClick={handleRemoveDestination}
-                              className="rounded-md px-2"
-                            >
-                              <TrashIcon className="text-orange h-6" />
-                            </button>
+                           
                             {route.isVisible ? (
                               <button
                                 // onClick={() =>
@@ -505,7 +500,13 @@ function Driving() {
                               >
                                 <AiOutlineEyeInvisible />
                               </button>
-                            )}
+                            )} 
+                            <button
+                              // onClick={handleRemoveDestination}
+                              className="rounded-md px-2"
+                            >
+                              <TrashIcon className="text-orange h-6" />
+                            </button>
                           </div>
                         </li>
                       )
