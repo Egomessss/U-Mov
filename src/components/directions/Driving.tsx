@@ -17,7 +17,9 @@ import drivingData from "../../../public/drivingData.json"
 import drivingDataPromise from "../../../public/drivingDataPromise.json"
 function Driving() {
   // const { drivingDirections, setDrivingDirections } = useContext(DrivingContext)
-  const [mockupData, setMockupData] = useState(drivingDataPromise)
+  const [routesFormData, setRoutesFormData] = useState(results)
+  console.log(routesFormData)
+
   const [fetchedDrivingDirections, setFetchedDrivingDirections] = useState()
   // console.log(fetchedDrivingDirections)
 
@@ -26,7 +28,7 @@ function Driving() {
     "House 2": [],
     "House 3": [],
   })
-  console.log(multipleHousesComparison)
+  // console.log(multipleHousesComparison)
 
   // each button click will change the array of the multipleHousesComparison object
 
@@ -291,51 +293,73 @@ function Driving() {
       console.error("Error fetching data:", error)
     }
   }
-  //! add data to routes
-  // const addDataToRoutes = (data) => {
-
-  // }
-
-  //!
-  const handleRemoveDestination = (index) => {
-    const newAddresses = [...destinationAddresses]
-    newAddresses.splice(index, 1)
-    setDestinationAddresses(newAddresses)
-  }
 
   // ! hide directions
-  const hideDirections = (index) => {
-    const updatedDirections = drivingDirections.map((route) => {
-      if (route.request.destination.query === index) {
-        return { ...route, visible: false }
+  const hideDirections = (house, index) => {
+    setRoutesFormData((prev) => {
+      return { ...prev }
+    })
+
+    const houseData = routesFormData[house]
+    console.log(houseData)
+
+    const updatedDirections = houseData.map((route) => {
+      if (route.destination === index) {
+        return { ...route, isVisible: false }
       }
       return route
     })
-    setDrivingDirections(updatedDirections)
+
+    const updatedRoutesFormData = {
+      ...routesFormData,
+      [house]: updatedDirections,
+    }
+
+    setRoutesFormData(updatedRoutesFormData)
   }
 
   // ! unhide directions
-  const unhideDirections = (index) => {
-    const updatedDirections = drivingDirections.map((route) => {
-      if (route.request.destination.query === index) {
-        return { ...route, visible: true }
+  const unhideDirections = (house, index) => {
+    setRoutesFormData((prev) => {
+      return { ...prev }
+    })
+
+    const houseData = routesFormData[house]
+
+    const updatedDirections = houseData.map((route) => {
+      if (route.destination === index) {
+        return { ...route, isVisible: true }
       }
       return route
     })
-    setDrivingDirections(updatedDirections)
+
+    const updatedRoutesFormData = {
+      ...routesFormData,
+      [house]: updatedDirections,
+    }
+
+    setRoutesFormData(updatedRoutesFormData)
   }
 
   // ! delete route
 
-  const handleDeleteRoute = (indexToDelete) => {
-    //!!  refresh the state
-    setDirections((prev) => {
+  const handleDeleteRoute = (house, indexToDelete) => {
+    // Refresh the state to trigger a re-render
+    setRoutesFormData((prev) => {
       return { ...prev }
     })
-    const updatedDirections = [...directions]
-    // console.log(updatedDirections)
-    updatedDirections.splice(indexToDelete, 1)
-    setDirections(updatedDirections)
+
+    // Get the route data for the specific house
+    const houseData = routesFormData[house]
+
+    // Remove the route at the specified index
+    houseData.splice(indexToDelete, 1)
+
+    // Create an updated object with the modified route data
+    const updatedRoutesFormData = { ...routesFormData, [house]: houseData }
+
+    // Update the state with the updated route data
+    setRoutesFormData(updatedRoutesFormData)
   }
 
   return (
@@ -693,7 +717,7 @@ function Driving() {
                 <Tab.Panel>
                   <div className="py-4">
                     <ul className="flex flex-col gap-2">
-                      {results["House 1"].map((route, index) => {
+                      {routesFormData["House 1"].map((route) => {
                         return (
                           <li
                             className="border-b-2 pb-4"
@@ -810,34 +834,54 @@ function Driving() {
                                   </label>
                                 </div>
                               </div>
-                              <div className="flex items-center justify-between">
-                                {" "}
+                              <button
+                                onClick={() =>
+                                  unhideDirections("House 1", route.destination)
+                                }
+                                className={" rounded-md  border-2 p-1"}
+                              >
+                                <MdOutlineVisibility />
+                              </button>
+                              <button
+                                onClick={() =>
+                                  hideDirections("House 1", route.destination)
+                                }
+                                className={" rounded-md  border-2 p-1"}
+                              >
+                                <AiOutlineEyeInvisible />
+                              </button>
+                              {/* <div className="flex items-center justify-between">   
                                 {route.isVisible ? (
                                   <button
-                                    // onClick={() =>
-                                    //   showDirections(direction.request.destination.query)
-                                    // }
+                                    onClick={() =>
+                                      unhideDirections("House 1", route.destination)
+                                    }
                                     className=" rounded-md  border-2 p-1"
                                   >
                                     <MdOutlineVisibility />
                                   </button>
                                 ) : (
                                   <button
-                                    // onClick={() =>
-                                    //   hideDirections(direction.request.destination.query)
-                                    // }
+                                    onClick={() =>
+                                      hideDirections("House 1", route.destination)
+                                    }
                                     className=" rounded-md  border-2 p-1"
                                   >
                                     <AiOutlineEyeInvisible />
                                   </button>
                                 )}
                                 <button
-                                  // onClick={handleRemoveDestination}
+                                  onClick={() =>
+                                    handleDeleteRoute(
+                                      "House 1",
+                                      route.destination
+                                    )
+                                  }
                                   className="rounded-md px-2"
                                 >
                                   <TrashIcon className="text-orange h-6" />
                                 </button>
-                              </div>
+                              </div> */}
                             </div>
                           </li>
                         )
