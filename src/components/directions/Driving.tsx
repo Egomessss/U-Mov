@@ -686,519 +686,173 @@ function Driving() {
           <Tab.Panel className="max-h-[550px] overflow-y-scroll pt-4">
             <Tab.Group>
               <Tab.List className="flex justify-between">
-                <Tab>
-                  {" "}
-                  <button
-                    onClick={() => handleHouseButtonClick(1)}
-                    className="btn-success btn-sm btn "
-                  >
-                    House 1
-                  </button>
-                </Tab>
-                <Tab>
-                  <button
-                    onClick={() => handleHouseButtonClick(2)}
-                    className="btn-success btn-sm btn "
-                  >
-                    House 2
-                  </button>
-                </Tab>
-                <Tab>
-                  {" "}
-                  <button
-                    onClick={() => handleHouseButtonClick(3)}
-                    className="btn-success btn-sm btn "
-                  >
-                    House 3
-                  </button>
-                </Tab>
+                {[1, 2, 3].map((houseNumber) => (
+                  <Tab key={houseNumber}>
+                    <button
+                      onClick={() => handleHouseButtonClick(houseNumber)}
+                      className="btn-success btn-sm btn"
+                    >
+                      House {houseNumber}
+                    </button>
+                  </Tab>
+                ))}
               </Tab.List>
               <Tab.Panels>
-                <Tab.Panel>
-                  <div className="py-4">
-                    <ul className="flex flex-col gap-2">
-                      {routesFormData["House 1"].map((route) => {
-                        return (
-                          <li
-                            className="border-b-2 pb-4"
-                            key={route.distance}
-                          >
-                            <div className="flex flex-col gap-2">
-                              <div className="flex items-center justify-between">
-                                <span className="">{route.origin}</span>
-                                <HiOutlineArrowNarrowRight />
-                                <span>{route.destination}</span>
-                              </div>
-                            </div>{" "}
-                            <div>
-                              <div className="flex flex-wrap items-center">
-                                <div className="form-control w-1/3 ">
-                                  <label className="label">
-                                    <span className="label-text">
-                                      Travel mode:
-                                    </span>
-                                  </label>
-                                  <select
-                                    className="select-accent select select-sm w-full bg-white "
-                                    onChange={handleSelectedTravelMode}
-                                  >
-                                    <option value="DRIVE">Car</option>
-                                    <option value="TWO_WHEELER">
-                                      Motorcycle
-                                    </option>
-                                  </select>
+                {[1, 2, 3].map((houseNumber) => (
+                  <Tab.Panel>
+                    <div className="py-4">
+                      <ul className="flex flex-col gap-2">
+                        {routesFormData[`House ${houseNumber}`].map((route) => {
+                          return (
+                            <li
+                              className="border-b-2 pb-4"
+                              key={route.distance}
+                            >
+                              <div className="flex flex-col gap-2">
+                                <div className="flex items-center justify-between">
+                                  <span className="">{route.origin}</span>
+                                  <HiOutlineArrowNarrowRight />
+                                  <span>{route.destination}</span>
                                 </div>
-                                <div className="form-control w-[35%] ">
-                                  <label className="label">
-                                    <span className="label-text">
-                                      Type of engine
-                                    </span>
-                                  </label>
-                                  <select
-                                    className="select-accent select select-sm w-full bg-white "
-                                    onChange={handleSelectedEngineType}
-                                  >
-                                    <option value="GASOLINE">Gasoline</option>
-                                    <option value="ELECTRIC">Electric</option>
-                                    <option value="HYBRID">Hybrid</option>
-                                    <option value="DIESEL"> Diesel</option>
-                                  </select>
-                                </div>
-                                <div className="form-control  w-[30%] ">
-                                  <label className="label">
-                                    <span className="label-text">
-                                      Consumption
-                                    </span>
-                                  </label>
-                                  {/* <Tooltip
+                              </div>{" "}
+                              <div>
+                                <div className="flex flex-wrap items-center">
+                                  <div className="form-control w-1/3 ">
+                                    <label className="label">
+                                      <span className="label-text">
+                                        Travel mode:
+                                      </span>
+                                    </label>
+                                    <select
+                                      className="select-accent select select-sm w-full bg-white "
+                                      onChange={handleSelectedTravelMode}
+                                    >
+                                      <option value="DRIVE">Car</option>
+                                      <option value="TWO_WHEELER">
+                                        Motorcycle
+                                      </option>
+                                    </select>
+                                  </div>
+                                  <div className="form-control w-[35%] ">
+                                    <label className="label">
+                                      <span className="label-text">
+                                        Type of engine
+                                      </span>
+                                    </label>
+                                    <select
+                                      className="select-accent select select-sm w-full bg-white "
+                                      onChange={handleSelectedEngineType}
+                                    >
+                                      <option value="GASOLINE">Gasoline</option>
+                                      <option value="ELECTRIC">Electric</option>
+                                      <option value="HYBRID">Hybrid</option>
+                                      <option value="DIESEL"> Diesel</option>
+                                    </select>
+                                  </div>
+                                  <div className="form-control  w-[30%] ">
+                                    <label className="label">
+                                      <span className="label-text">
+                                        Consumption
+                                      </span>
+                                    </label>
+                                    {/* <Tooltip
                                   color={"blue"}
                                   text={"Hellogfdddddddddddddho"}
                                   type={"info"}
                                 /> */}
 
-                                  <input
-                                    type="text"
-                                    placeholder="liters/km"
-                                    className="input-bordered input-accent input input-sm w-full bg-white"
-                                    onChange={handleLitersConsumed}
-                                  />
-                                </div>
-
-                                {(selectedEngineType === "HYBRID" ||
-                                  selectedEngineType === "ELECTRIC") && (
-                                  <input
-                                    type="text"
-                                    placeholder="kwh/km"
-                                    className="input-bordered input-accent input input-sm w-1/3 bg-white"
-                                    onChange={handleWattsConsumed}
-                                  />
-                                )}
-                              </div>
-                              <div className="flex items-center gap-2">
-                                <div className="form-control ">
-                                  <label className="label cursor-pointer">
-                                    <span className="label-text pr-1 text-xs">
-                                      Live Traffic
-                                    </span>
                                     <input
-                                      type="checkbox"
-                                      className="checkbox-accent checkbox checkbox-xs"
-                                      onChange={handleTraffic}
+                                      type="text"
+                                      placeholder="liters/km"
+                                      className="input-bordered input-accent input input-sm w-full bg-white"
+                                      onChange={handleLitersConsumed}
                                     />
-                                  </label>
-                                </div>
+                                  </div>
 
-                                <div className="form-control ">
-                                  <label className="label cursor-pointer">
-                                    <span className="label-text pr-1 text-xs">
-                                      Avoid tolls?
-                                    </span>
+                                  {(selectedEngineType === "HYBRID" ||
+                                    selectedEngineType === "ELECTRIC") && (
                                     <input
-                                      type="checkbox"
-                                      className="checkbox-accent checkbox checkbox-xs"
-                                      onChange={handleTolls}
+                                      type="text"
+                                      placeholder="kwh/km"
+                                      className="input-bordered input-accent input input-sm w-1/3 bg-white"
+                                      onChange={handleWattsConsumed}
                                     />
-                                  </label>
+                                  )}
                                 </div>
+                                <div className="flex items-center gap-2">
+                                  <div className="form-control ">
+                                    <label className="label cursor-pointer">
+                                      <span className="label-text pr-1 text-xs">
+                                        Live Traffic
+                                      </span>
+                                      <input
+                                        type="checkbox"
+                                        className="checkbox-accent checkbox checkbox-xs"
+                                        onChange={handleTraffic}
+                                      />
+                                    </label>
+                                  </div>
 
-                                <div className="form-control ">
-                                  <label className="label cursor-pointer">
-                                    <span className="label-text pr-1 text-xs">
-                                      Avoid Highways?
-                                    </span>
-                                    <input
-                                      type="checkbox"
-                                      className="checkbox-accent checkbox checkbox-xs"
-                                      onChange={handleHighways}
-                                    />
-                                  </label>
+                                  <div className="form-control ">
+                                    <label className="label cursor-pointer">
+                                      <span className="label-text pr-1 text-xs">
+                                        Avoid tolls?
+                                      </span>
+                                      <input
+                                        type="checkbox"
+                                        className="checkbox-accent checkbox checkbox-xs"
+                                        onChange={handleTolls}
+                                      />
+                                    </label>
+                                  </div>
+
+                                  <div className="form-control ">
+                                    <label className="label cursor-pointer">
+                                      <span className="label-text pr-1 text-xs">
+                                        Avoid Highways?
+                                      </span>
+                                      <input
+                                        type="checkbox"
+                                        className="checkbox-accent checkbox checkbox-xs"
+                                        onChange={handleHighways}
+                                      />
+                                    </label>
+                                  </div>
                                 </div>
-                              </div>
-                              <button
-                                onClick={() =>
-                                  unhideDirections("House 1", route.destination)
-                                }
-                                className={`rounded-md border-2 p-1 ${route.isVisible && 'bg-green-500'}`}
-                              >
-                                <MdOutlineVisibility />
-                              </button>
-                              <button
-                                onClick={() =>
-                                  hideDirections("House 1", route.destination)
-                                }
-                                className={`rounded-md border-2 p-1 ${!route.isVisible && 'bg-red-500'}`}
-                              >
-                                <AiOutlineEyeInvisible />
-                              </button>
-                              {/* <div className="flex items-center justify-between">   
-                                {route.isVisible ? (
-                                  <button
-                                    onClick={() =>
-                                      unhideDirections("House 1", route.destination)
-                                    }
-                                    className=" rounded-md  border-2 p-1"
-                                  >
-                                    <MdOutlineVisibility />
-                                  </button>
-                                ) : (
-                                  <button
-                                    onClick={() =>
-                                      hideDirections("House 1", route.destination)
-                                    }
-                                    className=" rounded-md  border-2 p-1"
-                                  >
-                                    <AiOutlineEyeInvisible />
-                                  </button>
-                                )}
                                 <button
                                   onClick={() =>
-                                    handleDeleteRoute(
+                                    unhideDirections(
                                       "House 1",
                                       route.destination
                                     )
                                   }
-                                  className="rounded-md px-2"
+                                  className={`rounded-md border-2 p-1 ${
+                                    route.isVisible && "bg-green-500"
+                                  }`}
                                 >
-                                  <TrashIcon className="text-orange h-6" />
+                                  <MdOutlineVisibility />
                                 </button>
-                              </div> */}
-                            </div>
-                          </li>
-                        )
-                      })}{" "}
-                    </ul>
-                  </div>
-                </Tab.Panel>
-                <Tab.Panel>
-                  <div className="py-4">
-                    <ul className="flex flex-col gap-2">
-                      {results["House 2"].map((route, index) => {
-                        return (
-                          <li
-                            className="border-b-2 pb-4"
-                            key={route.distance}
-                          >
-                            <div className="flex flex-col gap-2">
-                              <div className="flex items-center justify-between">
-                                <span className="">{route.origin}</span>
-                                <HiOutlineArrowNarrowRight />
-                                <span>{route.destination}</span>
-                              </div>
-                            </div>{" "}
-                            <div>
-                              <div className="flex flex-wrap items-center">
-                                <div className="form-control w-1/3 ">
-                                  <label className="label">
-                                    <span className="label-text">
-                                      Travel mode:
-                                    </span>
-                                  </label>
-                                  <select
-                                    className="select-accent select select-sm w-full bg-white "
-                                    onChange={handleSelectedTravelMode}
-                                  >
-                                    <option value="DRIVE">Car</option>
-                                    <option value="TWO_WHEELER">
-                                      Motorcycle
-                                    </option>
-                                  </select>
-                                </div>
-                                <div className="form-control w-[35%] ">
-                                  <label className="label">
-                                    <span className="label-text">
-                                      Type of engine
-                                    </span>
-                                  </label>
-                                  <select
-                                    className="select-accent select select-sm w-full bg-white "
-                                    onChange={handleSelectedEngineType}
-                                  >
-                                    <option value="GASOLINE">Gasoline</option>
-                                    <option value="ELECTRIC">Electric</option>
-                                    <option value="HYBRID">Hybrid</option>
-                                    <option value="DIESEL"> Diesel</option>
-                                  </select>
-                                </div>
-                                <div className="form-control  w-[30%] ">
-                                  <label className="label">
-                                    <span className="label-text">
-                                      Consumption
-                                    </span>
-                                  </label>
-                                  {/* <Tooltip
-                                  color={"blue"}
-                                  text={"Hellogfdddddddddddddho"}
-                                  type={"info"}
-                                /> */}
-
-                                  <input
-                                    type="text"
-                                    placeholder="liters/km"
-                                    className="input-bordered input-accent input input-sm w-full bg-white"
-                                    onChange={handleLitersConsumed}
-                                  />
-                                </div>
-
-                                {(selectedEngineType === "HYBRID" ||
-                                  selectedEngineType === "ELECTRIC") && (
-                                  <input
-                                    type="text"
-                                    placeholder="kwh/km"
-                                    className="input-bordered input-accent input input-sm w-1/3 bg-white"
-                                    onChange={handleWattsConsumed}
-                                  />
-                                )}
-                              </div>
-                              <div className="flex items-center gap-2">
-                                <div className="form-control ">
-                                  <label className="label cursor-pointer">
-                                    <span className="label-text pr-1 text-xs">
-                                      Live Traffic
-                                    </span>
-                                    <input
-                                      type="checkbox"
-                                      className="checkbox-accent checkbox checkbox-xs"
-                                      onChange={handleTraffic}
-                                    />
-                                  </label>
-                                </div>
-
-                                <div className="form-control ">
-                                  <label className="label cursor-pointer">
-                                    <span className="label-text pr-1 text-xs">
-                                      Avoid tolls?
-                                    </span>
-                                    <input
-                                      type="checkbox"
-                                      className="checkbox-accent checkbox checkbox-xs"
-                                      onChange={handleTolls}
-                                    />
-                                  </label>
-                                </div>
-
-                                <div className="form-control ">
-                                  <label className="label cursor-pointer">
-                                    <span className="label-text pr-1 text-xs">
-                                      Avoid Highways?
-                                    </span>
-                                    <input
-                                      type="checkbox"
-                                      className="checkbox-accent checkbox checkbox-xs"
-                                      onChange={handleHighways}
-                                    />
-                                  </label>
-                                </div>
-                              </div>
-                              <div className="flex items-center justify-between">
-                                {" "}
-                                {route.isVisible ? (
-                                  <button
-                                    // onClick={() =>
-                                    //   showDirections(direction.request.destination.query)
-                                    // }
-                                    className=" rounded-md  border-2 p-1"
-                                  >
-                                    <MdOutlineVisibility />
-                                  </button>
-                                ) : (
-                                  <button
-                                    // onClick={() =>
-                                    //   hideDirections(direction.request.destination.query)
-                                    // }
-                                    className=" rounded-md  border-2 p-1"
-                                  >
-                                    <AiOutlineEyeInvisible />
-                                  </button>
-                                )}
                                 <button
-                                  // onClick={handleRemoveDestination}
-                                  className="rounded-md px-2"
+                                  onClick={() =>
+                                    hideDirections(
+                                      `House ${houseNumber}`,
+                                      route.destination
+                                    )
+                                  }
+                                  className={`rounded-md border-2 p-1 ${
+                                    !route.isVisible && "bg-red-500"
+                                  }`}
                                 >
-                                  <TrashIcon className="text-orange h-6" />
+                                  <AiOutlineEyeInvisible />
                                 </button>
                               </div>
-                            </div>
-                          </li>
-                        )
-                      })}{" "}
-                    </ul>
-                  </div>
-                </Tab.Panel>
-                <Tab.Panel>
-                  <div className="py-4">
-                    <ul className="flex flex-col gap-2">
-                      {results["House 3"].map((route, index) => {
-                        return (
-                          <li
-                            className="border-b-2 pb-4"
-                            key={route.distance}
-                          >
-                            <div className="flex flex-col gap-2">
-                              <div className="flex items-center justify-between">
-                                <span className="">{route.origin}</span>
-                                <HiOutlineArrowNarrowRight />
-                                <span>{route.destination}</span>
-                              </div>
-                            </div>{" "}
-                            <div>
-                              <div className="flex flex-wrap items-center">
-                                <div className="form-control w-1/3 ">
-                                  <label className="label">
-                                    <span className="label-text">
-                                      Travel mode:
-                                    </span>
-                                  </label>
-                                  <select
-                                    className="select-accent select select-sm w-full bg-white "
-                                    onChange={handleSelectedTravelMode}
-                                  >
-                                    <option value="DRIVE">Car</option>
-                                    <option value="TWO_WHEELER">
-                                      Motorcycle
-                                    </option>
-                                  </select>
-                                </div>
-                                <div className="form-control w-[35%] ">
-                                  <label className="label">
-                                    <span className="label-text">
-                                      Type of engine
-                                    </span>
-                                  </label>
-                                  <select
-                                    className="select-accent select select-sm w-full bg-white "
-                                    onChange={handleSelectedEngineType}
-                                  >
-                                    <option value="GASOLINE">Gasoline</option>
-                                    <option value="ELECTRIC">Electric</option>
-                                    <option value="HYBRID">Hybrid</option>
-                                    <option value="DIESEL"> Diesel</option>
-                                  </select>
-                                </div>
-                                <div className="form-control  w-[30%] ">
-                                  <label className="label">
-                                    <span className="label-text">
-                                      Consumption
-                                    </span>
-                                  </label>
-                                  {/* <Tooltip
-                                  color={"blue"}
-                                  text={"Hellogfdddddddddddddho"}
-                                  type={"info"}
-                                /> */}
-
-                                  <input
-                                    type="text"
-                                    placeholder="liters/km"
-                                    className="input-bordered input-accent input input-sm w-full bg-white"
-                                    onChange={handleLitersConsumed}
-                                  />
-                                </div>
-
-                                {(selectedEngineType === "HYBRID" ||
-                                  selectedEngineType === "ELECTRIC") && (
-                                  <input
-                                    type="text"
-                                    placeholder="kwh/km"
-                                    className="input-bordered input-accent input input-sm w-1/3 bg-white"
-                                    onChange={handleWattsConsumed}
-                                  />
-                                )}
-                              </div>
-                              <div className="flex items-center gap-2">
-                                <div className="form-control ">
-                                  <label className="label cursor-pointer">
-                                    <span className="label-text pr-1 text-xs">
-                                      Live Traffic
-                                    </span>
-                                    <input
-                                      type="checkbox"
-                                      className="checkbox-accent checkbox checkbox-xs"
-                                      onChange={handleTraffic}
-                                    />
-                                  </label>
-                                </div>
-
-                                <div className="form-control ">
-                                  <label className="label cursor-pointer">
-                                    <span className="label-text pr-1 text-xs">
-                                      Avoid tolls?
-                                    </span>
-                                    <input
-                                      type="checkbox"
-                                      className="checkbox-accent checkbox checkbox-xs"
-                                      onChange={handleTolls}
-                                    />
-                                  </label>
-                                </div>
-
-                                <div className="form-control ">
-                                  <label className="label cursor-pointer">
-                                    <span className="label-text pr-1 text-xs">
-                                      Avoid Highways?
-                                    </span>
-                                    <input
-                                      type="checkbox"
-                                      className="checkbox-accent checkbox checkbox-xs"
-                                      onChange={handleHighways}
-                                    />
-                                  </label>
-                                </div>
-                              </div>
-                              <div className="flex items-center justify-between">
-                                {" "}
-                                {route.isVisible ? (
-                                  <button
-                                    // onClick={() =>
-                                    //   showDirections(direction.request.destination.query)
-                                    // }
-                                    className=" rounded-md  border-2 p-1"
-                                  >
-                                    <MdOutlineVisibility />
-                                  </button>
-                                ) : (
-                                  <button
-                                    // onClick={() =>
-                                    //   hideDirections(direction.request.destination.query)
-                                    // }
-                                    className=" rounded-md  border-2 p-1"
-                                  >
-                                    <AiOutlineEyeInvisible />
-                                  </button>
-                                )}
-                                <button
-                                  // onClick={handleRemoveDestination}
-                                  className="rounded-md px-2"
-                                >
-                                  <TrashIcon className="text-orange h-6" />
-                                </button>
-                              </div>
-                            </div>
-                          </li>
-                        )
-                      })}{" "}
-                    </ul>
-                  </div>
-                </Tab.Panel>
+                            </li>
+                          )
+                        })}
+                      </ul>
+                    </div>
+                  </Tab.Panel>
+                ))}
               </Tab.Panels>
             </Tab.Group>
           </Tab.Panel>
@@ -1209,392 +863,3 @@ function Driving() {
 }
 
 export default Driving
-
-// {/* <Tab.Panel>
-// <Tab.Group>
-//   <Tab.List className="flex w-full justify-between">
-//     <Tab
-//       onClick={() => setFeaturesOpen((prev) => !prev)}
-//       // className="btn-success btn w-1/2 gap-x-2"
-//       className={
-//         featuresOpen
-//           ? "btn-success btn flex w-[48%] items-center gap-2"
-//           : "btn-outline  btn flex w-[48%] items-center gap-2"
-//       }
-//     >
-//       <span>Options</span>
-//       <IoSettingsOutline className="text-xl" />
-//     </Tab>
-//     <Tab
-//       className="btn-success btn w-1/2 gap-x-2"
-//       // className={
-//       //   featuresOpen
-//       //     ? "bg-blue flex w-1/2 items-center gap-2 rounded-lg border-2 px-4 py-2"
-//       //     : "flex w-1/2 items-center gap-2 rounded-lg bg-blue-500 px-4 py-2"
-//       // }
-//     >
-//       <span>Routes</span>
-//       <GrDirections className="text-xl" />
-//     </Tab>
-//   </Tab.List>
-//   <Tab.Panels>
-//     {/* routes */}
-//     <Tab.Panel>
-//       <div>
-//         {/* <div className="flex justify-between">
-//           <button
-//             onClick={() => handleHouseButtonClick(1)}
-//             className="btn-success btn w-[32%]"
-//           >
-//             House 1
-//           </button>
-//           <button
-//             onClick={() => handleHouseButtonClick(2)}
-//             className="btn-success btn w-[32%]"
-//           >
-//             House 2
-//           </button>
-//           <button
-//             onClick={() => handleHouseButtonClick(3)}
-//             className="btn-success btn w-[32%]"
-//           >
-//             House 3
-//           </button>
-//         </div> */}
-//         <div
-//           className="flex flex-col py-2 gap-2"
-//           // action=""
-//         >
-//           {/* <button
-//             // onClick={}
-//             className="btn-success btn w-full"
-//           >
-//             Fetch data
-//           </button> */}
-//           <div className="collapse-arrow collapse rounded-xl border-2">
-//             <input type="checkbox" />
-//             <div className="collapse-title text-xl font-medium">
-//               Houses
-//             </div>
-//             <div className="collapse-content">
-//               <div className="form-control w-full ">
-//                 <label className="label">
-//                   <span className="label-text">
-//                     Add a address for this main location
-//                   </span>
-//                 </label>
-//                 <Autocomplete>
-//                   <input
-//                     type="text"
-//                     placeholder="Enter the address"
-//                     className="input-bordered input-accent input-md input w-full bg-white"
-//                     ref={mainOriginRef}
-//                   />
-//                 </Autocomplete>
-//               </div>
-//               <div className="form-control w-full ">
-//                 <label className="label">
-//                   <span className="label-text">
-//                     Add a address for this main location
-//                   </span>
-//                 </label>
-//                 <Autocomplete>
-//                   <input
-//                     type="text"
-//                     placeholder="Enter the address"
-//                     className="input-bordered input-accent input-md input w-full bg-white"
-//                     ref={mainOriginRef}
-//                   />
-//                 </Autocomplete>
-//               </div>
-//               <div className="form-control w-full ">
-//                 <label className="label">
-//                   <span className="label-text">
-//                     Add a address for this main location
-//                   </span>
-//                 </label>
-//                 <Autocomplete>
-//                   <input
-//                     type="text"
-//                     placeholder="Enter the address"
-//                     className="input-bordered input-accent input-md input w-full bg-white"
-//                     ref={mainOriginRef}
-//                   />
-//                 </Autocomplete>
-//               </div>
-//             </div>
-//           </div>
-
-//           <div className="collapse-arrow collapse rounded-xl border-2">
-//             <input type="checkbox" />
-//             <div className="collapse-title text-xl font-medium">
-//               Add Destinations
-//             </div>
-//             <div className="collapse-content">
-//               <div className="form-control w-full ">
-//                 <label className="label">
-//                   <span className="label-text">
-//                     Add a address for this destination
-//                   </span>
-//                 </label>
-//                 <Autocomplete>
-//                   <input
-//                     type="text"
-//                     placeholder="Enter the address"
-//                     className="input-bordered input-accent input-md input w-full bg-white"
-//                     ref={destinationRef}
-//                   />
-//                 </Autocomplete>
-//               </div>
-//               <input
-//                 type="text"
-//                 placeholder="No. travels per month"
-//                 className="input-bordered input-accent input-md input w-full bg-white"
-//                 ref={numberOfTravelsRef}
-//               />
-//             </div>
-//           </div>
-//           {/* destinations */}
-//           {/* {compareMultipleHouses && (
-//             <div className="form-control w-full ">
-//               <label className="label">
-//                 <span className="label-text">
-//                   Use Previous Destinations
-//                 </span>
-//               </label>
-
-//               <label className="label cursor-pointer">
-//                 <span className="label-text">Avoid Highways</span>
-//                 <input
-//                   type="checkbox"
-//                   className="checkbox-accent checkbox"
-//                 />
-//               </label>
-//             </div>
-//           )} */}
-
-//           {/* <button
-//             onClick={handleNewDestination}
-//             className="btn-success btn"
-//           >
-//             Add Destination
-//           </button> */}
-//           {/* <div><div className="form-control w-full ">
-//             <label className="label">
-//               <span className="label-text">Units</span>
-//             </label>
-//             <select
-//               className="select-accent select w-full bg-white "
-//               onChange={handleUnitsMeasure}
-//             >
-//               <option value="Metric">Metric</option>
-//               <option value="Imperial">Imperial</option>
-//             </select>
-//           </div>
-//           <div className="form-control w-full ">
-//             <label className="label">
-//               <span className="label-text">Pick travel mode:</span>
-//             </label>
-//             <select
-//               className="select-accent select w-full bg-white "
-//               onChange={handleSelectedTravelMode}
-//             >
-//               <option value="DRIVE">Car</option>
-//               <option value="TWO_WHEELER">
-//                 Two-wheeled, motorized vehicle
-//               </option>
-//             </select>
-//           </div>
-//           <div className="form-control w-full ">
-//             <label className="label">
-//               <span className="label-text">Type of engine</span>
-//             </label>
-//             <select
-//               className="select-accent select w-full bg-white "
-//               onChange={handleSelectedEngineType}
-//             >
-//               <option value="GASOLINE">
-//                 Gasoline/petrol fueled vehicle
-//               </option>
-//               <option value="ELECTRIC">
-//                 Electricity powered vehicle
-//               </option>
-//               <option value="HYBRID">Hybrid fuel vehicle</option>
-//               <option value="DRIVE">Premium diesel</option>
-//               <option value="DIESEL"> Diesel fueled vehicle</option>
-//             </select>
-//           </div>
-//           <div className="space-y-2">
-//             <div className="flex items-center gap-2">
-//               <label
-//                 className="font-bold"
-//                 htmlFor="consumption"
-//               >
-//                 Consumption
-//               </label>
-//               <Tooltip
-//                 color={"blue"}
-//                 text={"Hellogfdddddddddddddho"}
-//                 type={"info"}
-//               />
-//             </div>
-//             <div className="form-control w-full ">
-//               <label className="label">
-//                 <span className="label-text">
-//                   What is your consumption?
-//                 </span>
-//               </label>
-//               <input
-//                 type="text"
-//                 placeholder="liters/km"
-//                 className="input-bordered input-accent input-md input w-full bg-white"
-//                 onChange={handleLitersConsumed}
-//               />
-//             </div>
-
-//             {(selectedEngineType === "HYBRID" ||
-//               selectedEngineType === "ELECTRIC") && (
-//               <input
-//                 type="text"
-//                 placeholder="kwh/km"
-//                 className="input-bordered input-accent input-md input w-full bg-white"
-//                 onChange={handleWattsConsumed}
-//               />
-//             )}
-//           </div>
-//           <div className="form-control">
-//             <label className="label cursor-pointer">
-//               <span className="label-text">
-//                 Take Live Traffic Into Consideration?
-//               </span>
-//               <input
-//                 type="checkbox"
-//                 className="checkbox-accent checkbox"
-//                 onChange={handleTraffic}
-//               />
-//             </label>
-//           </div>
-
-//           <div className="form-control">
-//             <label className="label cursor-pointer">
-//               <span className="label-text">Avoid tolls?</span>
-//               <input
-//                 type="checkbox"
-//                 className="checkbox-accent checkbox"
-//                 onChange={handleTolls}
-//               />
-//             </label>
-//           </div>
-
-//           <div className="form-control">
-//             <label className="label cursor-pointer">
-//               <span className="label-text">Avoid Highways?</span>
-//               <input
-//                 type="checkbox"
-//                 className="checkbox-accent checkbox"
-//                 onChange={handleHighways}
-//               />
-//             </label>
-//           </div></div>
-//            */}
-
-//           {/* <button className="btn-success btn w-full">Add Route</button>
-//           <button
-//             onClick={() => setCompareMultipleHouses(prev)}
-//             className="btn-success btn w-full"
-//           >
-//             Compare Multiple Houses
-//           </button> */}
-//           <button
-//             // onClick={() => fetchData()}
-//             className="btn-success btn w-full"
-//           >
-//             Add Routes
-//           </button>
-//         </div>
-//       </div>
-//       {/* routes */}
-//     </Tab.Panel>
-//     {/* routes */}
-//     <Tab.Panel className="max-h-[550px] overflow-y-scroll pt-4">
-//       <div className="flex justify-between">
-//         <button
-//           onClick={() => handleHouseButtonClick(1)}
-//           className="btn-success btn w-[32%]"
-//         >
-//           House 1
-//         </button>
-//         <button
-//           onClick={() => handleHouseButtonClick(2)}
-//           className="btn-success btn w-[32%]"
-//         >
-//           House 2
-//         </button>
-//         <button
-//           onClick={() => handleHouseButtonClick(3)}
-//           className="btn-success btn w-[32%]"
-//         >
-//           House 3
-//         </button>
-//       </div>
-//       {/* fetchedDrivingDirections.length > 0 && */}
-//       {Object.values(results).map((house, index) => {
-//         return (
-//           <div key={index}>
-//             <h2>
-//               House {index + 1} -{" "}
-//               <span className="text-xs ">{house[0].origin}</span>
-//             </h2>
-//             <ul className="flex flex-col gap-2">
-//               {house.map((route, subIndex) => {
-//                 // console.log(route)
-//                 return (
-//                   <li
-//                     className="border-b-2 pb-4"
-//                     key={route.distance}
-//                   >
-//                     <span>Edit: Route {subIndex + 1}</span>
-//                     <div className="flex flex-col gap-2">
-//                       <div className="flex justify-between">
-//                         <span>{route.destination}</span>
-//                       </div>
-//                     </div>{" "}
-//                     <div className="flex items-center justify-between">
-//                       {" "}
-//                       {route.isVisible ? (
-//                         <button
-//                           // onClick={() =>
-//                           //   showDirections(direction.request.destination.query)
-//                           // }
-//                           className=" rounded-md  border-2 p-1"
-//                         >
-//                           <MdOutlineVisibility />
-//                         </button>
-//                       ) : (
-//                         <button
-//                           // onClick={() =>
-//                           //   hideDirections(direction.request.destination.query)
-//                           // }
-//                           className=" rounded-md  border-2 p-1"
-//                         >
-//                           <AiOutlineEyeInvisible />
-//                         </button>
-//                       )}
-//                       <button
-//                         // onClick={handleRemoveDestination}
-//                         className="rounded-md px-2"
-//                       >
-//                         <TrashIcon className="text-orange h-6" />
-//                       </button>
-//                     </div>
-//                   </li>
-//                 )
-//               })}
-//             </ul>
-//           </div>
-//         )
-//       })}
-//     </Tab.Panel>
-//   </Tab.Panels>
-// </Tab.Group>
-// </Tab.Panel> */}
