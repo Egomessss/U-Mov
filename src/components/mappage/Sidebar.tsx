@@ -107,6 +107,14 @@ function Sidebar({ centerMap }) {
             </>
           )}
         </Popover>
+
+        <select
+          className="  bg-white "
+          // onChange={handleUnitsMeasure}
+        >
+          <option value="Metric">Metric</option>
+          <option value="Imperial">Imperial</option>
+        </select>
       </div>
     </div>
   )

@@ -42,13 +42,13 @@ function MapApi({ center, setMap, map, directions, routes }) {
   }
   return (
     <div className="-mx-20  h-full">
-      <GoogleMap
+      {/* <GoogleMap
         mapContainerStyle={containerStyle}
         center={center}
         zoom={10}
         onLoad={setMap}
         options={mapOptions}
-      >
+      > */}
         {/* Child components, such as markers, info windows, etc. */}
         <>
           {/* <Marker position={center} /> */}
@@ -60,7 +60,7 @@ function MapApi({ center, setMap, map, directions, routes }) {
               />
             </div>
           ))} */}
-          {drivingDirections.filter(obj => obj.visible === true).map((direction, index) => {
+          {/* {drivingDirections.filter(obj => obj.visible === true).map((direction, index) => {
             // ver onDirecitons changed https://react-google-maps-api-docs.netlify.app/#directionsrenderer
               return (
                 <DirectionsRenderer
@@ -68,9 +68,9 @@ function MapApi({ center, setMap, map, directions, routes }) {
                   directions={direction}
                 />
               )
-            })}
+            })} */}
         </>
-      </GoogleMap>
+      {/* </GoogleMap> */}
     </div>
   )
 }
