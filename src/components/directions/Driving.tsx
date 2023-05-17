@@ -9,6 +9,7 @@ import { BsTrash3 } from "react-icons/bs"
 import { GrDirections } from "react-icons/gr"
 import Tooltip from "../Tooltip"
 import { IoSettingsOutline } from "react-icons/io5"
+import { FiArrowDown } from "react-icons/fi"
 import { HiOutlineArrowNarrowRight } from "react-icons/hi"
 import axios from "axios"
 
@@ -294,50 +295,62 @@ function Driving() {
     }
   }
 
-  // ! hide directions
+  // Function to hide directions
   const hideDirections = (house, index) => {
+    // Update the state using the setRoutesFormData function
     setRoutesFormData((prev) => {
       return { ...prev }
     })
 
+    // Access the data for the specified house
     const houseData = routesFormData[house]
     console.log(houseData)
 
+    // Create updated directions by mapping over the house data
     const updatedDirections = houseData.map((route) => {
+      // If the route's destination matches the index, hide it by updating the isVisible property to false
       if (route.destination === index) {
         return { ...route, isVisible: false }
       }
       return route
     })
 
+    // Create updated routes form data by merging the updated directions with the existing data
     const updatedRoutesFormData = {
       ...routesFormData,
       [house]: updatedDirections,
     }
 
+    // Update the state with the updated routes form data
     setRoutesFormData(updatedRoutesFormData)
   }
 
-  // ! unhide directions
+  // Function to unhide directions
   const unhideDirections = (house, index) => {
+    // Update the state using the setRoutesFormData function
     setRoutesFormData((prev) => {
       return { ...prev }
     })
 
+    // Access the data for the specified house
     const houseData = routesFormData[house]
 
+    // Create updated directions by mapping over the house data
     const updatedDirections = houseData.map((route) => {
+      // If the route's destination matches the index, unhide it by updating the isVisible property to true
       if (route.destination === index) {
         return { ...route, isVisible: true }
       }
       return route
     })
 
+    // Create updated routes form data by merging the updated directions with the existing data
     const updatedRoutesFormData = {
       ...routesFormData,
       [house]: updatedDirections,
     }
 
+    // Update the state with the updated routes form data
     setRoutesFormData(updatedRoutesFormData)
   }
 
@@ -701,17 +714,22 @@ function Driving() {
                 {[1, 2, 3].map((houseNumber) => (
                   <Tab.Panel>
                     <div className="py-4">
+                      <div className="flex w-full  flex-col items-center justify-center">
+                        <h2>
+                          {routesFormData[`House ${houseNumber}`][0].origin}
+                        </h2>
+                        <FiArrowDown className="text-2xl" />
+                      </div>
+
                       <ul className="flex flex-col gap-2">
                         {routesFormData[`House ${houseNumber}`].map((route) => {
                           return (
                             <li
-                              className="border-b-2 pb-4"
+                              className="border-y-2 pb-4"
                               key={route.distance}
                             >
                               <div className="flex flex-col gap-2">
                                 <div className="flex items-center justify-between">
-                                  <span className="">{route.origin}</span>
-                                  <HiOutlineArrowNarrowRight />
                                   <span>{route.destination}</span>
                                 </div>
                               </div>{" "}
@@ -724,7 +742,7 @@ function Driving() {
                                       </span>
                                     </label>
                                     <select
-                                      className="select-accent select select-sm w-full bg-white "
+                                      className="select-accent select select-sm w-full bg-white text-xs "
                                       onChange={handleSelectedTravelMode}
                                     >
                                       <option value="DRIVE">Car</option>
@@ -740,7 +758,7 @@ function Driving() {
                                       </span>
                                     </label>
                                     <select
-                                      className="select-accent select select-sm w-full bg-white "
+                                      className="select-accent select select-sm w-full bg-white text-xs "
                                       onChange={handleSelectedEngineType}
                                     >
                                       <option value="GASOLINE">Gasoline</option>
@@ -764,7 +782,7 @@ function Driving() {
                                     <input
                                       type="text"
                                       placeholder="liters/km"
-                                      className="input-bordered input-accent input input-sm w-full bg-white"
+                                      className="input-bordered input-accent  input input-sm w-full bg-white text-xs"
                                       onChange={handleLitersConsumed}
                                     />
                                   </div>
@@ -819,32 +837,47 @@ function Driving() {
                                     </label>
                                   </div>
                                 </div>
-                                <button
-                                  onClick={() =>
-                                    unhideDirections(
-                                      "House 1",
-                                      route.destination
-                                    )
-                                  }
-                                  className={`rounded-md border-2 p-1 ${
-                                    route.isVisible && "bg-green-500"
-                                  }`}
-                                >
-                                  <MdOutlineVisibility />
-                                </button>
-                                <button
-                                  onClick={() =>
-                                    hideDirections(
-                                      `House ${houseNumber}`,
-                                      route.destination
-                                    )
-                                  }
-                                  className={`rounded-md border-2 p-1 ${
-                                    !route.isVisible && "bg-red-500"
-                                  }`}
-                                >
-                                  <AiOutlineEyeInvisible />
-                                </button>
+                                <div className="flex items-center justify-between">
+                                  <div>
+                                    <button
+                                      onClick={() =>
+                                        unhideDirections(
+                                          "House 1",
+                                          route.destination
+                                        )
+                                      }
+                                      className={`rounded-md border-2 p-1 ${
+                                        route.isVisible && "bg-green-500"
+                                      }`}
+                                    >
+                                      <MdOutlineVisibility />
+                                    </button>
+                                    <button
+                                      onClick={() =>
+                                        hideDirections(
+                                          `House ${houseNumber}`,
+                                          route.destination
+                                        )
+                                      }
+                                      className={`rounded-md border-2 p-1 ${
+                                        !route.isVisible && "bg-red-500"
+                                      }`}
+                                    >
+                                      <AiOutlineEyeInvisible />
+                                    </button>
+                                  </div>
+                                  <button
+                                    onClick={() =>
+                                      handleDeleteRoute(
+                                        "House 1",
+                                        route.destination
+                                      )
+                                    }
+                                    className="rounded-md px-2"
+                                  >
+                                    <TrashIcon className="text-orange h-6" />
+                                  </button>
+                                </div>
                               </div>
                             </li>
                           )
