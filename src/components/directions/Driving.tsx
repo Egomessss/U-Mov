@@ -374,20 +374,20 @@ function Driving() {
                 <div className="collapse-arrow collapse rounded-xl border-2">
                   <input type="checkbox" />
                   <div className="collapse-title text-xl font-medium">
-                    Houses
+                    Origin Addresses
                   </div>
                   <div className="collapse-content">
                     <div className="form-control w-full ">
                       <label className="label">
                         <span className="label-text">
-                          Add a address for this main location
+                          Add a address for House 1
                         </span>
                       </label>
                       <Autocomplete>
                         <input
                           type="text"
-                          placeholder="Enter the address"
-                          className="input-bordered input-accent input w-full bg-white"
+                          placeholder="Enter the address..."
+                          className="input-bordered input-accent input input-md w-full bg-white"
                           ref={mainOriginRef}
                         />
                       </Autocomplete>
@@ -395,14 +395,14 @@ function Driving() {
                     <div className="form-control w-full ">
                       <label className="label">
                         <span className="label-text">
-                          Add a address for this main location
+                          Add a address for House 2
                         </span>
                       </label>
                       <Autocomplete>
                         <input
                           type="text"
-                          placeholder="Enter the address"
-                          className="input-bordered input-accent input w-full bg-white"
+                          placeholder="Enter the address..."
+                          className="input-bordered input-accent input input-md w-full bg-white"
                           ref={mainOriginRef}
                         />
                       </Autocomplete>
@@ -410,14 +410,14 @@ function Driving() {
                     <div className="form-control w-full ">
                       <label className="label">
                         <span className="label-text">
-                          Add a address for this main location
+                          Add a address for House 3
                         </span>
                       </label>
                       <Autocomplete>
                         <input
                           type="text"
-                          placeholder="Enter the address"
-                          className="input-bordered input-accent input w-full bg-white"
+                          placeholder="Enter the address..."
+                          className="input-bordered input-accent input input-md w-full bg-white"
                           ref={mainOriginRef}
                         />
                       </Autocomplete>
@@ -428,10 +428,32 @@ function Driving() {
                 <div className="collapse-arrow collapse rounded-xl border-2">
                   <input type="checkbox" />
                   <div className="collapse-title text-xl font-medium">
-                    Add Destinations
+                    Destinations Addresses
                   </div>
                   <div className="collapse-content h-[300px] overflow-y-visible">
-                    <div className="form-control w-full ">
+                    <div className="form-control w-full gap-2 ">
+                      <label className="label ">
+                        <span className="label-text">
+                          Add a address for this destination
+                        </span>
+                      </label>
+                      <Autocomplete>
+                        <input
+                          type="text"
+                          placeholder="Enter the address"
+                          className="input-bordered  input-accent input input-md w-full bg-white"
+                          ref={destinationRef}
+                        />
+                      </Autocomplete>
+                      <input
+                        type="text"
+                        placeholder="No. travels per month"
+                        className="input-bordered input-accent input input-md w-full bg-white"
+                        ref={numberOfTravelsRef}
+                      />
+                    </div>
+
+                    <div className="form-control w-full gap-2 ">
                       <label className="label">
                         <span className="label-text">
                           Add a address for this destination
@@ -441,18 +463,19 @@ function Driving() {
                         <input
                           type="text"
                           placeholder="Enter the address"
-                          className="input-bordered input-accent input w-full bg-white"
+                          className="input-bordered input-accent input input-md w-full bg-white"
                           ref={destinationRef}
                         />
                       </Autocomplete>
+                      <input
+                        type="text"
+                        placeholder="No. travels per month"
+                        className="input-bordered input-accent input input-md w-full bg-white"
+                        ref={numberOfTravelsRef}
+                      />
                     </div>
-                    <input
-                      type="text"
-                      placeholder="Number of travels per month"
-                      className="input-bordered input-accent input w-full bg-white"
-                      ref={numberOfTravelsRef}
-                    />
-                    <div className="form-control w-full ">
+
+                    <div className="form-control w-full gap-2 ">
                       <label className="label">
                         <span className="label-text">
                           Add a address for this destination
@@ -462,18 +485,19 @@ function Driving() {
                         <input
                           type="text"
                           placeholder="Enter the address"
-                          className="input-bordered input-accent input w-full bg-white"
+                          className="input-bordered input-accent input input-md w-full bg-white"
                           ref={destinationRef}
                         />
                       </Autocomplete>
+                      <input
+                        type="text"
+                        placeholder="No. travels per month"
+                        className="input-bordered input-accent input input-md w-full bg-white"
+                        ref={numberOfTravelsRef}
+                      />
                     </div>
-                    <input
-                      type="text"
-                      placeholder="Number of travels per month"
-                      className="input-bordered input-accent input w-full bg-white"
-                      ref={numberOfTravelsRef}
-                    />
-                    <div className="form-control w-full ">
+
+                    <div className="form-control w-full gap-2 ">
                       <label className="label">
                         <span className="label-text">
                           Add a address for this destination
@@ -483,18 +507,19 @@ function Driving() {
                         <input
                           type="text"
                           placeholder="Enter the address"
-                          className="input-bordered input-accent input w-full bg-white"
+                          className="input-bordered input-accent input input-md w-full bg-white"
                           ref={destinationRef}
                         />
                       </Autocomplete>
+                      <input
+                        type="text"
+                        placeholder="No. travels per month"
+                        className="input-bordered input-accent input input-md w-full bg-white"
+                        ref={numberOfTravelsRef}
+                      />
                     </div>
-                    <input
-                      type="text"
-                      placeholder="Number of travels per month"
-                      className="input-bordered input-accent input w-full bg-white"
-                      ref={numberOfTravelsRef}
-                    />
-                    <div className="form-control w-full ">
+
+                    <div className="form-control w-full gap-2 ">
                       <label className="label">
                         <span className="label-text">
                           Add a address for this destination
@@ -504,18 +529,19 @@ function Driving() {
                         <input
                           type="text"
                           placeholder="Enter the address"
-                          className="input-bordered input-accent input w-full bg-white"
+                          className="input-bordered input-accent input input-md w-full bg-white"
                           ref={destinationRef}
                         />
                       </Autocomplete>
+                      <input
+                        type="text"
+                        placeholder="No. travels per month"
+                        className="input-bordered input-accent input input-md w-full bg-white"
+                        ref={numberOfTravelsRef}
+                      />
                     </div>
-                    <input
-                      type="text"
-                      placeholder="Number of travels per month"
-                      className="input-bordered input-accent input w-full bg-white"
-                      ref={numberOfTravelsRef}
-                    />
-                    <div className="form-control w-full ">
+
+                    <div className="form-control w-full gap-2 ">
                       <label className="label">
                         <span className="label-text">
                           Add a address for this destination
@@ -525,18 +551,19 @@ function Driving() {
                         <input
                           type="text"
                           placeholder="Enter the address"
-                          className="input-bordered input-accent input w-full bg-white"
+                          className="input-bordered input-accent input input-md w-full bg-white"
                           ref={destinationRef}
                         />
                       </Autocomplete>
+                      <input
+                        type="text"
+                        placeholder="No. travels per month"
+                        className="input-bordered input-accent input input-md w-full bg-white"
+                        ref={numberOfTravelsRef}
+                      />
                     </div>
-                    <input
-                      type="text"
-                      placeholder="Number of travels per month"
-                      className="input-bordered input-accent input w-full bg-white"
-                      ref={numberOfTravelsRef}
-                    />
-                    <div className="form-control w-full ">
+
+                    <div className="form-control w-full gap-2 ">
                       <label className="label">
                         <span className="label-text">
                           Add a address for this destination
@@ -546,18 +573,19 @@ function Driving() {
                         <input
                           type="text"
                           placeholder="Enter the address"
-                          className="input-bordered input-accent input w-full bg-white"
+                          className="input-bordered input-accent input input-md w-full bg-white"
                           ref={destinationRef}
                         />
                       </Autocomplete>
+                      <input
+                        type="text"
+                        placeholder="No. travels per month"
+                        className="input-bordered input-accent input input-md w-full bg-white"
+                        ref={numberOfTravelsRef}
+                      />
                     </div>
-                    <input
-                      type="text"
-                      placeholder="Number of travels per month"
-                      className="input-bordered input-accent input w-full bg-white"
-                      ref={numberOfTravelsRef}
-                    />
-                    <div className="form-control w-full ">
+
+                    <div className="form-control w-full gap-2 ">
                       <label className="label">
                         <span className="label-text">
                           Add a address for this destination
@@ -567,18 +595,19 @@ function Driving() {
                         <input
                           type="text"
                           placeholder="Enter the address"
-                          className="input-bordered input-accent input w-full bg-white"
+                          className="input-bordered input-accent input input-md w-full bg-white"
                           ref={destinationRef}
                         />
                       </Autocomplete>
+                      <input
+                        type="text"
+                        placeholder="No. travels per month"
+                        className="input-bordered input-accent input input-md w-full bg-white"
+                        ref={numberOfTravelsRef}
+                      />
                     </div>
-                    <input
-                      type="text"
-                      placeholder="Number of travels per month"
-                      className="input-bordered input-accent input w-full bg-white"
-                      ref={numberOfTravelsRef}
-                    />
-                    <div className="form-control w-full ">
+
+                    <div className="form-control w-full gap-2 ">
                       <label className="label">
                         <span className="label-text">
                           Add a address for this destination
@@ -588,18 +617,19 @@ function Driving() {
                         <input
                           type="text"
                           placeholder="Enter the address"
-                          className="input-bordered input-accent input w-full bg-white"
+                          className="input-bordered input-accent input input-md w-full bg-white"
                           ref={destinationRef}
                         />
                       </Autocomplete>
+                      <input
+                        type="text"
+                        placeholder="No. travels per month"
+                        className="input-bordered input-accent input input-md w-full bg-white"
+                        ref={numberOfTravelsRef}
+                      />
                     </div>
-                    <input
-                      type="text"
-                      placeholder="Number of travels per month"
-                      className="input-bordered input-accent input w-full bg-white"
-                      ref={numberOfTravelsRef}
-                    />
-                    <div className="form-control w-full ">
+
+                    <div className="form-control w-full gap-2 ">
                       <label className="label">
                         <span className="label-text">
                           Add a address for this destination
@@ -609,38 +639,17 @@ function Driving() {
                         <input
                           type="text"
                           placeholder="Enter the address"
-                          className="input-bordered input-accent input w-full bg-white"
+                          className="input-bordered input-accent input input-md w-full bg-white"
                           ref={destinationRef}
                         />
                       </Autocomplete>
+                      <input
+                        type="text"
+                        placeholder="No. travels per month"
+                        className="input-bordered input-accent input input-md w-full bg-white"
+                        ref={numberOfTravelsRef}
+                      />
                     </div>
-                    <input
-                      type="text"
-                      placeholder="Number of travels per month"
-                      className="input-bordered input-accent input w-full bg-white"
-                      ref={numberOfTravelsRef}
-                    />
-                    <div className="form-control w-full ">
-                      <label className="label">
-                        <span className="label-text">
-                          Add a address for this destination
-                        </span>
-                      </label>
-                      <Autocomplete>
-                        <input
-                          type="text"
-                          placeholder="Enter the address"
-                          className="input-bordered input-accent input w-full bg-white"
-                          ref={destinationRef}
-                        />
-                      </Autocomplete>
-                    </div>
-                    <input
-                      type="text"
-                      placeholder="Number of travels per month"
-                      className="input-bordered input-accent input w-full bg-white"
-                      ref={numberOfTravelsRef}
-                    />
                   </div>
                 </div>
 
@@ -1234,7 +1243,7 @@ export default Driving
 //                   <input
 //                     type="text"
 //                     placeholder="Enter the address"
-//                     className="input-bordered input-accent input w-full bg-white"
+//                     className="input-bordered input-accent input-md input w-full bg-white"
 //                     ref={mainOriginRef}
 //                   />
 //                 </Autocomplete>
@@ -1249,7 +1258,7 @@ export default Driving
 //                   <input
 //                     type="text"
 //                     placeholder="Enter the address"
-//                     className="input-bordered input-accent input w-full bg-white"
+//                     className="input-bordered input-accent input-md input w-full bg-white"
 //                     ref={mainOriginRef}
 //                   />
 //                 </Autocomplete>
@@ -1264,7 +1273,7 @@ export default Driving
 //                   <input
 //                     type="text"
 //                     placeholder="Enter the address"
-//                     className="input-bordered input-accent input w-full bg-white"
+//                     className="input-bordered input-accent input-md input w-full bg-white"
 //                     ref={mainOriginRef}
 //                   />
 //                 </Autocomplete>
@@ -1288,15 +1297,15 @@ export default Driving
 //                   <input
 //                     type="text"
 //                     placeholder="Enter the address"
-//                     className="input-bordered input-accent input w-full bg-white"
+//                     className="input-bordered input-accent input-md input w-full bg-white"
 //                     ref={destinationRef}
 //                   />
 //                 </Autocomplete>
 //               </div>
 //               <input
 //                 type="text"
-//                 placeholder="Number of travels per month"
-//                 className="input-bordered input-accent input w-full bg-white"
+//                 placeholder="No. travels per month"
+//                 className="input-bordered input-accent input-md input w-full bg-white"
 //                 ref={numberOfTravelsRef}
 //               />
 //             </div>
@@ -1394,7 +1403,7 @@ export default Driving
 //               <input
 //                 type="text"
 //                 placeholder="liters/km"
-//                 className="input-bordered input-accent input w-full bg-white"
+//                 className="input-bordered input-accent input-md input w-full bg-white"
 //                 onChange={handleLitersConsumed}
 //               />
 //             </div>
@@ -1404,7 +1413,7 @@ export default Driving
 //               <input
 //                 type="text"
 //                 placeholder="kwh/km"
-//                 className="input-bordered input-accent input w-full bg-white"
+//                 className="input-bordered input-accent input-md input w-full bg-white"
 //                 onChange={handleWattsConsumed}
 //               />
 //             )}
