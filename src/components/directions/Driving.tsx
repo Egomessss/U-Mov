@@ -838,7 +838,7 @@ function Driving() {
                                 onClick={() =>
                                   unhideDirections("House 1", route.destination)
                                 }
-                                className={" rounded-md  border-2 p-1"}
+                                className={`rounded-md border-2 p-1 ${route.isVisible && 'bg-green-500'}`}
                               >
                                 <MdOutlineVisibility />
                               </button>
@@ -846,7 +846,7 @@ function Driving() {
                                 onClick={() =>
                                   hideDirections("House 1", route.destination)
                                 }
-                                className={" rounded-md  border-2 p-1"}
+                                className={`rounded-md border-2 p-1 ${!route.isVisible && 'bg-red-500'}`}
                               >
                                 <AiOutlineEyeInvisible />
                               </button>
