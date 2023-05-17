@@ -110,161 +110,142 @@ function Driving() {
 
   // ! fetch route
 
-  // ! add one origin or origins
-  // ! add destinations
-
-  // ! button for comparing uses the destinations autocomplete to save autocomplete requests
-  //! create an array for the origins
-  //! create an array for the destinations
-
-  // ! button to add a new oriign using differnt destinations config
-  // ! button to add a new oriign using the same destinations config
-  // ! iterate over the origins and destinations and fetch the routes, usin gthe fetch data
-
-  // const fetchData = () => {
-  //     const config = {
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         "X-Goog-Api-Key": "AIzaSyAC-ZmHeOUM6VvIDtbc8y_sfKG-Lh7ZgME",
-  //         "X-Goog-FieldMask":
-  //           "routes.duration,routes.distanceMeters,routes.polyline.encodedPolyline",
-  //       },
-  //     }
-
-  //     const data = {
-  //       origin: {
-  //         address: mainOriginRef.current.value,
-  //       },
-  //       destination: {
-  //         address: destinationRef.current.value,
-  //       },
-  //       travelMode: selectedTravelMode,
-  //       routingPreference: trafficPreference,
-  //       routeModifiers: {
-  //         avoidTolls: tollsPreference,
-  //         avoidHighways: highwaysPreference,
-  //       },
-  //       units: units,
-  //     }
-
-  //     axios
-  //       .post(
-  //         "https://routes.googleapis.com/directions/v2:computeRoutes",
-  //         data,
-  //         config
-  //       )
-  //       .then((response) => {
-  //         const data = response.data
-
-  //         const modifiedData = {
-  //           isVisible: true,
-  //           origin: mainOriginRef.current.value,
-  //           destination: destinationRef.current.value,
-  //           duration: data.routes[0].duration,
-  //           distance: data.routes[0].distanceMeters,
-  //           polyline: data.routes[0].polyline.encodedPolyline,
-  //         }
-  //         setMultipleHousesComparison((house) => ({
-  //           ...house,
-  //           "House 1":modifiedData,
-  //         }))
-  //       }
-  //       .catch((error) => {
-  //         console.error(error)
-  //       })
-  //   }
-
-  const fetchData = async () => {
-    try {
-      const promises = Object.entries(fetchedData).flatMap(
-        ([route, destinations]) => {
-          return destinations.map(({ origin, destination }) => {
-            const config = {
-              headers: {
-                "Content-Type": "application/json",
-                "X-Goog-Api-Key": "AIzaSyAC-ZmHeOUM6VvIDtbc8y_sfKG-Lh7ZgME",
-                "X-Goog-FieldMask":
-                  "routes.duration,routes.distanceMeters,routes.polyline.encodedPolyline",
-              },
-            }
-            const data = {
-              origin: {
-                address: origin,
-              },
-              destination: {
-                address: destination,
-              },
-              travelMode: "DRIVE",
-            }
-
-            const apiUrl =
-              "https://routes.googleapis.com/directions/v2:computeRoutes"
-
-            return axios
-              .post(apiUrl, data, config)
-              .then((response) => {
-                const routeData = response.data.routes[0]
-                const distance = routeData.distanceMeters
-                const duration = routeData.duration
-                const encodedPolyline = routeData.polyline.encodedPolyline
-                return {
-                  route,
-                  origin,
-                  destination,
-                  distance,
-                  duration,
-                  encodedPolyline,
-                  isVisible: true,
-                }
-              })
-              .catch((error) => {
-                console.error(
-                  `Error fetching data for route ${route}, origin ${origin}, destination ${destination}:`,
-                  error
-                )
-                return {
-                  route,
-                  origin,
-                  destination,
-                  distance: null,
-                  duration: null,
-                  encodedPolyline: null,
-                  isVisible: true,
-                }
-              })
-          })
-        }
-      )
-
-      const results = await Promise.all(promises)
-      const updatedRoutesData = results.reduce((acc, result) => {
-        const {
-          route,
-          origin,
-          destination,
-          distance,
-          duration,
-          encodedPolyline,
-          isVisible,
-        } = result
-        if (!acc[route]) {
-          acc[route] = []
-        }
-        acc[route].push({
-          origin,
-          destination,
-          distance,
-          duration,
-          encodedPolyline,
-          isVisible,
-        })
-        return acc
-      }, {})
-      setFetchedData(updatedRoutesData)
-    } catch (error) {
-      console.error("Error fetching data:", error)
+  const fetchData = () => {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        "X-Goog-Api-Key": "AIzaSyAC-ZmHeOUM6VvIDtbc8y_sfKG-Lh7ZgME",
+        "X-Goog-FieldMask":
+          "routes.distanceMeters,routes.duration,routes.polyline,routes.travelAdvisory.fuelConsumptionMicroliters",
+      },
     }
+    const data = {
+      origin: {
+        address: "1600 Amphitheatre Parkway, Mountain View, CA",
+      },
+      destination: {
+        address: "24 Willie Mays Plaza, San Francisco, CA 94107",
+      },
+      intermediates: [{ address: "450 Serra Mall, Stanford, CA 94305, USA" }],
+      travelMode: "DRIVE",
+      routeModifiers: {
+        avoidTolls: true,
+        avoidHighways: true,
+        avoidFerries: true,
+        vehicleInfo: {
+          emissionType: "GASOLINE",
+        },
+      },
+      extraComputations: ["FUEL_CONSUMPTION"],
+    }
+
+    axios
+      .post(
+        "https://routes.googleapis.com/directions/v2:computeRoutes",
+        data,
+        config
+      )
+      .then((response) => {
+        console.log(response.data)
+        // Rest of the code
+      })
+      .catch((error) => {
+        console.error(error)
+      })
   }
+
+
+  // const fetchData = async () => {
+  //   try {
+  //     const promises = Object.entries(fetchedData).flatMap(
+  //       ([route, destinations]) => {
+  //         return destinations.map(({ origin, destination }) => {
+  //           const config = {
+  //             headers: {
+  //               "Content-Type": "application/json",
+  //               "X-Goog-Api-Key": "AIzaSyAC-ZmHeOUM6VvIDtbc8y_sfKG-Lh7ZgME",
+  //               "X-Goog-FieldMask":
+  //                 "routes.duration,routes.distanceMeters,routes.polyline.encodedPolyline",
+  //             },
+  //           }
+  //           const data = {
+  //             origin: {
+  //               address: origin,
+  //             },
+  //             destination: {
+  //               address: destination,
+  //             },
+  //             travelMode: "DRIVE",
+  //           }
+
+  //           const apiUrl =
+  //             "https://routes.googleapis.com/directions/v2:computeRoutes"
+
+  //           return axios
+  //             .post(apiUrl, data, config)
+  //             .then((response) => {
+  //               const routeData = response.data.routes[0]
+  //               const distance = routeData.distanceMeters
+  //               const duration = routeData.duration
+  //               const encodedPolyline = routeData.polyline.encodedPolyline
+  //               return {
+  //                 route,
+  //                 origin,
+  //                 destination,
+  //                 distance,
+  //                 duration,
+  //                 encodedPolyline,
+  //                 isVisible: true,
+  //               }
+  //             })
+  //             .catch((error) => {
+  //               console.error(
+  //                 `Error fetching data for route ${route}, origin ${origin}, destination ${destination}:`,
+  //                 error
+  //               )
+  //               return {
+  //                 route,
+  //                 origin,
+  //                 destination,
+  //                 distance: null,
+  //                 duration: null,
+  //                 encodedPolyline: null,
+  //                 isVisible: true,
+  //               }
+  //             })
+  //         })
+  //       }
+  //     )
+
+  //     const results = await Promise.all(promises)
+  //     const updatedRoutesData = results.reduce((acc, result) => {
+  //       const {
+  //         route,
+  //         origin,
+  //         destination,
+  //         distance,
+  //         duration,
+  //         encodedPolyline,
+  //         isVisible,
+  //       } = result
+  //       if (!acc[route]) {
+  //         acc[route] = []
+  //       }
+  //       acc[route].push({
+  //         origin,
+  //         destination,
+  //         distance,
+  //         duration,
+  //         encodedPolyline,
+  //         isVisible,
+  //       })
+  //       return acc
+  //     }, {})
+  //     setFetchedData(updatedRoutesData)
+  //   } catch (error) {
+  //     console.error("Error fetching data:", error)
+  //   }
+  // }
 
   // Function to hide directions
   const hideDirections = (house, index) => {
@@ -661,7 +642,12 @@ function Driving() {
                   </div>
                 </div>
 
-                <button className="btn-success btn w-full">Add Routes</button>
+                <button
+                  onClick={() => fetchData()}
+                  className="btn-success btn w-full"
+                >
+                  Add Routes
+                </button>
               </div>
             </div>
             {/* routes */}
