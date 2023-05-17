@@ -13,45 +13,16 @@ import { FiArrowDown } from "react-icons/fi"
 import { HiOutlineArrowNarrowRight } from "react-icons/hi"
 import axios from "axios"
 
-import results from "../../../public/results.json"
+import formsData from "../../../public/formsData.json"
 import drivingData from "../../../public/drivingData.json"
 import drivingDataPromise from "../../../public/drivingDataPromise.json"
 function Driving() {
   // const { drivingDirections, setDrivingDirections } = useContext(DrivingContext)
-  const [routesFormData, setRoutesFormData] = useState(results)
+  const [routesFormData, setRoutesFormData] = useState(formsData)
   console.log(routesFormData)
 
   const [fetchedDrivingDirections, setFetchedDrivingDirections] = useState()
   // console.log(fetchedDrivingDirections)
-
-  const [multipleHousesComparison, setMultipleHousesComparison] = useState({
-    "House 1": [],
-    "House 2": [],
-    "House 3": [],
-  })
-  // console.log(multipleHousesComparison)
-
-  // each button click will change the array of the multipleHousesComparison object
-
-  // when i click the hosue button it only add the origin and destination to the first house
-  //when i click house 2 after filling out house one, optioon to add the same ddestination and just chang origin
-  // after filling out the data we fetch it
-  const handleHouseButtonClick = (buttonId) => {
-    const houseNumber = `House ${buttonId}`
-
-    const newHouseData = { origin: "Origin", destination: "Destination" }
-
-    setMultipleHousesComparison((prevData) => {
-      const newData = { ...prevData }
-      newData[houseNumber] = [...newData[houseNumber], newHouseData]
-      return newData
-    })
-  }
-
-  const [compareMultipleHouses, setCompareMultipleHouses] = useState(false)
-  // console.log(fetchedDrivingDirections)
-
-  // useEffect(() => {}), []
 
   // ! origin and destination refs
 
@@ -706,7 +677,7 @@ function Driving() {
                     return (
                       <Tab key={houseNumber}>
                         <button
-                          onClick={() => handleHouseButtonClick(houseNumber)}
+                          // onClick={() => handleHouseButtonClick(houseNumber)}
                           className="btn-success btn-sm btn"
                         >
                           House {houseNumber}
