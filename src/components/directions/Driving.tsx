@@ -19,7 +19,7 @@ import drivingDataPromise from "../../../public/drivingDataPromise.json"
 function Driving() {
   // const { drivingDirections, setDrivingDirections } = useContext(DrivingContext)
   const [routesFormData, setRoutesFormData] = useState(formsData)
-  console.log(routesFormData)
+  // console.log(routesFormData)
 
   const [fetchedDrivingDirections, setFetchedDrivingDirections] = useState()
   // console.log(fetchedDrivingDirections)
@@ -109,6 +109,7 @@ function Driving() {
   const [featuresOpen, setFeaturesOpen] = useState(false)
 
   // ! fetch route
+  //? add fuel consumption
 
   const fetchData = () => {
     const config = {
@@ -153,7 +154,6 @@ function Driving() {
         console.error(error)
       })
   }
-
 
   // const fetchData = async () => {
   //   try {
@@ -358,298 +358,83 @@ function Driving() {
         <Tab.Panels>
           {/* routes */}
           <Tab.Panel>
-            <div>
-              <div className="flex flex-col gap-2 py-2">
-                <div className="collapse-arrow collapse rounded-xl border-2">
-                  <input type="checkbox" />
-                  <div className="collapse-title text-xl font-medium">
-                    Origin Addresses
-                  </div>
-                  <div className="collapse-content">
-                    <div className="form-control w-full ">
-                      <label className="label">
-                        <span className="label-text">
-                          Add a address for House 1
-                        </span>
-                      </label>
-                      <Autocomplete>
-                        <input
-                          type="text"
-                          placeholder="Enter the address..."
-                          className="input-bordered input-accent input input-md w-full bg-white"
-                          ref={mainOriginRef}
-                        />
-                      </Autocomplete>
-                    </div>
-                    <div className="form-control w-full ">
-                      <label className="label">
-                        <span className="label-text">
-                          Add a address for House 2
-                        </span>
-                      </label>
-                      <Autocomplete>
-                        <input
-                          type="text"
-                          placeholder="Enter the address..."
-                          className="input-bordered input-accent input input-md w-full bg-white"
-                          ref={mainOriginRef}
-                        />
-                      </Autocomplete>
-                    </div>
-                    <div className="form-control w-full ">
-                      <label className="label">
-                        <span className="label-text">
-                          Add a address for House 3
-                        </span>
-                      </label>
-                      <Autocomplete>
-                        <input
-                          type="text"
-                          placeholder="Enter the address..."
-                          className="input-bordered input-accent input input-md w-full bg-white"
-                          ref={mainOriginRef}
-                        />
-                      </Autocomplete>
-                    </div>
-                  </div>
-                </div>
+            <div className="flex flex-col gap-2 py-2">
+              {Object.keys(routesFormData).map((house) => {
+                const houseNumber = house.split(" ")[1]
+                const houseRoutes = routesFormData[house]
+                // Create separate ref variables for each input field
+                const originRef = useRef(null)
 
-                <div className="collapse-arrow collapse rounded-xl border-2">
-                  <input type="checkbox" />
-                  <div className="collapse-title text-xl font-medium">
-                    Destinations Addresses
-                  </div>
-                  <div className="collapse-content h-[300px] overflow-y-visible">
-                    <div className="form-control w-full gap-2 ">
-                      <label className="label ">
-                        <span className="label-text">
-                          Add a address for this destination
-                        </span>
-                      </label>
-                      <Autocomplete>
-                        <input
-                          type="text"
-                          placeholder="Enter the address"
-                          className="input-bordered  input-accent input input-md w-full bg-white"
-                          ref={destinationRef}
-                        />
-                      </Autocomplete>
-                      <input
-                        type="text"
-                        placeholder="No. travels per month"
-                        className="input-bordered input-accent input input-md w-full bg-white"
-                        ref={numberOfTravelsRef}
-                      />
+                return (
+                  <div
+                    key={houseNumber}
+                    tabIndex={0}
+                    className="collapse-arrow collapse rounded-xl border-2"
+                  >
+                    <input type="checkbox" />
+                    <div className="collapse-title text-xl font-medium">
+                      House {houseNumber}
                     </div>
-
-                    <div className="form-control w-full gap-2 ">
-                      <label className="label">
-                        <span className="label-text">
-                          Add a address for this destination
-                        </span>
-                      </label>
-                      <Autocomplete>
-                        <input
-                          type="text"
-                          placeholder="Enter the address"
-                          className="input-bordered input-accent input input-md w-full bg-white"
-                          ref={destinationRef}
-                        />
-                      </Autocomplete>
-                      <input
-                        type="text"
-                        placeholder="No. travels per month"
-                        className="input-bordered input-accent input input-md w-full bg-white"
-                        ref={numberOfTravelsRef}
-                      />
-                    </div>
-
-                    <div className="form-control w-full gap-2 ">
-                      <label className="label">
-                        <span className="label-text">
-                          Add a address for this destination
-                        </span>
-                      </label>
-                      <Autocomplete>
-                        <input
-                          type="text"
-                          placeholder="Enter the address"
-                          className="input-bordered input-accent input input-md w-full bg-white"
-                          ref={destinationRef}
-                        />
-                      </Autocomplete>
-                      <input
-                        type="text"
-                        placeholder="No. travels per month"
-                        className="input-bordered input-accent input input-md w-full bg-white"
-                        ref={numberOfTravelsRef}
-                      />
-                    </div>
-
-                    <div className="form-control w-full gap-2 ">
-                      <label className="label">
-                        <span className="label-text">
-                          Add a address for this destination
-                        </span>
-                      </label>
-                      <Autocomplete>
-                        <input
-                          type="text"
-                          placeholder="Enter the address"
-                          className="input-bordered input-accent input input-md w-full bg-white"
-                          ref={destinationRef}
-                        />
-                      </Autocomplete>
-                      <input
-                        type="text"
-                        placeholder="No. travels per month"
-                        className="input-bordered input-accent input input-md w-full bg-white"
-                        ref={numberOfTravelsRef}
-                      />
-                    </div>
-
-                    <div className="form-control w-full gap-2 ">
-                      <label className="label">
-                        <span className="label-text">
-                          Add a address for this destination
-                        </span>
-                      </label>
-                      <Autocomplete>
-                        <input
-                          type="text"
-                          placeholder="Enter the address"
-                          className="input-bordered input-accent input input-md w-full bg-white"
-                          ref={destinationRef}
-                        />
-                      </Autocomplete>
-                      <input
-                        type="text"
-                        placeholder="No. travels per month"
-                        className="input-bordered input-accent input input-md w-full bg-white"
-                        ref={numberOfTravelsRef}
-                      />
-                    </div>
-
-                    <div className="form-control w-full gap-2 ">
-                      <label className="label">
-                        <span className="label-text">
-                          Add a address for this destination
-                        </span>
-                      </label>
-                      <Autocomplete>
-                        <input
-                          type="text"
-                          placeholder="Enter the address"
-                          className="input-bordered input-accent input input-md w-full bg-white"
-                          ref={destinationRef}
-                        />
-                      </Autocomplete>
-                      <input
-                        type="text"
-                        placeholder="No. travels per month"
-                        className="input-bordered input-accent input input-md w-full bg-white"
-                        ref={numberOfTravelsRef}
-                      />
-                    </div>
-
-                    <div className="form-control w-full gap-2 ">
-                      <label className="label">
-                        <span className="label-text">
-                          Add a address for this destination
-                        </span>
-                      </label>
-                      <Autocomplete>
-                        <input
-                          type="text"
-                          placeholder="Enter the address"
-                          className="input-bordered input-accent input input-md w-full bg-white"
-                          ref={destinationRef}
-                        />
-                      </Autocomplete>
-                      <input
-                        type="text"
-                        placeholder="No. travels per month"
-                        className="input-bordered input-accent input input-md w-full bg-white"
-                        ref={numberOfTravelsRef}
-                      />
-                    </div>
-
-                    <div className="form-control w-full gap-2 ">
-                      <label className="label">
-                        <span className="label-text">
-                          Add a address for this destination
-                        </span>
-                      </label>
-                      <Autocomplete>
-                        <input
-                          type="text"
-                          placeholder="Enter the address"
-                          className="input-bordered input-accent input input-md w-full bg-white"
-                          ref={destinationRef}
-                        />
-                      </Autocomplete>
-                      <input
-                        type="text"
-                        placeholder="No. travels per month"
-                        className="input-bordered input-accent input input-md w-full bg-white"
-                        ref={numberOfTravelsRef}
-                      />
-                    </div>
-
-                    <div className="form-control w-full gap-2 ">
-                      <label className="label">
-                        <span className="label-text">
-                          Add a address for this destination
-                        </span>
-                      </label>
-                      <Autocomplete>
-                        <input
-                          type="text"
-                          placeholder="Enter the address"
-                          className="input-bordered input-accent input input-md w-full bg-white"
-                          ref={destinationRef}
-                        />
-                      </Autocomplete>
-                      <input
-                        type="text"
-                        placeholder="No. travels per month"
-                        className="input-bordered input-accent input input-md w-full bg-white"
-                        ref={numberOfTravelsRef}
-                      />
-                    </div>
-
-                    <div className="form-control w-full gap-2 ">
-                      <label className="label">
-                        <span className="label-text">
-                          Add a address for this destination
-                        </span>
-                      </label>
-                      <Autocomplete>
-                        <input
-                          type="text"
-                          placeholder="Enter the address"
-                          className="input-bordered input-accent input input-md w-full bg-white"
-                          ref={destinationRef}
-                        />
-                      </Autocomplete>
-                      <input
-                        type="text"
-                        placeholder="No. travels per month"
-                        className="input-bordered input-accent input input-md w-full bg-white"
-                        ref={numberOfTravelsRef}
-                      />
+                    <div className="collapse-content">
+                      <div className="form-control w-full">
+                        <label className="label">
+                          <span className="label-text">
+                            Add an address for House {houseNumber}
+                          </span>
+                        </label>
+                        <Autocomplete>
+                          <input
+                            type="text"
+                            placeholder="Enter the address..."
+                            className="input-bordered input-accent input input-md w-full bg-white"
+                            // ref={originRefs[houseNumber]}
+                          />
+                        </Autocomplete>
+                      </div>
+                      <div className="overflow-y-scroll h-[500px]">
+                        {Array.from(
+                          { length: 10 },
+                          (_, index) => index + 1
+                        ).map((destination) => (
+                          <div
+                            className="form-control w-full gap-2"
+                            key={destination}
+                          >
+                            <label className="label">
+                              <span className="label-text">
+                                Add an address for Destination {destination}
+                              </span>
+                            </label>
+                            <Autocomplete>
+                              <input
+                                type="text"
+                                placeholder="Enter the address"
+                                className="input-bordered input-accent input input-sm w-full bg-white"
+                                // ref={destinationRefs[houseNumber][destination]}
+                              />
+                            </Autocomplete>
+                            <input
+                              type="text"
+                              placeholder="No. travels per month"
+                              className="input-bordered input-accent input input-sm w-full bg-white"
+                              // ref={numberOfTravelsRefs[houseNumber][destination]}
+                            />
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   </div>
-                </div>
-
-                <button
-                  onClick={() => fetchData()}
-                  className="btn-success btn w-full"
-                >
-                  Add Routes
-                </button>
-              </div>
+                )
+              })}
             </div>
+
+            <button
+              onClick={() => fetchData()}
+              className="btn-success btn w-full"
+            >
+              Add Routes
+            </button>
+
             {/* routes */}
           </Tab.Panel>
           {/* routes */}
