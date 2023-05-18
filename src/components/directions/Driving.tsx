@@ -24,16 +24,6 @@ function Driving() {
   const [fetchedDrivingDirections, setFetchedDrivingDirections] = useState()
   // console.log(fetchedDrivingDirections)
 
-  // ! origin and destination refs
-
-  /** @type React.MutableRefObject<HTMLInputElement> */
-  const mainOriginRef = useRef(null)
-
-  /** @type React.MutableRefObject<HTMLInputElement> */
-  const destinationRef = useRef(null)
-  // console.log(destinationRef.current.value)
-
-  const numberOfTravelsRef = useRef(null)
 
   //! units
   const [units, setUnits] = useState("IMPERIAL")
@@ -41,6 +31,10 @@ function Driving() {
 
   const handleUnitsMeasure = (e) => {
     setUnits(e.target.value)
+  }
+
+  const handleOrigin = (e) => {
+
   }
 
   // ! travel mode
@@ -117,27 +111,23 @@ function Driving() {
         "Content-Type": "application/json",
         "X-Goog-Api-Key": "AIzaSyAC-ZmHeOUM6VvIDtbc8y_sfKG-Lh7ZgME",
         "X-Goog-FieldMask":
-          "routes.distanceMeters,routes.duration,routes.polyline,routes.travelAdvisory.fuelConsumptionMicroliters",
+          "routes.distanceMeters,routes.duration,routes.polyline",
       },
     }
     const data = {
       origin: {
-        address: "1600 Amphitheatre Parkway, Mountain View, CA",
+        address: "Algés, Portugal",
       },
       destination: {
-        address: "24 Willie Mays Plaza, San Francisco, CA 94107",
+        address: "Moscavide, Portugal",
       },
-      intermediates: [{ address: "450 Serra Mall, Stanford, CA 94305, USA" }],
+      intermediates: [{ address: "Oriente, Lisboa, Portugal" }],
       travelMode: "DRIVE",
       routeModifiers: {
         avoidTolls: true,
         avoidHighways: true,
         avoidFerries: true,
-        vehicleInfo: {
-          emissionType: "GASOLINE",
-        },
       },
-      extraComputations: ["FUEL_CONSUMPTION"],
     }
 
     axios
@@ -248,6 +238,7 @@ function Driving() {
   // }
 
   // Function to hide directions
+ 
   const hideDirections = (house, index) => {
     // Update the state using the setRoutesFormData function
     setRoutesFormData((prev) => {
@@ -391,7 +382,7 @@ function Driving() {
                           />
                         </Autocomplete>
                       </div>
-                      <div className="overflow-y-scroll h-[500px]">
+                      <div className="h-[500px] overflow-y-scroll">
                         {Array.from(
                           { length: 10 },
                           (_, index) => index + 1
@@ -409,6 +400,14 @@ function Driving() {
                               <input
                                 type="text"
                                 placeholder="Enter the address"
+                                className="input-bordered input-accent input input-sm w-full bg-white"
+                                // ref={destinationRefs[houseNumber][destination]}
+                              />
+                            </Autocomplete>
+                            <Autocomplete>
+                              <input
+                                type="text"
+                                placeholder="Enter a stop"
                                 className="input-bordered input-accent input input-sm w-full bg-white"
                                 // ref={destinationRefs[houseNumber][destination]}
                               />
