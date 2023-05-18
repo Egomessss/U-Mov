@@ -1,0 +1,10 @@
+{
+  "origin": "Hoboken NJ",
+  "destination": "Carroll Gardens, Brooklyn",
+  "travelMode": "TRANSIT",
+  "transitOptions": {
+    "departureTime": "",
+    " modes": ["BUS"],
+    "routingPreference": "FEWER_TRANSFERS"
+  }
+}
