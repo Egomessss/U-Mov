@@ -373,349 +373,187 @@ function Routes() {
 
               <Tab.Group>
                 <Tab.List className="flex justify-evenly pt-4">
-                  {Object.keys(routesFormData).map((house) => {
+                  {Object.keys(formsData).map((house) => {
                     const houseNumber = house.split(" ")[1]
                     const houseRoutes = routesFormData[house]
-                    if (houseRoutes.length > 0) {
-                      return (
-                        <Tab key={houseNumber}>
-                          <button
-                            // onClick={() => handleHouseButtonClick(houseNumber)}
-                            className="btn-success btn-sm btn"
-                          >
-                            House {houseNumber}
-                          </button>
-                        </Tab>
-                      )
-                    }
-                    return null // Skip rendering for empty houses
+
+                    return (
+                      <Tab key={houseNumber}>
+                        <button
+                          // onClick={() => handleHouseButtonClick(houseNumber)}
+                          className="btn-success btn-sm btn"
+                        >
+                          House {houseNumber}
+                        </button>
+                      </Tab>
+                    )
                   })}
                 </Tab.List>
 
-                <Tab.Panels className="h-[90%] w-full overflow-y-scroll">
-                  {Object.keys(routesFormData).map((house) => {
+                <Tab.Panels className="h-[90%] w-full ">
+                  {/* {Object.keys(routesFormData).map((house) => {
                     const houseNumber = house.split(" ")[1]
                     const houseRoutes = routesFormData[house]
                     const mainOriginRef = useRef(null)
                     if (houseRoutes.length > 0) {
-                      return (
-                        <Tab.Panel>
-                          <div className="w-full py-4">
-                            <ul className="flex h-1/2 flex-col gap-2">
-                              <Autocomplete>
-                                <input
-                                  type="text"
-                                  placeholder={`Enter house ${houseNumber} address`}
-                                  className="input-bordered input-accent input input-md w-full bg-white"
-                                  ref={mainOriginRef}
-                                  onChange={() => {
-                                    const input = mainOriginRef.current.value
-                                    console.log(input)
-                                    if (input) {
-                                      handleOrigin(input, houseNumber)
-                                    }
-                                  }}
-                                  // onChange={(e) =>
-                                  //   handleOrigin(e.target.value, houseNumber)
-                                  // }
-                                />
-                              </Autocomplete>
-                              <FiArrowDown className="my-4 w-full text-center text-2xl" />
-                              {houseRoutes.map((route) => {
-                                return (
-                                  <li
-                                    className="border-y-2 pb-4"
-                                    key={route.distance}
-                                  >
-                                    <div className="collapse">
-                                      <input type="checkbox" />
-                                      <div className="collapse-title text-xl font-medium">
-                                        Car routes:
-                                      </div>
-                                      <div className="collapse-content">
-                                        <div className="flex flex-col gap-2">
-                                          <Autocomplete>
-                                            <input
-                                              type="text"
-                                              placeholder={`Enter the address for destination ${route.id}`}
-                                              className="input-bordered input-accent input input-sm w-full bg-white"
-                                              // onChange={(e) =>
-                                              //   console.log(e.target.value)
-                                              //   //  handleOriginChange(e, houseNumber, route.id)
-                                              //   }
-                                              // ref={destinationRefs[houseNumber][destination]}
-                                            />
-                                          </Autocomplete>
-                                        </div>
-                                        <h2 className="text-base">
-                                          Travel mode:
-                                        </h2>
+                      return ( */}
+                  <Tab.Panel>
+                    <div className="w-full py-4">
+                      <ul className="flex h-1/2 flex-col gap-2">
+                        <Autocomplete>
+                          <input
+                            type="text"
+                            // placeholder={`Enter house ${houseNumber} address`}
+                            placeholder="Enter house address"
+                            className="input-bordered input-accent input input-md w-full bg-white"
+                            // ref={mainOriginRef}
+                            // onChange={() => {
+                            //   const input = mainOriginRef.current.value
+                            //   console.log(input)
+                            //   if (input) {
+                            //     handleOrigin(input, houseNumber)
+                            //   }
+                            // }}
+                            // onChange={(e) =>
+                            //   handleOrigin(e.target.value, houseNumber)
+                            // }
+                          />
+                        </Autocomplete>
+                        <FiArrowDown className=" w-full text-center text-4xl" />
+                        <li
+                          className="flex flex-col gap-2 pb-4"
+                          // key={route.distance}
+                        >
+                          {/* drive */}
+                          <div className="collapse rounded-lg border-2 ">
+                            <input type="checkbox" />
+                            <div className="collapse-title text-lg font-medium">
+                              Car Routes
+                            </div>
+                            <div className="collapse-content">
+                              <div className="flex flex-col gap-2">
+                                <Autocomplete>
+                                  <input
+                                    type="text"
+                                    // placeholder={`Enter the address for destination ${route.id}`}
+                                    placeholder="Enter destination address"
+                                    className="input-bordered input-accent input input-sm w-full bg-white"
+                                    // onChange={(e) =>
+                                    //   console.log(e.target.value)
+                                    //   //  handleOriginChange(e, houseNumber, route.id)
+                                    //   }
+                                    // ref={destinationRefs[houseNumber][destination]}
+                                  />
+                                </Autocomplete>
+                              </div>
+                              <h2 className="text-base">Travel mode:</h2>
 
-                                        <div className="flex flex-wrap ">
-                                          <div className="form-control w-1/2">
-                                            <label className="label cursor-pointer">
-                                              <span className="label-text flex items-center gap-2">
-                                                <span>Car</span>
-                                                <MdDirectionsCar />
-                                              </span>
-                                              <input
-                                                type="checkbox"
-                                                className="checkbox-success checkbox"
-                                              />
-                                            </label>
-                                          </div>
-                                          {route.travelMode === "DRIVE" && (
-                                            <div>
-                                              <div className="flex items-center">
-                                                <div className="form-control w-1/2 ">
-                                                  <label className="label">
-                                                    <span className="label-text">
-                                                      Type of engine
-                                                    </span>
-                                                  </label>
-                                                  <select
-                                                    className="select-accent select select-sm w-full bg-white text-xs "
-                                                    onChange={
-                                                      handleSelectedEngineType
-                                                    }
-                                                  >
-                                                    <option value="GASOLINE">
-                                                      Gasoline
-                                                    </option>
-                                                    <option value="ELECTRIC">
-                                                      Electric
-                                                    </option>
-                                                    <option value="HYBRID">
-                                                      Hybrid
-                                                    </option>
-                                                    <option value="DIESEL">
-                                                      {" "}
-                                                      Diesel
-                                                    </option>
-                                                  </select>
-                                                </div>
-                                                <div className="form-control  w-1/2 ">
-                                                  <label className="label">
-                                                    <span className="label-text">
-                                                      Consumption
-                                                    </span>
-                                                  </label>
-                                                  {/* <Tooltip
+                              <div className="flex flex-wrap ">
+                                <div className="form-control w-1/2">
+                                  <label className="label cursor-pointer">
+                                    <span className="label-text flex items-center gap-2">
+                                      <span>Car</span>
+                                      <MdDirectionsCar />
+                                    </span>
+                                    <input
+                                      type="checkbox"
+                                      checked
+                                      className="checkbox-success checkbox"
+                                    />
+                                  </label>
+                                </div>
+
+                                <div>
+                                  <div className="flex items-center">
+                                    <div className="form-control w-1/2 ">
+                                      <label className="label">
+                                        <span className="label-text">
+                                          Type of engine
+                                        </span>
+                                      </label>
+                                      <select
+                                        className="select-accent select select-sm w-full bg-white text-xs "
+                                        onChange={handleSelectedEngineType}
+                                      >
+                                        <option value="GASOLINE">
+                                          Gasoline
+                                        </option>
+                                        <option value="ELECTRIC">
+                                          Electric
+                                        </option>
+                                        <option value="HYBRID">Hybrid</option>
+                                        <option value="DIESEL"> Diesel</option>
+                                      </select>
+                                    </div>
+                                    <div className="form-control  w-1/2 ">
+                                      <label className="label">
+                                        <span className="label-text">
+                                          Consumption
+                                        </span>
+                                      </label>
+                                      {/* <Tooltip
                                   color={"blue"}
                                   text={"Hellogfdddddddddddddho"}
                                   type={"info"}
                                 /> */}
 
-                                                  <input
-                                                    type="text"
-                                                    placeholder="liters/km"
-                                                    className="input-bordered input-accent  input input-sm w-full bg-white text-xs"
-                                                    onChange={
-                                                      handleLitersConsumed
-                                                    }
-                                                  />
-                                                </div>
-
-                                                {(selectedEngineType ===
-                                                  "HYBRID" ||
-                                                  selectedEngineType ===
-                                                    "ELECTRIC") && (
-                                                  <input
-                                                    type="text"
-                                                    placeholder="kwh/km"
-                                                    className="input-bordered input-accent input input-sm w-1/3 bg-white"
-                                                    onChange={
-                                                      handleWattsConsumed
-                                                    }
-                                                  />
-                                                )}
-                                              </div>
-                                              <div className="flex items-center gap-2">
-                                                <div className="form-control ">
-                                                  <label className="label cursor-pointer">
-                                                    <span className="label-text pr-1 text-xs">
-                                                      Live Traffic
-                                                    </span>
-                                                    <input
-                                                      type="checkbox"
-                                                      className="checkbox-accent checkbox checkbox-xs"
-                                                      onChange={handleTraffic}
-                                                    />
-                                                  </label>
-                                                </div>
-
-                                                <div className="form-control ">
-                                                  <label className="label cursor-pointer">
-                                                    <span className="label-text pr-1 text-xs">
-                                                      Avoid tolls?
-                                                    </span>
-                                                    <input
-                                                      type="checkbox"
-                                                      className="checkbox-accent checkbox checkbox-xs"
-                                                      onChange={handleTolls}
-                                                    />
-                                                  </label>
-                                                </div>
-
-                                                <div className="form-control ">
-                                                  <label className="label cursor-pointer">
-                                                    <span className="label-text pr-1 text-xs">
-                                                      Avoid Highways?
-                                                    </span>
-                                                    <input
-                                                      type="checkbox"
-                                                      className="checkbox-accent checkbox checkbox-xs"
-                                                      onChange={handleHighways}
-                                                    />
-                                                  </label>
-                                                </div>
-                                                <div className="form-control ">
-                                                  <label className="label cursor-pointer">
-                                                    <span className="label-text pr-1 text-xs">
-                                                      Pendular route?
-                                                    </span>
-                                                    <input
-                                                      type="checkbox"
-                                                      className="checkbox-accent checkbox checkbox-xs"
-                                                      onChange={handleHighways}
-                                                    />
-                                                  </label>
-                                                </div>
-                                                <div className="flex gap-2">
-                                                  <input
-                                                    type="text"
-                                                    placeholder="Go..."
-                                                    className="input-bordered input-accent input input-sm w-full bg-white"
-                                                    // ref={originRefs[houseNumber]}
-                                                  />
-                                                  <input
-                                                    type="text"
-                                                    placeholder="Back"
-                                                    className="input-bordered input-accent input input-sm w-full bg-white"
-                                                    // ref={originRefs[houseNumber]}
-                                                  />
-                                                </div>
-                                              </div>
-                                            </div>
-                                          )}
-                                        </div>
-                                      </div>
+                                      <input
+                                        type="text"
+                                        placeholder="liters/km"
+                                        className="input-bordered input-accent  input input-sm w-full bg-white text-xs"
+                                        onChange={handleLitersConsumed}
+                                      />
                                     </div>
 
-                                    {route.travelMode !== "DRIVE" && (
-                                      <div>
-                                        <h2 className="text-base">Prefer:</h2>
-                                        <div className="flex flex-wrap ">
-                                          <div className="flex gap-2">
-                                            <input
-                                              type="text"
-                                              placeholder="Enter departure time..."
-                                              className="input-bordered input-accent input input-sm w-full bg-white"
-
-                                              // ref={originRefs[houseNumber]}
-                                            />
-                                            <input
-                                              type="text"
-                                              placeholder="Enter arrival time..."
-                                              className="input-bordered input-accent input input-sm w-full bg-white"
-
-                                              // ref={originRefs[houseNumber]}
-                                            />
-                                          </div>
-
-                                          <div className="form-control w-1/2">
-                                            <label className="label cursor-pointer">
-                                              <span className="label-text flex items-center gap-2">
-                                                <span>Bus</span>
-                                                <MdDirectionsCar />
-                                              </span>
-                                              <input
-                                                type="checkbox"
-                                                className="checkbox-success checkbox"
-                                              />
-                                            </label>
-                                          </div>
-                                          <div className="form-control w-1/2">
-                                            <label className="label cursor-pointer">
-                                              <span className="label-text flex items-center gap-2">
-                                                <span className="whitespace-nowrap">
-                                                  Rail
-                                                </span>
-                                                <MdDirectionsBusFilled />
-                                              </span>
-                                              <input
-                                                type="checkbox"
-                                                className="checkbox-success checkbox"
-                                              />
-                                            </label>
-                                          </div>
-                                          <div className="form-control w-1/2">
-                                            <label className="label cursor-pointer">
-                                              <span className="label-text flex items-center gap-2">
-                                                <span>Subway</span>
-                                                <MdOutlineDirectionsBike />
-                                              </span>
-                                              <input
-                                                type="checkbox"
-                                                className="checkbox-success checkbox"
-                                              />
-                                            </label>
-                                          </div>
-                                          <div className="form-control w-1/2">
-                                            <label className="label cursor-pointer">
-                                              <span className="label-text flex items-center gap-2">
-                                                <span>Train</span>
-                                                <MdDirectionsWalk />
-                                              </span>
-                                              <input
-                                                type="checkbox"
-                                                className="checkbox-success checkbox"
-                                              />
-                                            </label>
-                                          </div>
-                                          <div className="form-control w-1/2">
-                                            <label className="label cursor-pointer">
-                                              <span className="label-text flex items-center gap-2">
-                                                <span>Tram</span>
-                                                <MdDirectionsWalk />
-                                              </span>
-                                              <input
-                                                type="checkbox"
-                                                className="checkbox-success checkbox"
-                                              />
-                                            </label>
-                                          </div>
-                                        </div>
-                                        <h2 className="text-base">
-                                          Preference:
-                                        </h2>
-                                        <div className="flex">
-                                          <div className="form-control w-1/2">
-                                            <label className="label cursor-pointer">
-                                              <span className="label-text flex items-center gap-2">
-                                                <span>Fewer transfers</span>
-                                              </span>
-                                              <input
-                                                type="checkbox"
-                                                className="checkbox-success checkbox"
-                                              />
-                                            </label>
-                                          </div>
-                                          <div className="form-control w-1/2">
-                                            <label className="label cursor-pointer">
-                                              <span className="label-text flex items-center gap-2">
-                                                <span>Less walking</span>
-                                              </span>
-                                              <input
-                                                type="checkbox"
-                                                className="checkbox-success checkbox"
-                                              />
-                                            </label>
-                                          </div>
-                                        </div>
-                                      </div>
+                                    {(selectedEngineType === "HYBRID" ||
+                                      selectedEngineType === "ELECTRIC") && (
+                                      <input
+                                        type="text"
+                                        placeholder="kwh/km"
+                                        className="input-bordered input-accent input input-sm w-1/3 bg-white"
+                                        onChange={handleWattsConsumed}
+                                      />
                                     )}
+                                  </div>
+                                  <div className="flex items-center gap-2">
+                                    <div className="form-control ">
+                                      <label className="label cursor-pointer">
+                                        <span className="label-text pr-1 text-xs">
+                                          Live Traffic
+                                        </span>
+                                        <input
+                                          type="checkbox"
+                                          className="checkbox-accent checkbox checkbox-xs"
+                                          onChange={handleTraffic}
+                                        />
+                                      </label>
+                                    </div>
 
+                                    <div className="form-control ">
+                                      <label className="label cursor-pointer">
+                                        <span className="label-text pr-1 text-xs">
+                                          Avoid tolls?
+                                        </span>
+                                        <input
+                                          type="checkbox"
+                                          className="checkbox-accent checkbox checkbox-xs"
+                                          onChange={handleTolls}
+                                        />
+                                      </label>
+                                    </div>
+
+                                    <div className="form-control ">
+                                      <label className="label cursor-pointer">
+                                        <span className="label-text pr-1 text-xs">
+                                          Avoid Highways?
+                                        </span>
+                                        <input
+                                          type="checkbox"
+                                          className="checkbox-accent checkbox checkbox-xs"
+                                          onChange={handleHighways}
+                                        />
+                                      </label>
+                                    </div>
                                     <div className="form-control ">
                                       <label className="label cursor-pointer">
                                         <span className="label-text pr-1 text-xs">
@@ -742,153 +580,157 @@ function Routes() {
                                         // ref={originRefs[houseNumber]}
                                       />
                                     </div>
-                                    <div className="collapse">
-                                      <input type="checkbox" />
-                                      <div className="collapse-title text-xl font-medium">
-                                        Public transport / walking / cycling
-                                      </div>
-                                      <div className="collapse-content">
-                                        <div>
-                                          <h2 className="text-base">Prefer:</h2>
-                                          <div className="flex flex-wrap ">
-                                            <div className="flex gap-2">
-                                              <input
-                                                type="text"
-                                                placeholder="Enter departure time..."
-                                                className="input-bordered input-accent input input-sm w-full bg-white"
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          {/* Public */}
+                          <div className="collapse rounded-lg border-2 ">
+                            <input type="checkbox" />
+                            <div className="collapse-title whitespace-nowrap text-lg font-medium">
+                              Public transport / Cycling /Walking
+                            </div>
+                            <div className="collapse-content">
+                              <div>
+                                <h2 className="text-base">Prefer:</h2>
+                                <div className="flex flex-wrap ">
+                                  <div className="flex gap-2">
+                                    <input
+                                      type="text"
+                                      placeholder="Enter departure time..."
+                                      className="input-bordered input-accent input input-sm w-full bg-white"
 
-                                                // ref={originRefs[houseNumber]}
-                                              />
-                                              <input
-                                                type="text"
-                                                placeholder="Enter arrival time..."
-                                                className="input-bordered input-accent input input-sm w-full bg-white"
+                                      // ref={originRefs[houseNumber]}
+                                    />
+                                    <input
+                                      type="text"
+                                      placeholder="Enter arrival time..."
+                                      className="input-bordered input-accent input input-sm w-full bg-white"
 
-                                                // ref={originRefs[houseNumber]}
-                                              />
-                                            </div>
+                                      // ref={originRefs[houseNumber]}
+                                    />
+                                  </div>
 
-                                            <div className="form-control w-1/2">
-                                              <label className="label cursor-pointer">
-                                                <span className="label-text flex items-center gap-2">
-                                                  <span>Bus</span>
-                                                  <MdDirectionsCar />
-                                                </span>
-                                                <input
-                                                  type="checkbox"
-                                                  className="checkbox-success checkbox"
-                                                />
-                                              </label>
-                                            </div>
-                                            <div className="form-control w-1/2">
-                                              <label className="label cursor-pointer">
-                                                <span className="label-text flex items-center gap-2">
-                                                  <span className="whitespace-nowrap">
-                                                    Rail
-                                                  </span>
-                                                  <MdDirectionsBusFilled />
-                                                </span>
-                                                <input
-                                                  type="checkbox"
-                                                  className="checkbox-success checkbox"
-                                                />
-                                              </label>
-                                            </div>
-                                            <div className="form-control w-1/2">
-                                              <label className="label cursor-pointer">
-                                                <span className="label-text flex items-center gap-2">
-                                                  <span>Subway</span>
-                                                  <MdOutlineDirectionsBike />
-                                                </span>
-                                                <input
-                                                  type="checkbox"
-                                                  className="checkbox-success checkbox"
-                                                />
-                                              </label>
-                                            </div>
-                                            <div className="form-control w-1/2">
-                                              <label className="label cursor-pointer">
-                                                <span className="label-text flex items-center gap-2">
-                                                  <span>Train</span>
-                                                  <MdDirectionsWalk />
-                                                </span>
-                                                <input
-                                                  type="checkbox"
-                                                  className="checkbox-success checkbox"
-                                                />
-                                              </label>
-                                            </div>
-                                            <div className="form-control w-1/2">
-                                              <label className="label cursor-pointer">
-                                                <span className="label-text flex items-center gap-2">
-                                                  <span>Tram</span>
-                                                  <MdDirectionsWalk />
-                                                </span>
-                                                <input
-                                                  type="checkbox"
-                                                  className="checkbox-success checkbox"
-                                                />
-                                              </label>
-                                            </div>
-                                          </div>
-                                          <h2 className="text-base">
-                                            Preference:
-                                          </h2>
-                                          <div className="flex">
-                                            <div className="form-control w-1/2">
-                                              <label className="label cursor-pointer">
-                                                <span className="label-text flex items-center gap-2">
-                                                  <span>Fewer transfers</span>
-                                                </span>
-                                                <input
-                                                  type="checkbox"
-                                                  className="checkbox-success checkbox"
-                                                />
-                                              </label>
-                                            </div>
-                                            <div className="form-control w-1/2">
-                                              <label className="label cursor-pointer">
-                                                <span className="label-text flex items-center gap-2">
-                                                  <span>Less walking</span>
-                                                </span>
-                                                <input
-                                                  type="checkbox"
-                                                  className="checkbox-success checkbox"
-                                                />
-                                              </label>
-                                            </div>
-                                          </div>
-                                        </div>
-                                        <div className="form-control ">
-                                          <label className="label cursor-pointer">
-                                            <span className="label-text pr-1 text-xs">
-                                              Pendular route?
-                                            </span>
-                                            <input
-                                              type="checkbox"
-                                              className="checkbox-accent checkbox checkbox-xs"
-                                              onChange={handleHighways}
-                                            />
-                                          </label>
-                                        </div>
-                                        <div className="flex gap-2">
-                                          <input
-                                            type="text"
-                                            placeholder="Go..."
-                                            className="input-bordered input-accent input input-sm w-full bg-white"
-                                            // ref={originRefs[houseNumber]}
-                                          />
-                                          <input
-                                            type="text"
-                                            placeholder="Back"
-                                            className="input-bordered input-accent input input-sm w-full bg-white"
-                                            // ref={originRefs[houseNumber]}
-                                          />
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div className="flex items-center justify-between">
-                                      <div>
+                                  <div className="form-control w-1/2">
+                                    <label className="label cursor-pointer">
+                                      <span className="label-text flex items-center gap-2">
+                                        <span>Bus</span>
+                                        <MdDirectionsCar />
+                                      </span>
+                                      <input
+                                        type="checkbox"
+                                        className="checkbox-success checkbox"
+                                      />
+                                    </label>
+                                  </div>
+                                  <div className="form-control w-1/2">
+                                    <label className="label cursor-pointer">
+                                      <span className="label-text flex items-center gap-2">
+                                        <span className="whitespace-nowrap">
+                                          Rail
+                                        </span>
+                                        <MdDirectionsBusFilled />
+                                      </span>
+                                      <input
+                                        type="checkbox"
+                                        className="checkbox-success checkbox"
+                                      />
+                                    </label>
+                                  </div>
+                                  <div className="form-control w-1/2">
+                                    <label className="label cursor-pointer">
+                                      <span className="label-text flex items-center gap-2">
+                                        <span>Subway</span>
+                                        <MdOutlineDirectionsBike />
+                                      </span>
+                                      <input
+                                        type="checkbox"
+                                        className="checkbox-success checkbox"
+                                      />
+                                    </label>
+                                  </div>
+                                  <div className="form-control w-1/2">
+                                    <label className="label cursor-pointer">
+                                      <span className="label-text flex items-center gap-2">
+                                        <span>Train</span>
+                                        <MdDirectionsWalk />
+                                      </span>
+                                      <input
+                                        type="checkbox"
+                                        className="checkbox-success checkbox"
+                                      />
+                                    </label>
+                                  </div>
+                                  <div className="form-control w-1/2">
+                                    <label className="label cursor-pointer">
+                                      <span className="label-text flex items-center gap-2">
+                                        <span>Tram</span>
+                                        <MdDirectionsWalk />
+                                      </span>
+                                      <input
+                                        type="checkbox"
+                                        className="checkbox-success checkbox"
+                                      />
+                                    </label>
+                                  </div>
+                                </div>
+                                <h2 className="text-base">Preference:</h2>
+                                <div className="flex">
+                                  <div className="form-control w-1/2">
+                                    <label className="label cursor-pointer">
+                                      <span className="label-text flex items-center gap-2">
+                                        <span>Fewer transfers</span>
+                                      </span>
+                                      <input
+                                        type="checkbox"
+                                        className="checkbox-success checkbox"
+                                      />
+                                    </label>
+                                  </div>
+                                  <div className="form-control w-1/2">
+                                    <label className="label cursor-pointer">
+                                      <span className="label-text flex items-center gap-2">
+                                        <span>Less walking</span>
+                                      </span>
+                                      <input
+                                        type="checkbox"
+                                        className="checkbox-success checkbox"
+                                      />
+                                    </label>
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="form-control ">
+                                <label className="label cursor-pointer">
+                                  <span className="label-text pr-1 text-xs">
+                                    Pendular route?
+                                  </span>
+                                  <input
+                                    type="checkbox"
+                                    className="checkbox-accent checkbox checkbox-xs"
+                                    onChange={handleHighways}
+                                  />
+                                </label>
+                              </div>
+                              <div className="flex gap-2">
+                                <input
+                                  type="text"
+                                  placeholder="Go..."
+                                  className="input-bordered input-accent input input-sm w-full bg-white"
+                                  // ref={originRefs[houseNumber]}
+                                />
+                                <input
+                                  type="text"
+                                  placeholder="Back"
+                                  className="input-bordered input-accent input input-sm w-full bg-white"
+                                  // ref={originRefs[houseNumber]}
+                                />
+                              </div>
+                            </div>
+                          </div>
+                          {/* <div className="flex items-center justify-between"> */}
+                          {/* <div>
                                         <button
                                           onClick={() =>
                                             unhideDirections(
@@ -927,17 +769,51 @@ function Routes() {
                                       >
                                         <TrashIcon className="text-orange h-6" />
                                       </button>
-                                    </div>
-                                  </li>
-                                )
-                              })}
-                            </ul>
-                          </div>
-                        </Tab.Panel>
-                      )
-                    }
-                    return null // Skip rendering for empty houses
-                  })}
+                                    </div> */}
+                        </li>
+                      </ul>
+                      <div className="collapse rounded-lg border-2 ">
+                        <input type="checkbox" />
+                        <div className="collapse-title text-lg font-medium">
+                          Routes
+                        </div>
+                        <div className="collapse-content">
+                          <ul>
+                            {Object.keys(routesFormData).map((house) => {
+                              const houseNumber = house.split(" ")[1]
+                              const houseRoutes = routesFormData[house]
+                              const drivingData =
+                                routesFormData["House 1"]["Driving"]
+                              const otherData =
+                                routesFormData["House 1"]["Other"]
+
+                              console.log("car", otherData)
+                              // const busRoutes = houseRoutes.filter( route => route.mode === "bus")
+                              // const bycicleRoutes = houseRoutes.filter( route => route.mode === "bycicle")
+                              // const walkingRoutes = houseRoutes.filter( route => route.mode === "walking")
+
+                              return (
+                                <li>
+                                  <span>car</span>
+                                  <span>20 mins</span>
+                                  <span>10km</span>
+                                  <span>Consumption</span>
+                                  <span>Oriente, Lisboa, Portugal</span>
+                                  <span>Diesel</span>
+                                  <span>Tolls</span>
+                                  <span>Highways</span>
+                                  <span>Ferries</span>
+                                  <span>
+                                    stop
+                                  </span>
+                                </li>
+                              )
+                            })}
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </Tab.Panel>
                 </Tab.Panels>
               </Tab.Group>
             </Popover.Panel>
