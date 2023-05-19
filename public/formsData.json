@@ -4,7 +4,7 @@
       "id": 1,
       "origin": "Algés, Portugal",
       "destination": "Oriente, Lisboa, Portugal",
-      " intermediates": [{ "address": "Oriente, Lisboa, Portugal" }],
+      " intermediates": [],
       "travelMode": "TRANSIT",
       "routeModifiers": {
         "avoidTolls": true,
@@ -12,7 +12,7 @@
         "avoidFerries": true
       },
       "numberOfTravels": 1,
-      "TypeOfEngine": "Diesel",
+      "TypeOfEngine": "",
       "transitOptions": {
         "arrivalTime": "",
         "departureTime": "",
@@ -26,7 +26,7 @@
       "id": 2,
       "origin": "Algés, Portugal",
       "destination": "Oriente, Lisboa, Portugal",
-      " intermediates": [{ "address": "Oriente, Lisboa, Portugal" }],
+      " intermediates": [],
       "travelMode": "TRANSIT",
       "routeModifiers": {
         "avoidTolls": true,
