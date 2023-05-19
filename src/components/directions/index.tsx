@@ -446,10 +446,8 @@ function Routes() {
                                   />
                                 </Autocomplete>
                               </div>
-                              <h2 className="text-base">Travel mode:</h2>
-
                               <div className="flex flex-wrap ">
-                                <div className="form-control w-1/2">
+                                <div className="form-control w-full">
                                   <label className="label cursor-pointer">
                                     <span className="label-text flex items-center gap-2">
                                       <span>Car</span>
@@ -458,14 +456,14 @@ function Routes() {
                                     <input
                                       type="checkbox"
                                       checked
-                                      className="checkbox-success checkbox"
+                                      className="checkbox-success checkbox checkbox-sm"
                                     />
                                   </label>
                                 </div>
 
                                 <div>
-                                  <div className="flex items-center">
-                                    <div className="form-control w-1/2 ">
+                                  <div className="flex ">
+                                    <div className="form-control  ">
                                       <label className="label">
                                         <span className="label-text">
                                           Type of engine
@@ -485,32 +483,28 @@ function Routes() {
                                         <option value="DIESEL"> Diesel</option>
                                       </select>
                                     </div>
-                                    <div className="form-control  w-1/2 ">
-                                      <label className="label">
-                                        <span className="label-text">
-                                          Consumption
-                                        </span>
-                                      </label>
-                                      {/* <Tooltip
-                                  color={"blue"}
-                                  text={"Hellogfdddddddddddddho"}
-                                  type={"info"}
-                                /> */}
-
-                                      <input
-                                        type="text"
-                                        placeholder="liters/km"
-                                        className="input-bordered input-accent  input input-sm w-full bg-white text-xs"
-                                        onChange={handleLitersConsumed}
-                                      />
-                                    </div>
+                                    {selectedEngineType !== "ELECTRIC" && (
+                                      <div className="form-control   ">
+                                        <label className="label">
+                                          <span className="label-text">
+                                            Consumption
+                                          </span>
+                                        </label>
+                                        <input
+                                          type="text"
+                                          placeholder="liters/km"
+                                          className="input-bordered input-accent  input input-sm  bg-white text-xs"
+                                          onChange={handleLitersConsumed}
+                                        />
+                                      </div>
+                                    )}
 
                                     {(selectedEngineType === "HYBRID" ||
                                       selectedEngineType === "ELECTRIC") && (
                                       <input
                                         type="text"
                                         placeholder="kwh/km"
-                                        className="input-bordered input-accent input input-sm w-1/3 bg-white"
+                                        className="input-bordered input-accent input input-sm  bg-white"
                                         onChange={handleWattsConsumed}
                                       />
                                     )}
@@ -581,6 +575,48 @@ function Routes() {
                                       />
                                     </div>
                                   </div>
+                                </div>
+                                <div className="btn-success btn-sm btn w-full gap-4 ">
+                                  <span>Add Route</span>
+                                  <GrDirections className="text-xl" />
+                                </div>
+                                <div>
+                                  <h2 className="text-base">Routes:</h2>
+                                  <ul>
+                                    {Object.keys(routesFormData).map(
+                                      (house) => {
+                                        const houseNumber = house.split(" ")[1]
+                                        const houseRoutes =
+                                          routesFormData[house]
+                                        const drivingData =
+                                          routesFormData["House 1"]["Driving"]
+                                        const otherData =
+                                          routesFormData["House 1"]["Other"]
+
+                                        console.log("car", otherData)
+                                        // const busRoutes = houseRoutes.filter( route => route.mode === "bus")
+                                        // const bycicleRoutes = houseRoutes.filter( route => route.mode === "bycicle")
+                                        // const walkingRoutes = houseRoutes.filter( route => route.mode === "walking")
+
+                                        return (
+                                          <li>
+                                            <span>car</span>
+                                            <span>20 mins</span>
+                                            <span>10km</span>
+                                            <span>Consumption</span>
+                                            <span>
+                                              Oriente, Lisboa, Portugal
+                                            </span>
+                                            <span>Diesel</span>
+                                            <span>Tolls</span>
+                                            <span>Highways</span>
+                                            <span>Ferries</span>
+                                            <span>stop</span>
+                                          </li>
+                                        )
+                                      }
+                                    )}
+                                  </ul>
                                 </div>
                               </div>
                             </div>
@@ -772,46 +808,6 @@ function Routes() {
                                     </div> */}
                         </li>
                       </ul>
-                      <div className="collapse rounded-lg border-2 ">
-                        <input type="checkbox" />
-                        <div className="collapse-title text-lg font-medium">
-                          Routes
-                        </div>
-                        <div className="collapse-content">
-                          <ul>
-                            {Object.keys(routesFormData).map((house) => {
-                              const houseNumber = house.split(" ")[1]
-                              const houseRoutes = routesFormData[house]
-                              const drivingData =
-                                routesFormData["House 1"]["Driving"]
-                              const otherData =
-                                routesFormData["House 1"]["Other"]
-
-                              console.log("car", otherData)
-                              // const busRoutes = houseRoutes.filter( route => route.mode === "bus")
-                              // const bycicleRoutes = houseRoutes.filter( route => route.mode === "bycicle")
-                              // const walkingRoutes = houseRoutes.filter( route => route.mode === "walking")
-
-                              return (
-                                <li>
-                                  <span>car</span>
-                                  <span>20 mins</span>
-                                  <span>10km</span>
-                                  <span>Consumption</span>
-                                  <span>Oriente, Lisboa, Portugal</span>
-                                  <span>Diesel</span>
-                                  <span>Tolls</span>
-                                  <span>Highways</span>
-                                  <span>Ferries</span>
-                                  <span>
-                                    stop
-                                  </span>
-                                </li>
-                              )
-                            })}
-                          </ul>
-                        </div>
-                      </div>
                     </div>
                   </Tab.Panel>
                 </Tab.Panels>
