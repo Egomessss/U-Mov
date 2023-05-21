@@ -8,6 +8,8 @@ import {
   MdDirectionsWalk,
   MdDirections,
 } from "react-icons/md"
+import { MdOutlineElectricBolt } from "react-icons/md"
+import { FaGasPump } from "react-icons/fa"
 import Driving from "./routes"
 import PublicTransport from "./PublicTransport"
 import Tooltip from "../Tooltip"
@@ -26,16 +28,39 @@ import axios from "axios"
 import formsData from "../../../public/formsData.json"
 import drivingData from "../../../public/drivingData.json"
 import drivingDataPromise from "../../../public/drivingDataPromise.json"
+// !the button add route add the routes if its in the car routes, it add to car routes, if its in the other routes, it add to other routes, also a way to change the house based on the button clicked
+//! pedndular routes make 4 api calls, one without traffic, one with traffic on departure, and back the same
+//! pendular routes need to switch the origin and destination
 
 function Routes() {
   // const { drivingDirections, setDrivingDirections } = useContext(DrivingContext)
   const [routesFormData, setRoutesFormData] = useState(formsData)
-  // console.log(routesFormData)
+  console.log(routesFormData)
 
   const [fetchedDrivingDirections, setFetchedDrivingDirections] = useState()
   // console.log(fetchedDrivingDirections)
 
-  // const [travelMode, setTravelMode] = useState("DRIVE")
+  /** @type React.MutableRefObject<HTMLInputElement> */
+  const mainOriginRef = useRef(null)
+  console.log(mainOriginRef.current?.value)
+
+  /** @type React.MutableRefObject<HTMLInputElement> */
+  const destinationRef = useRef(null)
+  // console.log(destinationRef.current?.value)
+
+  /** @type React.MutableRefObject<HTMLInputElement> */
+  const intermediateRef = useRef(null)
+  // console.log(intermediateRef.current?.value)
+
+  // console.log(mainOriginRef.current.value)
+
+  const [departureTime, setDepartureTime] = useState("10:00")
+
+  //! a way to set a house based on a
+
+  const [openCarRoutes, setOpenCarRoutes] = useState(false)
+
+  const [openOtherRoutes, setOpenOtherRoutes] = useState(false)
 
   //! units
   const [units, setUnits] = useState("IMPERIAL")
@@ -46,22 +71,39 @@ function Routes() {
   }
 
   // ! changes every origin in a  house
-  const handleOrigin = (e, houseNumber) => {
-    const updatedOrigin = routesFormData[`House ${houseNumber}`].map(
-      (route) => {
-        return { ...route, origin: e }
-      }
-    )
-
-    const updatedRoutesFormData = {
-      ...routesFormData,
-      [`House ${houseNumber}`]: updatedOrigin,
-    }
-
-    setRoutesFormData(updatedRoutesFormData)
+  const handleOriginChange = () => {
+    const mappedRoutes = routesFormData.map((route) => {
+      return { ...route, origin: mainOriginRef.current?.value }
+    })
+    setRoutesFormData(mappedRoutes)
   }
 
-  console.log(Object.keys(routesFormData).map((house) => routesFormData[house]))
+  // ! handle destination change
+  const handleDestinationChange = () => {
+    const mappedRoutes = routesFormData.map((route) => {
+      return { ...route, destination: destinationRef.current?.value }
+    })
+    setRoutesFormData(mappedRoutes)
+  }
+
+  //! handle intermediate change
+  const handleIntermediateChange = () => {
+    // Map over the routesFormData array
+    const modifiedRoutes = routesFormData.map((route) => {
+      // Map over the intermediates array of each route
+      const modifiedIntermediates = route.intermediates.map((address) => {
+        // Update the address value with the value from intermediateRef
+        return { ...address, address: intermediateRef.current?.value };
+      });
+  
+      // Return the route with modified intermediates
+      return { ...route, intermediates: modifiedIntermediates };
+    });
+  
+    // Set the updated routesFormData state
+    setRoutesFormData(modifiedRoutes);
+  };
+  
 
   // ! travel mode
   const [selectedTravelMode, SetSelectedTravelMode] = useState("DRIVE")
@@ -142,12 +184,12 @@ function Routes() {
     }
     const data = {
       origin: {
-        address: "Algés, Portugal",
+        address: mainOriginRef.current.value,
       },
       destination: {
-        address: "Moscavide, Portugal",
+        address: destinationRef.current.value,
       },
-      intermediates: [{ address: "Oriente, Lisboa, Portugal" }],
+      intermediates: [{ address: intermediateRef.current.value }],
       travelMode: "DRIVE",
       routeModifiers: {
         avoidTolls: true,
@@ -170,6 +212,46 @@ function Routes() {
         console.error(error)
       })
   }
+
+  // const fetchData = () => {
+  //   const config = {
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       "X-Goog-Api-Key": "AIzaSyAC-ZmHeOUM6VvIDtbc8y_sfKG-Lh7ZgME",
+  //       "X-Goog-FieldMask":
+  //         "routes.distanceMeters,routes.duration,routes.polyline",
+  //     },
+  //   }
+  //   const data = {
+  //     origin: {
+  //       address: "Algés, Portugal",
+  //     },
+  //     destination: {
+  //       address: "Moscavide, Portugal",
+  //     },
+  //     intermediates: [{ address: "Oriente, Lisboa, Portugal" }],
+  //     travelMode: "DRIVE",
+  //     routeModifiers: {
+  //       avoidTolls: true,
+  //       avoidHighways: true,
+  //       avoidFerries: true,
+  //     },
+  //   }
+
+  //   axios
+  //     .post(
+  //       "https://routes.googleapis.com/directions/v2:computeRoutes",
+  //       data,
+  //       config
+  //     )
+  //     .then((response) => {
+  //       console.log(response.data)
+  //       // Rest of the code
+  //     })
+  //     .catch((error) => {
+  //       console.error(error)
+  //     })
+  // }
 
   // const fetchData = async () => {
   //   try {
@@ -406,17 +488,8 @@ function Routes() {
                             // placeholder={`Enter house ${houseNumber} address`}
                             placeholder="Enter house address"
                             className="input-bordered input-accent input input-md w-full bg-white"
-                            // ref={mainOriginRef}
-                            // onChange={() => {
-                            //   const input = mainOriginRef.current.value
-                            //   console.log(input)
-                            //   if (input) {
-                            //     handleOrigin(input, houseNumber)
-                            //   }
-                            // }}
-                            // onChange={(e) =>
-                            //   handleOrigin(e.target.value, houseNumber)
-                            // }
+                            ref={mainOriginRef}
+                            onChange={handleOriginChange}
                           />
                         </Autocomplete>
                         <FiArrowDown className=" w-full text-center text-4xl" />
@@ -425,24 +498,34 @@ function Routes() {
                           // key={route.distance}
                         >
                           {/* drive */}
-                          <div className="collapse rounded-lg border-2 ">
-                            <input type="checkbox" />
-                            <div className="collapse-title text-lg font-medium">
-                              Car Routes
-                            </div>
-                            <div className="collapse-content">
+
+                          <button
+                            onClick={() => setOpenCarRoutes((prev) => !prev)}
+                            className="btn-success btn-sm btn"
+                          >
+                            Car Routes
+                          </button>
+                          {/* disclosure */}
+                          {openCarRoutes && (
+                            <div>
+                              {" "}
                               <div className="flex flex-col gap-2">
                                 <Autocomplete>
                                   <input
                                     type="text"
-                                    // placeholder={`Enter the address for destination ${route.id}`}
                                     placeholder="Enter destination address"
                                     className="input-bordered input-accent input input-sm w-full bg-white"
-                                    // onChange={(e) =>
-                                    //   console.log(e.target.value)
-                                    //   //  handleOriginChange(e, houseNumber, route.id)
-                                    //   }
-                                    // ref={destinationRefs[houseNumber][destination]}
+                                    ref={destinationRef}
+                                    onChange={handleDestinationChange}
+                                  />
+                                </Autocomplete>
+                                <Autocomplete>
+                                  <input
+                                    type="text"
+                                    placeholder="Enter intermediate address"
+                                    className="input-bordered input-accent input input-sm w-full bg-white"
+                                    ref={intermediateRef}
+                                    onChange={handleIntermediateChange}
                                   />
                                 </Autocomplete>
                               </div>
@@ -461,128 +544,146 @@ function Routes() {
                                   </label>
                                 </div>
 
-                                <div>
-                                  <div className="flex ">
-                                    <div className="form-control  ">
+                                <div className="flex w-full gap-1">
+                                  <div className="form-control  w-1/3">
+                                    <label className="label">
+                                      <span className="label-text whitespace-nowrap">
+                                        Type of engine
+                                      </span>
+                                    </label>
+                                    <select
+                                      className="select-accent select select-sm  bg-white text-xs "
+                                      onChange={handleSelectedEngineType}
+                                    >
+                                      <option value="GASOLINE">Gasoline</option>
+                                      <option value="ELECTRIC">Electric</option>
+                                      <option value="HYBRID">Hybrid</option>
+                                      <option value="DIESEL"> Diesel</option>
+                                    </select>
+                                  </div>
+                                  {selectedEngineType !== "ELECTRIC" && (
+                                    <div className="form-control  w-1/3 ">
                                       <label className="label">
-                                        <span className="label-text">
-                                          Type of engine
+                                        <FaGasPump />
+                                        <span className="label-text ">
+                                          Consumption
                                         </span>
                                       </label>
-                                      <select
-                                        className="select-accent select select-sm w-full bg-white text-xs "
-                                        onChange={handleSelectedEngineType}
-                                      >
-                                        <option value="GASOLINE">
-                                          Gasoline
-                                        </option>
-                                        <option value="ELECTRIC">
-                                          Electric
-                                        </option>
-                                        <option value="HYBRID">Hybrid</option>
-                                        <option value="DIESEL"> Diesel</option>
-                                      </select>
+                                      <input
+                                        type="text"
+                                        placeholder="liters/km"
+                                        className="input-bordered input-accent  input input-sm  bg-white text-xs"
+                                        onChange={handleLitersConsumed}
+                                      />
                                     </div>
-                                    {selectedEngineType !== "ELECTRIC" && (
-                                      <div className="form-control   ">
-                                        <label className="label">
-                                          <span className="label-text">
-                                            Consumption
-                                          </span>
-                                        </label>
-                                        <input
-                                          type="text"
-                                          placeholder="liters/km"
-                                          className="input-bordered input-accent  input input-sm  bg-white text-xs"
-                                          onChange={handleLitersConsumed}
-                                        />
-                                      </div>
-                                    )}
+                                  )}
 
-                                    {(selectedEngineType === "HYBRID" ||
-                                      selectedEngineType === "ELECTRIC") && (
+                                  {(selectedEngineType === "HYBRID" ||
+                                    selectedEngineType === "ELECTRIC") && (
+                                    <div className="form-control  w-1/3 ">
+                                      <label className="label">
+                                        <MdOutlineElectricBolt />
+                                        <span className="label-text">
+                                          Consumption
+                                        </span>
+                                      </label>
                                       <input
                                         type="text"
                                         placeholder="kwh/km"
                                         className="input-bordered input-accent input input-sm  bg-white"
                                         onChange={handleWattsConsumed}
                                       />
-                                    )}
+                                    </div>
+                                  )}
+                                </div>
+                                <div className="flex items-center gap-2">
+                                  <div className="form-control ">
+                                    <label className="label cursor-pointer">
+                                      <span className="label-text pr-1 text-xs">
+                                        Live Traffic
+                                      </span>
+                                      <input
+                                        type="checkbox"
+                                        className="checkbox-accent checkbox checkbox-xs"
+                                        onChange={handleTraffic}
+                                      />
+                                    </label>
                                   </div>
-                                  <div className="flex items-center gap-2">
-                                    <div className="form-control ">
-                                      <label className="label cursor-pointer">
-                                        <span className="label-text pr-1 text-xs">
-                                          Live Traffic
-                                        </span>
-                                        <input
-                                          type="checkbox"
-                                          className="checkbox-accent checkbox checkbox-xs"
-                                          onChange={handleTraffic}
-                                        />
-                                      </label>
-                                    </div>
-
-                                    <div className="form-control ">
-                                      <label className="label cursor-pointer">
-                                        <span className="label-text pr-1 text-xs">
-                                          Avoid tolls?
-                                        </span>
-                                        <input
-                                          type="checkbox"
-                                          className="checkbox-accent checkbox checkbox-xs"
-                                          onChange={handleTolls}
-                                        />
-                                      </label>
-                                    </div>
-
-                                    <div className="form-control ">
-                                      <label className="label cursor-pointer">
-                                        <span className="label-text pr-1 text-xs">
-                                          Avoid Highways?
-                                        </span>
-                                        <input
-                                          type="checkbox"
-                                          className="checkbox-accent checkbox checkbox-xs"
-                                          onChange={handleHighways}
-                                        />
-                                      </label>
-                                    </div>
-                                    <div className="form-control ">
-                                      <label className="label cursor-pointer">
-                                        <span className="label-text pr-1 text-xs">
-                                          Pendular route?
-                                        </span>
-                                        <input
-                                          type="checkbox"
-                                          className="checkbox-accent checkbox checkbox-xs"
-                                          onChange={handleHighways}
-                                        />
-                                      </label>
-                                    </div>
-                                    <div className="flex gap-2">
+                                  <div className="form-control ">
+                                    <label className="label cursor-pointer">
+                                      <span className="label-text pr-1 text-xs">
+                                        Avoid tolls?
+                                      </span>
                                       <input
-                                        type="text"
-                                        placeholder="Go..."
-                                        className="input-bordered input-accent input input-sm w-full bg-white"
-                                        // ref={originRefs[houseNumber]}
+                                        type="checkbox"
+                                        className="checkbox-accent checkbox checkbox-xs"
+                                        onChange={handleTolls}
                                       />
+                                    </label>
+                                  </div>
+
+                                  <div className="form-control ">
+                                    <label className="label cursor-pointer">
+                                      <span className="label-text pr-1 text-xs">
+                                        Avoid Highways?
+                                      </span>
                                       <input
-                                        type="text"
-                                        placeholder="Back"
-                                        className="input-bordered input-accent input input-sm w-full bg-white"
-                                        // ref={originRefs[houseNumber]}
+                                        type="checkbox"
+                                        className="checkbox-accent checkbox checkbox-xs"
+                                        onChange={handleHighways}
                                       />
-                                    </div>
+                                    </label>
                                   </div>
                                 </div>
-                                <div className="btn-success btn-sm btn w-full gap-4 ">
+                                <div className="form-control ">
+                                  <label className="label cursor-pointer">
+                                    <input
+                                      type="text"
+                                      placeholder="Departure time"
+                                      className="input-bordered input-accent input input-sm  bg-white"
+                                      // ref={originRefs[houseNumber]}
+                                    />
+                                    <input
+                                      type="datetime"
+                                      name=""
+                                      id=""
+                                    />
+                                  </label>
+                                </div>
+                                {/* if this button is selected, do the follwoing data, in the fetch data function will take 2 routes intead of one, with the previous setting but integrate traffic*/}
+                                <div className="form-control w-full">
+                                  <label className="label cursor-pointer justify-between">
+                                    <span className="label-text text-xs">
+                                      Pendular route?
+                                    </span>
+                                    <input
+                                      type="checkbox"
+                                      className="checkbox-accent checkbox checkbox-sm"
+                                      onChange={handleHighways}
+                                    />
+                                  </label>
+                                </div>
+                                <div className="flex gap-2">
+                                  <input
+                                    type="text"
+                                    placeholder="Go..."
+                                    className="input-bordered input-accent input input-sm w-full bg-white"
+                                    // ref={originRefs[houseNumber]}
+                                  />
+                                  <input
+                                    type="text"
+                                    placeholder="Back"
+                                    className="input-bordered input-accent input input-sm w-full bg-white"
+                                    // ref={originRefs[houseNumber]}
+                                  />
+                                </div>
+                                <div className="btn-success btn-sm btn my-4 w-full gap-4 ">
                                   <span>Add Route</span>
                                   <GrDirections className="text-xl" />
                                 </div>
                                 <div>
                                   <h2 className="text-base">Routes:</h2>
-                                  <ul>
+                                  {/* <ul>
                                     {Object.keys(routesFormData).map(
                                       (house) => {
                                         const houseNumber = house.split(" ")[1]
@@ -593,7 +694,7 @@ function Routes() {
                                         const otherData =
                                           routesFormData["House 1"]["Other"]
 
-                                        console.log("car", otherData)
+                                        // console.log("car", otherData)
                                         // const busRoutes = houseRoutes.filter( route => route.mode === "bus")
                                         // const bycicleRoutes = houseRoutes.filter( route => route.mode === "bycicle")
                                         // const walkingRoutes = houseRoutes.filter( route => route.mode === "walking")
@@ -616,11 +717,12 @@ function Routes() {
                                         )
                                       }
                                     )}
-                                  </ul>
+                                  </ul> */}
                                 </div>
                               </div>
                             </div>
-                          </div>
+                          )}
+
                           {/* Public */}
                           <div className="collapse rounded-lg border-2 ">
                             <input type="checkbox" />
