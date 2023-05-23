@@ -7,6 +7,11 @@ import {
   MdOutlineDirectionsBike,
   MdDirectionsWalk,
   MdDirections,
+  MdLocationOn,
+  MdOutlineModeOfTravel,
+  MdToll,
+  MdOutlineRemoveRoad,
+  MdTraffic,
 } from "react-icons/md"
 import { MdOutlineElectricBolt } from "react-icons/md"
 import { FaGasPump } from "react-icons/fa"
@@ -17,9 +22,18 @@ import { ArrowRightIcon, TrashIcon } from "@heroicons/react/24/outline"
 import { Autocomplete } from "@react-google-maps/api"
 
 import { DrivingContext } from "../../context/DrivingContextProvider"
-import { AiOutlineEyeInvisible } from "react-icons/ai"
+import {
+  AiFillCar,
+  AiFillClockCircle,
+  AiFillSetting,
+  AiOutlineArrowLeft,
+  AiOutlineArrowRight,
+  AiOutlineEyeInvisible,
+} from "react-icons/ai"
+import { IoMdBoat } from "react-icons/io"
+import { GiPathDistance } from "react-icons/gi"
 import { MdOutlineVisibility } from "react-icons/md"
-import { BsTrash3 } from "react-icons/bs"
+import { BsArrowLeftRight, BsFillHouseDoorFill, BsTrash3 } from "react-icons/bs"
 import { IoSettingsOutline } from "react-icons/io5"
 import { FiArrowDown } from "react-icons/fi"
 import { HiOutlineArrowNarrowRight } from "react-icons/hi"
@@ -45,14 +59,20 @@ function Routes() {
   console.log(mainOriginRef.current?.value)
 
   /** @type React.MutableRefObject<HTMLInputElement> */
+  const mainOriginTwoRef = useRef(null)
+  // console.log(mainOriginRef.current?.value)
+
+  /** @type React.MutableRefObject<HTMLInputElement> */
+  const mainOriginThreeRef = useRef(null)
+  // console.log(mainOriginRef.current?.value)
+
+  /** @type React.MutableRefObject<HTMLInputElement> */
   const destinationRef = useRef(null)
   // console.log(destinationRef.current?.value)
 
   /** @type React.MutableRefObject<HTMLInputElement> */
   const intermediateRef = useRef(null)
   // console.log(intermediateRef.current?.value)
-
-  // console.log(mainOriginRef.current.value)
 
   const [departureTime, setDepartureTime] = useState("10:00")
 
@@ -63,12 +83,6 @@ function Routes() {
   const [openOtherRoutes, setOpenOtherRoutes] = useState(false)
 
   //! units
-  const [units, setUnits] = useState("IMPERIAL")
-  // console.log(units)
-
-  const handleUnitsMeasure = (e) => {
-    setUnits(e.target.value)
-  }
 
   // ! changes every origin in a  house
   const handleOriginChange = () => {
@@ -93,17 +107,16 @@ function Routes() {
       // Map over the intermediates array of each route
       const modifiedIntermediates = route.intermediates.map((address) => {
         // Update the address value with the value from intermediateRef
-        return { ...address, address: intermediateRef.current?.value };
-      });
-  
+        return { ...address, address: intermediateRef.current?.value }
+      })
+
       // Return the route with modified intermediates
-      return { ...route, intermediates: modifiedIntermediates };
-    });
-  
+      return { ...route, intermediates: modifiedIntermediates }
+    })
+
     // Set the updated routesFormData state
-    setRoutesFormData(modifiedRoutes);
-  };
-  
+    setRoutesFormData(modifiedRoutes)
+  }
 
   // ! travel mode
   const [selectedTravelMode, SetSelectedTravelMode] = useState("DRIVE")
@@ -454,22 +467,20 @@ function Routes() {
               </div>
 
               <Tab.Group>
-                <Tab.List className="flex justify-evenly pt-4">
-                  {Object.keys(formsData).map((house) => {
+                <Tab.List className="flex justify-around  pt-4">
+                  {/* {Object.keys(formsData).map((house) => {
                     const houseNumber = house.split(" ")[1]
                     const houseRoutes = routesFormData[house]
 
-                    return (
-                      <Tab key={houseNumber}>
-                        <button
-                          // onClick={() => handleHouseButtonClick(houseNumber)}
-                          className="btn-success btn-sm btn"
-                        >
-                          House {houseNumber}
-                        </button>
-                      </Tab>
-                    )
-                  })}
+                    return ( */}
+                  <Tab className="btn-success btn-sm btn w-[48%]">
+                    <span>Settings</span> <AiFillSetting className="text-lg" />
+                  </Tab>
+                  <Tab className="btn-success btn-sm btn w-[48%]">
+                    <span>Routes</span> <GrDirections className="text-lg" />
+                  </Tab>
+                  {/* )
+                  })} */}
                 </Tab.List>
 
                 <Tab.Panels className="h-[90%] w-full ">
@@ -486,10 +497,30 @@ function Routes() {
                           <input
                             type="text"
                             // placeholder={`Enter house ${houseNumber} address`}
-                            placeholder="Enter house address"
-                            className="input-bordered input-accent input input-md w-full bg-white"
+                            placeholder="Enter house 1 address"
+                            className="input-bordered input-accent input input-sm w-full bg-white"
                             ref={mainOriginRef}
                             onChange={handleOriginChange}
+                          />
+                        </Autocomplete>
+                        <Autocomplete>
+                          <input
+                            type="text"
+                            // placeholder={`Enter house ${houseNumber} address`}
+                            placeholder="Enter house 2 address"
+                            className="input-bordered input-secondary input input-sm w-full bg-white"
+                            ref={mainOriginTwoRef}
+                            // onChange={handleOriginChange}
+                          />
+                        </Autocomplete>
+                        <Autocomplete>
+                          <input
+                            type="text"
+                            // placeholder={`Enter house ${houseNumber} address`}
+                            placeholder="Enter house 3 address"
+                            className="input-bordered input-warning input input-sm w-full bg-white"
+                            ref={mainOriginThreeRef}
+                            // onChange={handleOriginChange}
                           />
                         </Autocomplete>
                         <FiArrowDown className=" w-full text-center text-4xl" />
@@ -508,7 +539,6 @@ function Routes() {
                           {/* disclosure */}
                           {openCarRoutes && (
                             <div>
-                              {" "}
                               <div className="flex flex-col gap-2">
                                 <Autocomplete>
                                   <input
@@ -911,6 +941,76 @@ function Routes() {
                         </li>
                       </ul>
                     </div>
+                  </Tab.Panel>
+                  <Tab.Panel>
+                    <ul>
+                      <li className="flex  flex-col">
+                        <div>
+                          <span className="font-bold">Destination:</span>
+                          <span className="text-sm"> Lisboa, Portugal</span>
+                        </div>
+                        <div>
+                          <span className="font-bold">Intermediate:</span>
+                          <span className="text-sm"> Algés, Portugal</span>
+                        </div>
+                        <div className="rounded-lg border-y-2 border-red-500">
+                          {" "}
+                          <div className="flex items-center gap-1">
+                            <BsFillHouseDoorFill />
+                            <span>1</span>
+                          </div>
+                          <div className="flex items-center justify-between gap-1">
+                            <AiFillCar />
+                            <div className="flex items-center gap-1">
+                              <MdOutlineModeOfTravel />
+                              <span>30</span>
+                            </div>
+
+                            <MdToll className="fill-red-600" />
+                            <IoMdBoat className="fill-red-600" />
+                            <MdTraffic className="fill-red-600" />
+                            <MdOutlineRemoveRoad className="fill-red-600" />
+                            <div className="flex items-center gap-1">
+                              <AiFillClockCircle className="fill-blue-500" />
+                              <span>10mins</span>
+                            </div>
+                            <div className="flex items-center gap-1">
+                              <GiPathDistance />
+                              <span>10km</span>
+                            </div>
+                          </div>
+                          <div className="flex items-center justify-between gap-1">
+                            {" "}
+                            <div className="flex items-center gap-1">
+                              <FaGasPump />
+                              <span>10$</span>
+                            </div>
+                            <div className="flex items-center gap-1">
+                              <MdOutlineElectricBolt className="fill-yellow-500" />
+                              <span>10$</span>
+                            </div>
+                            <div className="flex items-center gap-1">
+                              <BsArrowLeftRight />
+                              <input
+                                type="checkbox"
+                                checked
+                                className="checkbox-success checkbox checkbox-xs"
+                              />
+                            </div>
+                            <div className="flex items-center">
+                              {" "}
+                              <BsFillHouseDoorFill /> <span>13 am</span>
+                              <AiOutlineArrowRight />
+                            </div>
+                            <div className="flex items-center">
+                              <AiOutlineArrowLeft />
+                              <span>19 pm</span>
+                              <MdLocationOn />
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
                   </Tab.Panel>
                 </Tab.Panels>
               </Tab.Group>
