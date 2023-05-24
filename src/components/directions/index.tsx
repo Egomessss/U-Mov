@@ -51,15 +51,29 @@ function Routes() {
   const [routesFormData, setRoutesFormData] = useState(formsData)
   console.log(routesFormData)
 
-  const [fetchedDrivingDirections, setFetchedDrivingDirections] = useState()
+  const [fetchedDrivingDirections, setFetchedDrivingDirections] = useState({
+    "House 1": {
+      Driving: [],
+      Other: [],
+    },
+
+    "House 2": {
+      Driving: [],
+      Other: [],
+    },
+    "House 3": {
+      Driving: [],
+      Other: [],
+    },
+  })
   // console.log(fetchedDrivingDirections)
 
   /** @type React.MutableRefObject<HTMLInputElement> */
-  const mainOriginRef = useRef(null)
+  const mainOriginRef = useRef()
   console.log(mainOriginRef.current?.value)
 
   /** @type React.MutableRefObject<HTMLInputElement> */
-  const mainOriginTwoRef = useRef(null)
+  const mainOriginTwoRef = useRef()
   // console.log(mainOriginRef.current?.value)
 
   /** @type React.MutableRefObject<HTMLInputElement> */
@@ -569,6 +583,7 @@ function Routes() {
                                     <input
                                       type="checkbox"
                                       checked
+                                      readOnly
                                       className="checkbox-success checkbox checkbox-sm"
                                     />
                                   </label>
