@@ -1,4 +1,5 @@
 import React, { Fragment, useContext, useEffect, useState, useRef } from "react"
+
 import { Popover, Tab, Transition } from "@headlessui/react"
 import { GrDirections } from "react-icons/gr"
 import {
@@ -21,7 +22,6 @@ import Tooltip from "../Tooltip"
 import { ArrowRightIcon, TrashIcon } from "@heroicons/react/24/outline"
 import { Autocomplete } from "@react-google-maps/api"
 
-import { DrivingContext } from "../../context/DrivingContextProvider"
 import {
   AiFillCar,
   AiFillClockCircle,
@@ -37,11 +37,13 @@ import { BsArrowLeftRight, BsFillHouseDoorFill, BsTrash3 } from "react-icons/bs"
 import { IoSettingsOutline } from "react-icons/io5"
 import { FiArrowDown } from "react-icons/fi"
 import { HiOutlineArrowNarrowRight } from "react-icons/hi"
-import axios from "axios"
 
+import axios from "axios"
+import { DrivingContext } from "../../context/DrivingContextProvider"
 import formsData from "../../../public/formsData.json"
 import drivingData from "../../../public/drivingData.json"
 import drivingDataPromise from "../../../public/drivingDataPromise.json"
+import { time } from "console"
 // !the button add route add the routes if its in the car routes, it add to car routes, if its in the other routes, it add to other routes, also a way to change the house based on the button clicked
 //! pedndular routes make 4 api calls, one without traffic, one with traffic on departure, and back the same
 //! pendular routes need to switch the origin and destination
@@ -69,11 +71,11 @@ function Routes() {
   console.log(fetchedDrivingDirections)
 
   /** @type React.MutableRefObject<HTMLInputElement> */
-  const mainOriginRef = useRef()
+  const mainOriginRef = useRef(null)
   // console.log(mainOriginRef.current?.value)
 
   /** @type React.MutableRefObject<HTMLInputElement> */
-  const mainOriginTwoRef = useRef()
+  const mainOriginTwoRef = useRef(null)
   // console.log(mainOriginRef.current?.value)
 
   /** @type React.MutableRefObject<HTMLInputElement> */
@@ -88,7 +90,24 @@ function Routes() {
   const intermediateRef = useRef(null)
   // console.log(intermediateRef.current?.value)
 
-  const [departureTime, setDepartureTime] = useState("10:00")
+  const [departureTime, setDepartureTime] = useState("")
+  console.log("time", departureTime)
+
+  const handleDepartureTimeChange = (e) => {
+    const inputTime = e.target.value
+    const currentDate = new Date()
+
+    // Retrieve the current date components
+    const year = currentDate.getUTCFullYear()
+    const month = (currentDate.getUTCMonth() + 1).toString().padStart(2, "0")
+    const day = currentDate.getUTCDate().toString().padStart(2, "0")
+
+    // Combine the input time with the current date components to create the formatted time
+    const formattedTime = `${year}-${month}-${day}T${inputTime}:00Z`
+
+    // Update the departureTime state with the formatted time
+    setDepartureTime(formattedTime)
+  }
 
   //! a way to set a house based on a
 
@@ -200,6 +219,8 @@ function Routes() {
   // ! fetch route
   //? add fuel consumption
 
+  const addRoutesData = () => {}
+
   const fetchData = () => {
     const config = {
       headers: {
@@ -218,10 +239,11 @@ function Routes() {
       },
       intermediates: [{ address: intermediateRef.current?.value }],
       travelMode: "DRIVE",
+      extraComputations: ["FUEL_CONSUMPTION"],
       routeModifiers: {
         avoidTolls: true,
         avoidHighways: true,
-        avoidFerries: true,
+        avoidFerries: true
       },
     }
 
@@ -239,6 +261,10 @@ function Routes() {
           duration: data.routes[0].duration,
           distance: data.routes[0].distanceMeters,
           polyline: data.routes[0].polyline.encodedPolyline,
+          engineType: "GASOLINE",
+          fuelConsumption: 0,
+          EnergyConsumption: 0,
+
         }
         const updatedFetchedRoutes = {
           ...fetchedDrivingDirections,
@@ -590,6 +616,19 @@ function Routes() {
                                   />
                                 </Autocomplete>
                               </div>
+                              <div className="form-control ">
+                                <label className="label cursor-pointer">
+                                  <input
+                                    type="time"
+                                    max={24}
+                                    min={0}
+                                    step={10}
+                                    placeholder="Departure time"
+                                    className="input-bordered input-accent input input-sm  bg-white"
+                                    onChange={handleDepartureTimeChange}
+                                  />
+                                </label>
+                              </div>
                               <div className="flex flex-wrap ">
                                 <div className="form-control w-full">
                                   <label className="label cursor-pointer">
@@ -697,21 +736,7 @@ function Routes() {
                                     </label>
                                   </div>
                                 </div>
-                                <div className="form-control ">
-                                  <label className="label cursor-pointer">
-                                    <input
-                                      type="text"
-                                      placeholder="Departure time"
-                                      className="input-bordered input-accent input input-sm  bg-white"
-                                      // ref={originRefs[houseNumber]}
-                                    />
-                                    <input
-                                      type="datetime"
-                                      name=""
-                                      id=""
-                                    />
-                                  </label>
-                                </div>
+
                                 {/* if this button is selected, do the follwoing data, in the fetch data function will take 2 routes intead of one, with the previous setting but integrate traffic*/}
                                 <div className="form-control w-full">
                                   <label className="label cursor-pointer justify-between">
@@ -746,44 +771,6 @@ function Routes() {
                                   <span>Add Route</span>
                                   <GrDirections className="text-xl" />
                                 </button>
-                                <div>
-                                  <h2 className="text-base">Routes:</h2>
-                                  {/* <ul>
-                                    {Object.keys(routesFormData).map(
-                                      (house) => {
-                                        const houseNumber = house.split(" ")[1]
-                                        const houseRoutes =
-                                          routesFormData[house]
-                                        const drivingData =
-                                          routesFormData["House 1"]["Driving"]
-                                        const otherData =
-                                          routesFormData["House 1"]["Other"]
-
-                                        // console.log("car", otherData)
-                                        // const busRoutes = houseRoutes.filter( route => route.mode === "bus")
-                                        // const bycicleRoutes = houseRoutes.filter( route => route.mode === "bycicle")
-                                        // const walkingRoutes = houseRoutes.filter( route => route.mode === "walking")
-
-                                        return (
-                                          <li>
-                                            <span>car</span>
-                                            <span>20 mins</span>
-                                            <span>10km</span>
-                                            <span>Consumption</span>
-                                            <span>
-                                              Oriente, Lisboa, Portugal
-                                            </span>
-                                            <span>Diesel</span>
-                                            <span>Tolls</span>
-                                            <span>Highways</span>
-                                            <span>Ferries</span>
-                                            <span>stop</span>
-                                          </li>
-                                        )
-                                      }
-                                    )}
-                                  </ul> */}
-                                </div>
                               </div>
                             </div>
                           )}
@@ -976,6 +963,13 @@ function Routes() {
                         </li>
                       </ul>
                     </div>
+                    <button
+                      onClick={fetchData}
+                      className="btn-success btn-sm btn my-4 w-full gap-4 "
+                    >
+                      <span>Fetch data</span>
+                      <GrDirections className="text-xl" />
+                    </button>
                   </Tab.Panel>
                   <Tab.Panel>
                     <ul>
