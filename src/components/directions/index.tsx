@@ -49,7 +49,7 @@ import drivingDataPromise from "../../../public/drivingDataPromise.json"
 function Routes() {
   // const { drivingDirections, setDrivingDirections } = useContext(DrivingContext)
   const [routesFormData, setRoutesFormData] = useState(formsData)
-  console.log(routesFormData)
+  // console.log(routesFormData)
 
   const [fetchedDrivingDirections, setFetchedDrivingDirections] = useState({
     "House 1": {
@@ -66,11 +66,11 @@ function Routes() {
       Other: [],
     },
   })
-  // console.log(fetchedDrivingDirections)
+  console.log(fetchedDrivingDirections)
 
   /** @type React.MutableRefObject<HTMLInputElement> */
   const mainOriginRef = useRef()
-  console.log(mainOriginRef.current?.value)
+  // console.log(mainOriginRef.current?.value)
 
   /** @type React.MutableRefObject<HTMLInputElement> */
   const mainOriginTwoRef = useRef()
@@ -211,12 +211,12 @@ function Routes() {
     }
     const data = {
       origin: {
-        address: mainOriginRef.current.value,
+        address: mainOriginRef.current?.value,
       },
       destination: {
-        address: destinationRef.current.value,
+        address: destinationRef.current?.value,
       },
-      intermediates: [{ address: intermediateRef.current.value }],
+      intermediates: [{ address: intermediateRef.current?.value }],
       travelMode: "DRIVE",
       routeModifiers: {
         avoidTolls: true,
@@ -232,8 +232,25 @@ function Routes() {
         config
       )
       .then((response) => {
-        console.log(response.data)
-        // Rest of the code
+        const data = response.data
+
+        const modifiedData = {
+          isVisible: true,
+          duration: data.routes[0].duration,
+          distance: data.routes[0].distanceMeters,
+          polyline: data.routes[0].polyline.encodedPolyline,
+        }
+        const updatedFetchedRoutes = {
+          ...fetchedDrivingDirections,
+          "House 1": {
+            ...fetchedDrivingDirections["House 1"],
+            Driving: [
+              ...fetchedDrivingDirections["House 1"].Driving,
+              modifiedData,
+            ],
+          },
+        }
+        setFetchedDrivingDirections(updatedFetchedRoutes)
       })
       .catch((error) => {
         console.error(error)
@@ -722,10 +739,13 @@ function Routes() {
                                     // ref={originRefs[houseNumber]}
                                   />
                                 </div>
-                                <div className="btn-success btn-sm btn my-4 w-full gap-4 ">
+                                <button
+                                  onClick={fetchData}
+                                  className="btn-success btn-sm btn my-4 w-full gap-4 "
+                                >
                                   <span>Add Route</span>
                                   <GrDirections className="text-xl" />
-                                </div>
+                                </button>
                                 <div>
                                   <h2 className="text-base">Routes:</h2>
                                   {/* <ul>
