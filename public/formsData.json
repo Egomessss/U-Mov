@@ -2,38 +2,47 @@
   {
     "origin": "",
     "destination": "",
-    "intermediates": [{ "address": "" }],
+    "intermediates": "",
     "nonPendularDepartureTime": "",
     "travelMode": "DRIVE",
-    "routeModifiers": {
-      "avoidTolls": true,
-      "avoidHighways": true,
-      "avoidFerries": true
-    },
+    "routingPreference": "TRAFFIC_AWARE",
+    "avoidTolls": true,
+    "avoidHighways": true,
+    "avoidFerries": true,
     "numberOfTravels": 0,
     "typeOfEngine": "",
     "fuelConsumption": 0,
     "energyConsumptionEletric": 0,
-    "isPendularRoute": false,
+    "isPendularRoute": false, 
     "pendularRouteId": "",
     "outboundTimePendular": "",
-    "inboundTimePendular": ""
+    "inboundTimePendular": "",
+    "polyline": "",
+    "duration": 0,
+    "distance":0,
+    "isVisible": true
   },
   {
     "origin": "",
     "destination": "",
-    "intermediates": [{ "address": "" }],
+    "intermediates": "",
+    "nonPendularDepartureTime": "",
     "travelMode": "DRIVE",
-    "routeModifiers": {
-      "avoidTolls": true,
-      "avoidHighways": true,
-      "avoidFerries": true
-    },
+    "routingPreference": "TRAFFIC_UNAWARE",
+    "avoidTolls": true,
+    "avoidHighways": true,
+    "avoidFerries": true,
     "numberOfTravels": 0,
-    "TypeOfEngine": "Diesel",
-    "FuelConsumption": 0,
-    "EnergyConsumption": 0,
-    "isPendularRoute": false,
-    "DepartureTime": "2019-12-12T00:00:00.000Z"
+    "typeOfEngine": "",
+    "fuelConsumption": 0,
+    "energyConsumptionEletric": 0,
+    "isPendularRoute": false, 
+    "pendularRouteId": "",
+    "outboundTimePendular": "",
+    "inboundTimePendular": "",
+    "polyline": "",
+    "duration": 0,
+    "distance": 0,
+    "isVisible": true
   }
 ]

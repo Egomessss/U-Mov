@@ -157,6 +157,20 @@ function Routes() {
 
   const handleSelectedTravelMode = (e) => SetSelectedTravelMode(e.target.value)
 
+  //! traffic
+
+  const [trafficPreference, setTrafficPreference] = useState("TRAFFIC_UNAWARE")
+  // console.log(trafficPreference)
+
+  const handleTraffic = (e) => {
+    const isChecked = e.target.checked
+    if (isChecked) {
+      setTrafficPreference("TRAFFIC_AWARE")
+    } else {
+      setTrafficPreference("TRAFFIC_UNAWARE")
+    }
+  }
+
   // ! Engine Type
   const [selectedEngineType, SetSelectedEngineType] = useState("GASOLINE")
   // console.log(selectedEngineType)
@@ -174,19 +188,6 @@ function Routes() {
   // console.log(wattsConsumed)
 
   const handleWattsConsumed = (e) => setWattsConsumed(e.target.value)
-  //! traffic
-
-  const [trafficPreference, setTrafficPreference] = useState("TRAFFIC_UNAWARE")
-  // console.log(trafficPreference)
-
-  const handleTraffic = (e) => {
-    const isChecked = e.target.checked
-    if (isChecked) {
-      setTrafficPreference("TRAFFIC_AWARE")
-    } else {
-      setTrafficPreference("TRAFFIC_UNAWARE")
-    }
-  }
 
   //! tolls
   const [tollsPreference, setTollsPreference] = useState(false)
@@ -214,6 +215,17 @@ function Routes() {
     }
   }
 
+  const [ferriesPreference, setFerriesPreference] = useState(false)
+
+  const handleFerries = (e) => {
+    const isChecked = e.target.checked
+    if (isChecked) {
+      setFerriesPreference(true)
+    } else {
+      setFerriesPreference(false)
+    }
+  }
+
   const [featuresOpen, setFeaturesOpen] = useState(false)
 
   // ! fetch route
@@ -232,18 +244,19 @@ function Routes() {
     }
     const data = {
       origin: {
-        address: mainOriginRef.current?.value,
+        address: "Algés, Portugal",
       },
       destination: {
-        address: destinationRef.current?.value,
+        address: "Oriente, Lisboa, Portugal",
       },
-      intermediates: [{ address: intermediateRef.current?.value }],
+      intermediates: [{ address: "Lisboa, Portugal" }],
       travelMode: "DRIVE",
-      extraComputations: ["FUEL_CONSUMPTION"],
+      routingPreference: "TRAFFIC_AWARE",
+      departureTime: "2023-10-15T15:01:23.045123456Z",
       routeModifiers: {
         avoidTolls: true,
         avoidHighways: true,
-        avoidFerries: true
+        avoidFerries: true,
       },
     }
 
@@ -255,6 +268,155 @@ function Routes() {
       )
       .then((response) => {
         const data = response.data
+        console.log(response.data)
+        //! compare traffic, if not selected just pass one object to forms data with traffic unaware
+        //! if selected, pass two objects, one with traffic aware and one with traffic unaware
+        const trafficComparisonData = [
+          [
+            {
+              origin: mainOriginRef.current,
+              destination: destinationRef.current,
+              intermediates: intermediateRef.current,
+              nonPendularDepartureTime: departureTime,
+              travelMode: selectedTravelMode,
+              routingPreference: trafficPreference,
+              avoidTolls: tollsPreference,
+              avoidHighways: highwaysPreference,
+              avoidFerries: ferriesPreference,
+              numberOfTravels: 0,
+              typeOfEngine: selectedEngineType,
+              fuelConsumption: wattsConsumed,
+              energyConsumptionEletric: litersConsumed,
+              isPendularRoute: false,
+              pendularRouteId: "",
+              outboundTimePendular: "",
+              inboundTimePendular: "",
+              polyline: data.routes[0].polyline.encodedPolyline,
+              duration: data.routes[0].duration,
+              distance: data.routes[0].distanceMeters,
+              isVisible: true,
+            },
+            {
+              origin: mainOriginRef.current,
+              destination: destinationRef.current,
+              intermediates: intermediateRef.current,
+              nonPendularDepartureTime: departureTime,
+              travelMode: selectedTravelMode,
+              routingPreference: trafficPreference,
+              avoidTolls: tollsPreference,
+              avoidHighways: highwaysPreference,
+              avoidFerries: ferriesPreference,
+              numberOfTravels: 0,
+              typeOfEngine: selectedEngineType,
+              fuelConsumption: wattsConsumed,
+              energyConsumptionEletric: litersConsumed,
+              isPendularRoute: false,
+              pendularRouteId: "",
+              outboundTimePendular: "",
+              inboundTimePendular: "",
+              polyline: data.routes[0].polyline.encodedPolyline,
+              duration: data.routes[0].duration,
+              distance: data.routes[0].distanceMeters,
+              isVisible: true,
+            },
+          ],
+        ]
+        // const pendularData = [
+        //   [
+        //     {
+        //       origin: "",
+        //       destination: "",
+        //       intermediates: "",
+        //       nonPendularDepartureTime: "",
+        //       travelMode: "DRIVE",
+        //       routingPreference: "TRAFFIC_AWARE",
+        //       avoidTolls: true,
+        //       avoidHighways: true,
+        //       avoidFerries: true,
+        //       numberOfTravels: 0,
+        //       typeOfEngine: "",
+        //       fuelConsumption: 0,
+        //       energyConsumptionEletric: 0,
+        //       isPendularRoute: false,
+        //       pendularRouteId: "",
+        //       outboundTimePendular: "",
+        //       inboundTimePendular: "",
+        //       polyline: "",
+        //       duration: 0,
+        //       distance: 0,
+        //       isVisible: true,
+        //     },
+        //     {
+        //       origin: "",
+        //       destination: "",
+        //       intermediates: "",
+        //       nonPendularDepartureTime: "",
+        //       travelMode: "DRIVE",
+        //       routingPreference: "TRAFFIC_UNAWARE",
+        //       avoidTolls: true,
+        //       avoidHighways: true,
+        //       avoidFerries: true,
+        //       numberOfTravels: 0,
+        //       typeOfEngine: "",
+        //       fuelConsumption: 0,
+        //       energyConsumptionEletric: 0,
+        //       isPendularRoute: false,
+        //       pendularRouteId: "",
+        //       outboundTimePendular: "",
+        //       inboundTimePendular: "",
+        //       polyline: "",
+        //       duration: 0,
+        //       distance: 0,
+        //       isVisible: true,
+        //     },
+        //     {
+        //       origin: "",
+        //       destination: "",
+        //       intermediates: "",
+        //       nonPendularDepartureTime: "",
+        //       travelMode: "DRIVE",
+        //       routingPreference: "TRAFFIC_AWARE",
+        //       avoidTolls: true,
+        //       avoidHighways: true,
+        //       avoidFerries: true,
+        //       numberOfTravels: 0,
+        //       typeOfEngine: "",
+        //       fuelConsumption: 0,
+        //       energyConsumptionEletric: 0,
+        //       isPendularRoute: false,
+        //       pendularRouteId: "",
+        //       outboundTimePendular: "",
+        //       inboundTimePendular: "",
+        //       polyline: "",
+        //       duration: 0,
+        //       distance: 0,
+        //       isVisible: true,
+        //     },
+        //     {
+        //       origin: "",
+        //       destination: "",
+        //       intermediates: "",
+        //       nonPendularDepartureTime: "",
+        //       travelMode: "DRIVE",
+        //       routingPreference: "TRAFFIC_UNAWARE",
+        //       avoidTolls: true,
+        //       avoidHighways: true,
+        //       avoidFerries: true,
+        //       numberOfTravels: 0,
+        //       typeOfEngine: "",
+        //       fuelConsumption: 0,
+        //       energyConsumptionEletric: 0,
+        //       isPendularRoute: false,
+        //       pendularRouteId: "",
+        //       outboundTimePendular: "",
+        //       inboundTimePendular: "",
+        //       polyline: "",
+        //       duration: 0,
+        //       distance: 0,
+        //       isVisible: true,
+        //     }
+        //   ],
+        // ]
 
         const modifiedData = {
           isVisible: true,
@@ -264,7 +426,6 @@ function Routes() {
           engineType: "GASOLINE",
           fuelConsumption: 0,
           EnergyConsumption: 0,
-
         }
         const updatedFetchedRoutes = {
           ...fetchedDrivingDirections,
@@ -616,20 +777,32 @@ function Routes() {
                                   />
                                 </Autocomplete>
                               </div>
-                              <div className="form-control ">
-                                <label className="label cursor-pointer">
-                                  <input
-                                    type="time"
-                                    max={24}
-                                    min={0}
-                                    step={10}
-                                    placeholder="Departure time"
-                                    className="input-bordered input-accent input input-sm  bg-white"
-                                    onChange={handleDepartureTimeChange}
-                                  />
-                                </label>
-                              </div>
-                              <div className="flex flex-wrap ">
+                              <div className="flex items-center justify-between">
+                                <div className="form-control ">
+                                  <label className="label cursor-pointer">
+                                    <span className="label-text whitespace-nowrap pr-1 text-xs">
+                                      Live Traffic
+                                    </span>
+                                    <input
+                                      type="checkbox"
+                                      className="checkbox-accent checkbox checkbox-xs"
+                                      onChange={handleTraffic}
+                                    />
+                                  </label>
+                                </div>
+                                <div className="form-control ">
+                                  <label className="label cursor-pointer">
+                                    <input
+                                      type="time"
+                                      max={24}
+                                      min={0}
+                                      step={10}
+                                      placeholder="Departure time"
+                                      className="input-bordered input-accent input input-sm  bg-white"
+                                      onChange={handleDepartureTimeChange}
+                                    />
+                                  </label>
+                                </div>
                                 <div className="form-control w-full">
                                   <label className="label cursor-pointer">
                                     <span className="label-text flex items-center gap-2">
@@ -644,7 +817,9 @@ function Routes() {
                                     />
                                   </label>
                                 </div>
+                              </div>
 
+                              <div className="flex flex-wrap ">
                                 <div className="flex w-full gap-1">
                                   <div className="form-control  w-1/3">
                                     <label className="label">
@@ -701,18 +876,6 @@ function Routes() {
                                   <div className="form-control ">
                                     <label className="label cursor-pointer">
                                       <span className="label-text pr-1 text-xs">
-                                        Live Traffic
-                                      </span>
-                                      <input
-                                        type="checkbox"
-                                        className="checkbox-accent checkbox checkbox-xs"
-                                        onChange={handleTraffic}
-                                      />
-                                    </label>
-                                  </div>
-                                  <div className="form-control ">
-                                    <label className="label cursor-pointer">
-                                      <span className="label-text pr-1 text-xs">
                                         Avoid tolls?
                                       </span>
                                       <input
@@ -732,6 +895,18 @@ function Routes() {
                                         type="checkbox"
                                         className="checkbox-accent checkbox checkbox-xs"
                                         onChange={handleHighways}
+                                      />
+                                    </label>
+                                  </div>
+                                  <div className="form-control ">
+                                    <label className="label cursor-pointer">
+                                      <span className="label-text pr-1 text-xs">
+                                        Avoid ferries
+                                      </span>
+                                      <input
+                                        type="checkbox"
+                                        className="checkbox-accent checkbox checkbox-xs"
+                                        onChange={handleFerries}
                                       />
                                     </label>
                                   </div>
