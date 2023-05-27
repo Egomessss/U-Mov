@@ -91,7 +91,7 @@ function Routes() {
   // console.log(intermediateRef.current?.value)
 
   const [departureTime, setDepartureTime] = useState("")
-  console.log("time", departureTime)
+  // console.log("time", departureTime)
 
   const handleDepartureTimeChange = (e) => {
     const inputTime = e.target.value
@@ -271,6 +271,31 @@ function Routes() {
         console.log(response.data)
         //! compare traffic, if not selected just pass one object to forms data with traffic unaware
         //! if selected, pass two objects, one with traffic aware and one with traffic unaware
+
+        const route = {
+          origin: null,
+          destination: destinationRef.current,
+          intermediates: intermediateRef.current,
+          nonPendularDepartureTime: departureTime,
+          travelMode: selectedTravelMode,
+          routingPreference: trafficPreference,
+          avoidTolls: tollsPreference,
+          avoidHighways: highwaysPreference,
+          avoidFerries: ferriesPreference,
+          numberOfTravels: 0,
+          typeOfEngine: selectedEngineType,
+          fuelConsumption: wattsConsumed,
+          energyConsumptionEletric: litersConsumed,
+          isPendularRoute: false,
+          pendularRouteId: null,
+          outboundTimePendular: "",
+          inboundTimePendular: "",
+          polyline: data.routes[0].polyline.encodedPolyline,
+          duration: data.routes[0].duration,
+          distance: data.routes[0].distanceMeters,
+          isVisible: true,
+        }
+
         const trafficComparisonData = [
           [
             {
@@ -418,27 +443,43 @@ function Routes() {
         //   ],
         // ]
 
-        const modifiedData = {
-          isVisible: true,
-          duration: data.routes[0].duration,
-          distance: data.routes[0].distanceMeters,
-          polyline: data.routes[0].polyline.encodedPolyline,
-          engineType: "GASOLINE",
-          fuelConsumption: 0,
-          EnergyConsumption: 0,
-        }
-        const updatedFetchedRoutes = {
+        const updatedFetchedDrivingRoutesNormal = {
           ...fetchedDrivingDirections,
           "House 1": {
             ...fetchedDrivingDirections["House 1"],
-            Driving: [
-              ...fetchedDrivingDirections["House 1"].Driving,
-              modifiedData,
-            ],
+            Driving: [...fetchedDrivingDirections["House 1"].Driving, route],
+          },
+          "House 2": {
+            ...fetchedDrivingDirections["House 1"],
+            Driving: [...fetchedDrivingDirections["House 2"].Driving, route],
+          },
+          "House 3": {
+            ...fetchedDrivingDirections["House 1"],
+            Driving: [...fetchedDrivingDirections["House 3"].Driving, route],
           },
         }
-        setFetchedDrivingDirections(updatedFetchedRoutes)
+
+        updatedFetchedDrivingRoutesNormal["House 1"].Driving.forEach(
+          (route) => (route.origin = mainOriginRef.current?.value)
+        )
+
+        updatedFetchedDrivingRoutesNormal["House 2"].Driving.forEach(
+          (route) => (route.origin = mainOriginTwoRef.current?.value)
+        )
+
+        updatedFetchedDrivingRoutesNormal["House 3"].Driving.forEach(
+          (route) => (route.origin = mainOriginThreeRef.current?.value)
+        )
+
+        setFetchedDrivingDirections(updatedFetchedDrivingRoutesNormal)
       })
+
+      // const updatedFetchedTrafficRoutes =
+
+      // const updatedFetchedPendularWithTrafficRoutes =
+
+      // const updatedFetchedPendularWithoutTrafficRoutes =
+
       .catch((error) => {
         console.error(error)
       })
