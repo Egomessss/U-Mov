@@ -251,8 +251,8 @@ function Routes() {
       },
       intermediates: [{ address: "Lisboa, Portugal" }],
       travelMode: "DRIVE",
-      routingPreference: "TRAFFIC_AWARE",
-      departureTime: "2023-10-15T15:01:23.045123456Z",
+      routingPreference: "TRAFFIC_UNAWARE",
+      // departureTime: departureTime,
       routeModifiers: {
         avoidTolls: true,
         avoidHighways: true,
@@ -266,9 +266,16 @@ function Routes() {
         data,
         config
       )
-      .then((response) => {
+      .then((response) => { 
+         console.log(response.data)
         const data = response.data
-        console.log(response.data)
+        const houseNames = ["House 1", "House 2", "House 3"]
+        const mainOriginsRefs = [
+          mainOriginRef,
+          mainOriginTwoRef,
+          mainOriginThreeRef,
+        ]
+      
         //! compare traffic, if not selected just pass one object to forms data with traffic unaware
         //! if selected, pass two objects, one with traffic aware and one with traffic unaware
 
@@ -296,184 +303,178 @@ function Routes() {
           isVisible: true,
         }
 
-        const trafficComparisonData = [
-          [
-            {
-              origin: mainOriginRef.current,
-              destination: destinationRef.current,
-              intermediates: intermediateRef.current,
-              nonPendularDepartureTime: departureTime,
-              travelMode: selectedTravelMode,
-              routingPreference: trafficPreference,
-              avoidTolls: tollsPreference,
-              avoidHighways: highwaysPreference,
-              avoidFerries: ferriesPreference,
-              numberOfTravels: 0,
-              typeOfEngine: selectedEngineType,
-              fuelConsumption: wattsConsumed,
-              energyConsumptionEletric: litersConsumed,
-              isPendularRoute: false,
-              pendularRouteId: "",
-              outboundTimePendular: "",
-              inboundTimePendular: "",
-              polyline: data.routes[0].polyline.encodedPolyline,
-              duration: data.routes[0].duration,
-              distance: data.routes[0].distanceMeters,
-              isVisible: true,
-            },
-            {
-              origin: mainOriginRef.current,
-              destination: destinationRef.current,
-              intermediates: intermediateRef.current,
-              nonPendularDepartureTime: departureTime,
-              travelMode: selectedTravelMode,
-              routingPreference: trafficPreference,
-              avoidTolls: tollsPreference,
-              avoidHighways: highwaysPreference,
-              avoidFerries: ferriesPreference,
-              numberOfTravels: 0,
-              typeOfEngine: selectedEngineType,
-              fuelConsumption: wattsConsumed,
-              energyConsumptionEletric: litersConsumed,
-              isPendularRoute: false,
-              pendularRouteId: "",
-              outboundTimePendular: "",
-              inboundTimePendular: "",
-              polyline: data.routes[0].polyline.encodedPolyline,
-              duration: data.routes[0].duration,
-              distance: data.routes[0].distanceMeters,
-              isVisible: true,
-            },
-          ],
-        ]
-        // const pendularData = [
-        //   [
-        //     {
-        //       origin: "",
-        //       destination: "",
-        //       intermediates: "",
-        //       nonPendularDepartureTime: "",
-        //       travelMode: "DRIVE",
-        //       routingPreference: "TRAFFIC_AWARE",
-        //       avoidTolls: true,
-        //       avoidHighways: true,
-        //       avoidFerries: true,
-        //       numberOfTravels: 0,
-        //       typeOfEngine: "",
-        //       fuelConsumption: 0,
-        //       energyConsumptionEletric: 0,
-        //       isPendularRoute: false,
-        //       pendularRouteId: "",
-        //       outboundTimePendular: "",
-        //       inboundTimePendular: "",
-        //       polyline: "",
-        //       duration: 0,
-        //       distance: 0,
-        //       isVisible: true,
-        //     },
-        //     {
-        //       origin: "",
-        //       destination: "",
-        //       intermediates: "",
-        //       nonPendularDepartureTime: "",
-        //       travelMode: "DRIVE",
-        //       routingPreference: "TRAFFIC_UNAWARE",
-        //       avoidTolls: true,
-        //       avoidHighways: true,
-        //       avoidFerries: true,
-        //       numberOfTravels: 0,
-        //       typeOfEngine: "",
-        //       fuelConsumption: 0,
-        //       energyConsumptionEletric: 0,
-        //       isPendularRoute: false,
-        //       pendularRouteId: "",
-        //       outboundTimePendular: "",
-        //       inboundTimePendular: "",
-        //       polyline: "",
-        //       duration: 0,
-        //       distance: 0,
-        //       isVisible: true,
-        //     },
-        //     {
-        //       origin: "",
-        //       destination: "",
-        //       intermediates: "",
-        //       nonPendularDepartureTime: "",
-        //       travelMode: "DRIVE",
-        //       routingPreference: "TRAFFIC_AWARE",
-        //       avoidTolls: true,
-        //       avoidHighways: true,
-        //       avoidFerries: true,
-        //       numberOfTravels: 0,
-        //       typeOfEngine: "",
-        //       fuelConsumption: 0,
-        //       energyConsumptionEletric: 0,
-        //       isPendularRoute: false,
-        //       pendularRouteId: "",
-        //       outboundTimePendular: "",
-        //       inboundTimePendular: "",
-        //       polyline: "",
-        //       duration: 0,
-        //       distance: 0,
-        //       isVisible: true,
-        //     },
-        //     {
-        //       origin: "",
-        //       destination: "",
-        //       intermediates: "",
-        //       nonPendularDepartureTime: "",
-        //       travelMode: "DRIVE",
-        //       routingPreference: "TRAFFIC_UNAWARE",
-        //       avoidTolls: true,
-        //       avoidHighways: true,
-        //       avoidFerries: true,
-        //       numberOfTravels: 0,
-        //       typeOfEngine: "",
-        //       fuelConsumption: 0,
-        //       energyConsumptionEletric: 0,
-        //       isPendularRoute: false,
-        //       pendularRouteId: "",
-        //       outboundTimePendular: "",
-        //       inboundTimePendular: "",
-        //       polyline: "",
-        //       duration: 0,
-        //       distance: 0,
-        //       isVisible: true,
-        //     }
-        //   ],
-        // ]
+        if (trafficPreference === "TRAFFIC_UNAWARE") {
+          const updatedFetchedDrivingRoutesNormal = {
+            ...fetchedDrivingDirections,
+          }
 
-        const updatedFetchedDrivingRoutesNormal = {
-          ...fetchedDrivingDirections,
-          "House 1": {
-            ...fetchedDrivingDirections["House 1"],
-            Driving: [...fetchedDrivingDirections["House 1"].Driving, route],
-          },
-          "House 2": {
-            ...fetchedDrivingDirections["House 1"],
-            Driving: [...fetchedDrivingDirections["House 2"].Driving, route],
-          },
-          "House 3": {
-            ...fetchedDrivingDirections["House 1"],
-            Driving: [...fetchedDrivingDirections["House 3"].Driving, route],
-          },
+          houseNames.forEach((houseName, index) => {
+            updatedFetchedDrivingRoutesNormal[houseName] = {
+              ...fetchedDrivingDirections[houseName],
+              Driving: [...fetchedDrivingDirections[houseName].Driving, route],
+            }
+            updatedFetchedDrivingRoutesNormal[houseName].Driving.forEach((route) => (route.origin = mainOriginsRefs[index].current?.value)
+            )
+          })
+          console.log(updatedFetchedDrivingRoutesNormal)
+
+          setFetchedDrivingDirections(updatedFetchedDrivingRoutesNormal)
         }
 
-        updatedFetchedDrivingRoutesNormal["House 1"].Driving.forEach(
-          (route) => (route.origin = mainOriginRef.current?.value)
-        )
 
-        updatedFetchedDrivingRoutesNormal["House 2"].Driving.forEach(
-          (route) => (route.origin = mainOriginTwoRef.current?.value)
-        )
 
-        updatedFetchedDrivingRoutesNormal["House 3"].Driving.forEach(
-          (route) => (route.origin = mainOriginThreeRef.current?.value)
-        )
 
-        setFetchedDrivingDirections(updatedFetchedDrivingRoutesNormal)
+
+
+        //! if traffic aware we need to fetch 2 routes and then add the two routes to the object and identify them so i can compare them later
       })
 
+      // const trafficComparisonData = [
+      //     [
+      //       {
+      //         origin: mainOriginRef.current,
+      //         destination: destinationRef.current,
+      //         intermediates: intermediateRef.current,
+      //         nonPendularDepartureTime: departureTime,
+      //         travelMode: selectedTravelMode,
+      //         routingPreference: trafficPreference,
+      //         avoidTolls: tollsPreference,
+      //         avoidHighways: highwaysPreference,
+      //         avoidFerries: ferriesPreference,
+      //         numberOfTravels: 0,
+      //         typeOfEngine: selectedEngineType,
+      //         fuelConsumption: wattsConsumed,
+      //         energyConsumptionEletric: litersConsumed,
+      //         isPendularRoute: false,
+      //         pendularRouteId: "",
+      //         outboundTimePendular: "",
+      //         inboundTimePendular: "",
+      //         polyline: data.routes[0].polyline.encodedPolyline,
+      //         duration: data.routes[0].duration,
+      //         distance: data.routes[0].distanceMeters,
+      //         isVisible: true,
+      //       },
+      //       {
+      //         origin: mainOriginRef.current,
+      //         destination: destinationRef.current,
+      //         intermediates: intermediateRef.current,
+      //         nonPendularDepartureTime: departureTime,
+      //         travelMode: selectedTravelMode,
+      //         routingPreference: trafficPreference,
+      //         avoidTolls: tollsPreference,
+      //         avoidHighways: highwaysPreference,
+      //         avoidFerries: ferriesPreference,
+      //         numberOfTravels: 0,
+      //         typeOfEngine: selectedEngineType,
+      //         fuelConsumption: wattsConsumed,
+      //         energyConsumptionEletric: litersConsumed,
+      //         isPendularRoute: false,
+      //         pendularRouteId: "",
+      //         outboundTimePendular: "",
+      //         inboundTimePendular: "",
+      //         polyline: data.routes[0].polyline.encodedPolyline,
+      //         duration: data.routes[0].duration,
+      //         distance: data.routes[0].distanceMeters,
+      //         isVisible: true,
+      //       },
+      //     ],
+      //   ]
+      // const pendularData = [
+      //   [
+      //     {
+      //       origin: "",
+      //       destination: "",
+      //       intermediates: "",
+      //       nonPendularDepartureTime: "",
+      //       travelMode: "DRIVE",
+      //       routingPreference: "TRAFFIC_AWARE",
+      //       avoidTolls: true,
+      //       avoidHighways: true,
+      //       avoidFerries: true,
+      //       numberOfTravels: 0,
+      //       typeOfEngine: "",
+      //       fuelConsumption: 0,
+      //       energyConsumptionEletric: 0,
+      //       isPendularRoute: false,
+      //       pendularRouteId: "",
+      //       outboundTimePendular: "",
+      //       inboundTimePendular: "",
+      //       polyline: "",
+      //       duration: 0,
+      //       distance: 0,
+      //       isVisible: true,
+      //     },
+      //     {
+      //       origin: "",
+      //       destination: "",
+      //       intermediates: "",
+      //       nonPendularDepartureTime: "",
+      //       travelMode: "DRIVE",
+      //       routingPreference: "TRAFFIC_UNAWARE",
+      //       avoidTolls: true,
+      //       avoidHighways: true,
+      //       avoidFerries: true,
+      //       numberOfTravels: 0,
+      //       typeOfEngine: "",
+      //       fuelConsumption: 0,
+      //       energyConsumptionEletric: 0,
+      //       isPendularRoute: false,
+      //       pendularRouteId: "",
+      //       outboundTimePendular: "",
+      //       inboundTimePendular: "",
+      //       polyline: "",
+      //       duration: 0,
+      //       distance: 0,
+      //       isVisible: true,
+      //     },
+      //     {
+      //       origin: "",
+      //       destination: "",
+      //       intermediates: "",
+      //       nonPendularDepartureTime: "",
+      //       travelMode: "DRIVE",
+      //       routingPreference: "TRAFFIC_AWARE",
+      //       avoidTolls: true,
+      //       avoidHighways: true,
+      //       avoidFerries: true,
+      //       numberOfTravels: 0,
+      //       typeOfEngine: "",
+      //       fuelConsumption: 0,
+      //       energyConsumptionEletric: 0,
+      //       isPendularRoute: false,
+      //       pendularRouteId: "",
+      //       outboundTimePendular: "",
+      //       inboundTimePendular: "",
+      //       polyline: "",
+      //       duration: 0,
+      //       distance: 0,
+      //       isVisible: true,
+      //     },
+      //     {
+      //       origin: "",
+      //       destination: "",
+      //       intermediates: "",
+      //       nonPendularDepartureTime: "",
+      //       travelMode: "DRIVE",
+      //       routingPreference: "TRAFFIC_UNAWARE",
+      //       avoidTolls: true,
+      //       avoidHighways: true,
+      //       avoidFerries: true,
+      //       numberOfTravels: 0,
+      //       typeOfEngine: "",
+      //       fuelConsumption: 0,
+      //       energyConsumptionEletric: 0,
+      //       isPendularRoute: false,
+      //       pendularRouteId: "",
+      //       outboundTimePendular: "",
+      //       inboundTimePendular: "",
+      //       polyline: "",
+      //       duration: 0,
+      //       distance: 0,
+      //       isVisible: true,
+      //     }
+      //   ],
+      // ]
       // const updatedFetchedTrafficRoutes =
 
       // const updatedFetchedPendularWithTrafficRoutes =
