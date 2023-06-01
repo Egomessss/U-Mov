@@ -348,10 +348,53 @@ function Routes() {
         ...fetchedDrivingDirections,
       }
 
-      console.log(updatedFetchedDrivingRoutesPendularWithoutTraffic)
-
       houseNames.forEach((houseName, index) => {
         updatedFetchedDrivingRoutesPendularWithoutTraffic[houseName] = {
+          ...fetchedDrivingDirections[houseName],
+          Driving: [
+            ...fetchedDrivingDirections[houseName].Driving,
+            {
+              ...routeWithoutTraffic,
+              origin: destinationRef.current.value,
+              destination: mainOriginsRefs[index].current.value,
+            },
+
+            // Reverse the origins and destinations for the last two routes
+            {
+              ...routeWithoutTraffic,
+              origin: destinationRef.current.value,
+              destination: mainOriginsRefs[index].current.value,
+              isPendularRoute: true,
+            },
+          ],
+        }
+        updatedFetchedDrivingRoutesPendularWithoutTraffic[
+          houseName
+        ].Driving.forEach((route, routeIndex) => {
+          // Skip modifying the origin for the last two routes
+          if (
+            routeIndex <
+            updatedFetchedDrivingRoutesPendularWithoutTraffic[houseName].Driving
+              .length -
+              1
+          ) {
+            route.origin = mainOriginsRefs[index].current?.value
+          }
+        })
+      })
+      setFetchedDrivingDirections(
+        updatedFetchedDrivingRoutesPendularWithoutTraffic
+      )
+    } else if (
+      trafficPreference === "TRAFFIC_AWARE" &&
+      isPendularRoute === true
+    ) {
+      const updatedFetchedDrivingRoutesPendularWithTraffic = {
+        ...fetchedDrivingDirections,
+      }
+
+      houseNames.forEach((houseName, index) => {
+        updatedFetchedDrivingRoutesPendularWithTraffic[houseName] = {
           ...fetchedDrivingDirections[houseName],
           Driving: [
             ...fetchedDrivingDirections[houseName].Driving,
@@ -369,24 +412,24 @@ function Routes() {
             {
               ...routeWithoutTraffic,
               origin: destinationRef.current.value,
-              destination:  mainOriginsRefs[index].current.value,
+              destination: mainOriginsRefs[index].current.value,
               isPendularRoute: true,
             },
             {
               ...routeWithTraffic,
               origin: destinationRef.current.value,
-              destination:  mainOriginsRefs[index].current.value,
+              destination: mainOriginsRefs[index].current.value,
               isPendularRoute: true,
             },
           ],
         }
-        updatedFetchedDrivingRoutesPendularWithoutTraffic[
+        updatedFetchedDrivingRoutesPendularWithTraffic[
           houseName
         ].Driving.forEach((route, routeIndex) => {
           // Skip modifying the origin for the last two routes
           if (
             routeIndex <
-            updatedFetchedDrivingRoutesPendularWithoutTraffic[houseName].Driving
+            updatedFetchedDrivingRoutesPendularWithTraffic[houseName].Driving
               .length -
               2
           ) {
@@ -395,12 +438,8 @@ function Routes() {
         })
       })
       setFetchedDrivingDirections(
-        updatedFetchedDrivingRoutesPendularWithoutTraffic
+        updatedFetchedDrivingRoutesPendularWithTraffic
       )
-    } else if (
-      trafficPreference === "TRAFFIC_AWARE" &&
-      isPendularRoute === true
-    ) {
     }
   }
 
