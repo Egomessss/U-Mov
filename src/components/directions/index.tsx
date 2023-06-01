@@ -226,12 +226,94 @@ function Routes() {
     }
   }
 
-  const [featuresOpen, setFeaturesOpen] = useState(false)
+  const [numberOfTravels, setNumberOfTravels] = useState(0)
+
+  const handleNumberOfTravels = (e) => setNumberOfTravels(e.target.value)
+
+  const [isPendularRoute, setIsPendularRoute] = useState(false)
+
+  const handleIsPendularRoute = (e) => {
+    const isChecked = e.target.checked
+    if (isChecked) {
+      setIsPendularRoute(true)
+    } else {
+      setIsPendularRoute(false)
+    }
+  }
 
   // ! fetch route
   //? add fuel consumption
 
-  const addRoutesData = () => {}
+  const addRoutesData = () => {
+    //! if traffic aware route with traffic and without
+
+    // const route = "Driving 1":[
+
+    // ]
+
+    const houseNames = ["House 1", "House 2", "House 3"]
+    const mainOriginsRefs = [
+      mainOriginRef,
+      mainOriginTwoRef,
+      mainOriginThreeRef,
+    ]
+
+    const routeOne = {
+      origin: "Algés, Portugal",
+      destination: "Algés, Portugal",
+      intermediates: "Algés, Portugal",
+      nonPendularDepartureTime: "2023-10-15T15:01:23.045123456Z",
+      travelMode: "",
+      routingPreference: "",
+      avoidTolls: true,
+      avoidHighways: true,
+      avoidFerries: true,
+      numberOfTravels: 20,
+      typeOfEngine: "Gasoline",
+      fuelConsumption: 4,
+      energyConsumptionEletric: wattsConsumed,
+      isPendularRoute: false,
+      pendularRouteId: null,
+      outboundTimePendular: null,
+      inboundTimePendular: null,
+    }
+    //! traffic comparison
+    const routeTWo = {
+      ...routeOne,
+      routingPreference: "TRAFFIC_UNAWARE",
+    }
+    //! pendular route back with no traffic
+    const routeThree = {
+      ...routeOne,
+      origin: destinationRef.current.value,
+    }
+    //! pendular route back with traffic
+    const routeFour = {
+      ...routeOne,
+      routingPreference:
+        trafficPreference === "TRAFFIC_AWARE"
+          ? "TRAFFIC_UNAWARE"
+          : trafficPreference,
+    }
+
+    if (trafficPreference === "TRAFFIC_UNAWARE" && isPendularRoute === false) {
+      const updatedFetchedDrivingRoutesNormal = {
+        ...fetchedDrivingDirections,
+      }
+
+      houseNames.forEach((houseName, index) => {
+        updatedFetchedDrivingRoutesNormal[houseName] = {
+          ...fetchedDrivingDirections[houseName],
+          Driving: [...fetchedDrivingDirections[houseName].Driving, routeOne],
+        }
+        updatedFetchedDrivingRoutesNormal[houseName].Driving.forEach(
+          (route) => (route.origin = mainOriginsRefs[index].current?.value)
+        )
+      })
+
+      setFetchedDrivingDirections(updatedFetchedDrivingRoutesNormal)
+    }
+  }
 
   const fetchData = () => {
     const config = {
@@ -266,8 +348,8 @@ function Routes() {
         data,
         config
       )
-      .then((response) => { 
-         console.log(response.data)
+      .then((response) => {
+        console.log(response.data)
         const data = response.data
         const houseNames = ["House 1", "House 2", "House 3"]
         const mainOriginsRefs = [
@@ -275,7 +357,7 @@ function Routes() {
           mainOriginTwoRef,
           mainOriginThreeRef,
         ]
-      
+
         //! compare traffic, if not selected just pass one object to forms data with traffic unaware
         //! if selected, pass two objects, one with traffic aware and one with traffic unaware
 
@@ -313,18 +395,14 @@ function Routes() {
               ...fetchedDrivingDirections[houseName],
               Driving: [...fetchedDrivingDirections[houseName].Driving, route],
             }
-            updatedFetchedDrivingRoutesNormal[houseName].Driving.forEach((route) => (route.origin = mainOriginsRefs[index].current?.value)
+            updatedFetchedDrivingRoutesNormal[houseName].Driving.forEach(
+              (route) => (route.origin = mainOriginsRefs[index].current?.value)
             )
           })
           console.log(updatedFetchedDrivingRoutesNormal)
 
           setFetchedDrivingDirections(updatedFetchedDrivingRoutesNormal)
         }
-
-
-
-
-
 
         //! if traffic aware we need to fetch 2 routes and then add the two routes to the object and identify them so i can compare them later
       })
@@ -721,10 +799,10 @@ function Routes() {
             leaveTo="opacity-0 translate-x-1"
           >
             <Popover.Panel className="absolute left-24 top-0 h-full  w-96 rounded-3xl  bg-white p-4 text-black">
-              <div className="btn-success btn w-full gap-x-4 ">
+              {/* <div className="btn-success btn w-full gap-x-4 ">
                 <span>Routes</span>
                 <GrDirections className="text-xl" />
-              </div>
+              </div> */}
 
               <Tab.Group>
                 <Tab.List className="flex justify-around  pt-4">
@@ -982,7 +1060,7 @@ function Routes() {
                                   />
                                 </div>
                                 <button
-                                  onClick={fetchData}
+                                  onClick={addRoutesData}
                                   className="btn-success btn-sm btn my-4 w-full gap-4 "
                                 >
                                   <span>Add Route</span>
