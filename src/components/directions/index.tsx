@@ -258,7 +258,7 @@ function Routes() {
       mainOriginThreeRef,
     ]
 
-    const routeNormal = {
+    const routeWithoutTraffic = {
       origin: "Algés, Portugal",
       destination: "Algés, Portugal",
       intermediates: "Algés, Portugal",
@@ -279,17 +279,19 @@ function Routes() {
     }
     //! traffic comparison
     const routeWithTraffic = {
-      ...routeNormal,
+      ...routeWithoutTraffic,
       routingPreference: "TRAFFIC_AWARE",
     }
     //! pendular route back with no traffic
-    // const routePendularWithoutTraffic = {
-    //   ...routeOne,
-    //   origin: destinationRef.current.value,
-    // }
+    const inboundRoutePendularWithoutTraffic = {
+      ...routeWithoutTraffic,
+      origin: destinationRef.current.value,
+      destination: mainOriginRef.current.value,
+    }
+
     //! pendular route back with traffic
-    const routePendularWithTraffic = {
-      ...routeNormal,
+    const inboundRoutePendularWithTraffic = {
+      ...routeWithoutTraffic,
       routingPreference:
         trafficPreference === "TRAFFIC_AWARE"
           ? "TRAFFIC_UNAWARE"
@@ -305,7 +307,10 @@ function Routes() {
       houseNames.forEach((houseName, index) => {
         updatedFetchedDrivingRoutesNormal[houseName] = {
           ...fetchedDrivingDirections[houseName],
-          Driving: [...fetchedDrivingDirections[houseName].Driving, routeNormal],
+          Driving: [
+            ...fetchedDrivingDirections[houseName].Driving,
+            routeWithoutTraffic,
+          ],
         }
         updatedFetchedDrivingRoutesNormal[houseName].Driving.forEach(
           (route) => (route.origin = mainOriginsRefs[index].current?.value)
@@ -326,7 +331,7 @@ function Routes() {
           ...fetchedDrivingDirections[houseName],
           Driving: [
             ...fetchedDrivingDirections[houseName].Driving,
-            routeNormal,
+            routeWithoutTraffic,
             routeWithTraffic,
           ],
         }
@@ -335,6 +340,67 @@ function Routes() {
         )
       })
       setFetchedDrivingDirections(updatedFetchedDrivingRoutesWithTraffic)
+    } else if (
+      trafficPreference === "TRAFFIC_UNAWARE" &&
+      isPendularRoute === true
+    ) {
+      const updatedFetchedDrivingRoutesPendularWithoutTraffic = {
+        ...fetchedDrivingDirections,
+      }
+
+      console.log(updatedFetchedDrivingRoutesPendularWithoutTraffic)
+
+      houseNames.forEach((houseName, index) => {
+        updatedFetchedDrivingRoutesPendularWithoutTraffic[houseName] = {
+          ...fetchedDrivingDirections[houseName],
+          Driving: [
+            ...fetchedDrivingDirections[houseName].Driving,
+            {
+              ...routeWithoutTraffic,
+              origin: destinationRef.current.value,
+              destination: mainOriginsRefs[index].current.value,
+            },
+            {
+              ...routeWithTraffic,
+              origin: destinationRef.current.value,
+              destination: mainOriginsRefs[index].current.value,
+            },
+            // Reverse the origins and destinations for the last two routes
+            {
+              ...routeWithoutTraffic,
+              origin: destinationRef.current.value,
+              destination:  mainOriginsRefs[index].current.value,
+              isPendularRoute: true,
+            },
+            {
+              ...routeWithTraffic,
+              origin: destinationRef.current.value,
+              destination:  mainOriginsRefs[index].current.value,
+              isPendularRoute: true,
+            },
+          ],
+        }
+        updatedFetchedDrivingRoutesPendularWithoutTraffic[
+          houseName
+        ].Driving.forEach((route, routeIndex) => {
+          // Skip modifying the origin for the last two routes
+          if (
+            routeIndex <
+            updatedFetchedDrivingRoutesPendularWithoutTraffic[houseName].Driving
+              .length -
+              2
+          ) {
+            route.origin = mainOriginsRefs[index].current?.value
+          }
+        })
+      })
+      setFetchedDrivingDirections(
+        updatedFetchedDrivingRoutesPendularWithoutTraffic
+      )
+    } else if (
+      trafficPreference === "TRAFFIC_AWARE" &&
+      isPendularRoute === true
+    ) {
     }
   }
 
@@ -1064,7 +1130,7 @@ function Routes() {
                                     <input
                                       type="checkbox"
                                       className="checkbox-accent checkbox checkbox-sm"
-                                      onChange={handleHighways}
+                                      onChange={handleIsPendularRoute}
                                     />
                                   </label>
                                 </div>
@@ -1217,7 +1283,7 @@ function Routes() {
                                   <input
                                     type="checkbox"
                                     className="checkbox-accent checkbox checkbox-xs"
-                                    onChange={handleHighways}
+                                    onChange={handleIsPendularRoute}
                                   />
                                 </label>
                               </div>
