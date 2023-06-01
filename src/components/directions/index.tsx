@@ -117,39 +117,39 @@ function Routes() {
 
   //! units
 
-  // ! changes every origin in a  house
-  const handleOriginChange = () => {
-    const mappedRoutes = routesFormData.map((route) => {
-      return { ...route, origin: mainOriginRef.current?.value }
-    })
-    setRoutesFormData(mappedRoutes)
-  }
+  // // ! changes every origin in a  house
+  // const handleOriginChange = () => {
+  //   const mappedRoutes = routesFormData.map((route) => {
+  //     return { ...route, origin: mainOriginRef.current?.value }
+  //   })
+  //   setRoutesFormData(mappedRoutes)
+  // }
 
-  // ! handle destination change
-  const handleDestinationChange = () => {
-    const mappedRoutes = routesFormData.map((route) => {
-      return { ...route, destination: destinationRef.current?.value }
-    })
-    setRoutesFormData(mappedRoutes)
-  }
+  // // ! handle destination change
+  // const handleDestinationChange = () => {
+  //   const mappedRoutes = routesFormData.map((route) => {
+  //     return { ...route, destination: destinationRef.current?.value }
+  //   })
+  //   setRoutesFormData(mappedRoutes)
+  // }
 
-  //! handle intermediate change
-  const handleIntermediateChange = () => {
-    // Map over the routesFormData array
-    const modifiedRoutes = routesFormData.map((route) => {
-      // Map over the intermediates array of each route
-      const modifiedIntermediates = route.intermediates.map((address) => {
-        // Update the address value with the value from intermediateRef
-        return { ...address, address: intermediateRef.current?.value }
-      })
+  // //! handle intermediate change
+  // const handleIntermediateChange = () => {
+  //   // Map over the routesFormData array
+  //   const modifiedRoutes = routesFormData.map((route) => {
+  //     // Map over the intermediates array of each route
+  //     const modifiedIntermediates = route.intermediates.map((address) => {
+  //       // Update the address value with the value from intermediateRef
+  //       return { ...address, address: intermediateRef.current?.value }
+  //     })
 
-      // Return the route with modified intermediates
-      return { ...route, intermediates: modifiedIntermediates }
-    })
+  //     // Return the route with modified intermediates
+  //     return { ...route, intermediates: modifiedIntermediates }
+  //   })
 
-    // Set the updated routesFormData state
-    setRoutesFormData(modifiedRoutes)
-  }
+  //   // Set the updated routesFormData state
+  //   setRoutesFormData(modifiedRoutes)
+  // }
 
   // ! travel mode
   const [selectedTravelMode, SetSelectedTravelMode] = useState("DRIVE")
@@ -215,6 +215,8 @@ function Routes() {
     }
   }
 
+  // ! ferries
+
   const [ferriesPreference, setFerriesPreference] = useState(false)
 
   const handleFerries = (e) => {
@@ -226,12 +228,16 @@ function Routes() {
     }
   }
 
+  // ! number of travels
+
   const [numberOfTravels, setNumberOfTravels] = useState(0)
 
   const handleNumberOfTravels = (e) => setNumberOfTravels(e.target.value)
 
+  // ! pendular routes
+
   const [isPendularRoute, setIsPendularRoute] = useState(false)
-  console.log(isPendularRoute)
+
   const handleIsPendularRoute = (e) => {
     const isChecked = e.target.checked
     if (isChecked) {
@@ -241,61 +247,55 @@ function Routes() {
     }
   }
 
+  // ! pendular outbound time
+
+  const [outboundTimePendular, setOutboundTimePendular] = useState("")
+
+  const handleOutboundTimePendular = (e) => {
+    const inputTime = e.target.value
+    const currentDate = new Date()
+  }
+
+  // ! pendular inbound time
+
+  const [inboundTimePendular, setInboundTimePendular] = useState("")
+
   // ! fetch route
   //? add fuel consumption
 
   const addRoutesData = () => {
-    //! if traffic aware route with traffic and without
-
-    // const route = "Driving 1":[
-
-    // ]
-
     const houseNames = ["House 1", "House 2", "House 3"]
+
     const mainOriginsRefs = [
       mainOriginRef,
       mainOriginTwoRef,
       mainOriginThreeRef,
     ]
+    console.log(mainOriginsRefs.map((ref) => ref.current?.value))
 
     const routeWithoutTraffic = {
-      origin: "Algés, Portugal",
-      destination: "Algés, Portugal",
-      intermediates: "Algés, Portugal",
-      nonPendularDepartureTime: "2023-10-15T15:01:23.045123456Z",
-      travelMode: "",
-      routingPreference: "TRAFFIC_UNAWARE",
-      avoidTolls: true,
-      avoidHighways: true,
-      avoidFerries: true,
-      numberOfTravels: 20,
-      typeOfEngine: "Gasoline",
-      fuelConsumption: 4,
+      origin: "",
+      destination: destinationRef.current?.value,
+      intermediates: intermediateRef.current?.value,
+      nonPendularDepartureTime: departureTime,
+      travelMode: "DRIVING",
+      routingPreference: trafficPreference,
+      avoidTolls: tollsPreference,
+      avoidHighways: highwaysPreference,
+      avoidFerries: ferriesPreference,
+      numberOfTravels: numberOfTravels,
+      typeOfEngine: selectedEngineType,
+      fuelConsumption: litersConsumed,
       energyConsumptionEletric: wattsConsumed,
-      isPendularRoute: false,
+      isPendularRoute: isPendularRoute,
       pendularRouteId: null,
-      outboundTimePendular: null,
-      inboundTimePendular: null,
+      outboundTimePendular: outboundTimePendular,
+      inboundTimePendular: inboundTimePendular,
     }
     //! traffic comparison
     const routeWithTraffic = {
       ...routeWithoutTraffic,
       routingPreference: "TRAFFIC_AWARE",
-    }
-    //! pendular route back with no traffic
-    const inboundRoutePendularWithoutTraffic = {
-      ...routeWithoutTraffic,
-      origin: destinationRef.current.value,
-      destination: mainOriginRef.current.value,
-    }
-
-    //! pendular route back with traffic
-    const inboundRoutePendularWithTraffic = {
-      ...routeWithoutTraffic,
-      routingPreference:
-        trafficPreference === "TRAFFIC_AWARE"
-          ? "TRAFFIC_UNAWARE"
-          : trafficPreference,
     }
 
     // ? normal routes done for each location
@@ -312,6 +312,7 @@ function Routes() {
             routeWithoutTraffic,
           ],
         }
+
         updatedFetchedDrivingRoutesNormal[houseName].Driving.forEach(
           (route) => (route.origin = mainOriginsRefs[index].current?.value)
         )
@@ -340,7 +341,8 @@ function Routes() {
         )
       })
       setFetchedDrivingDirections(updatedFetchedDrivingRoutesWithTraffic)
-    } else if (
+    } //! pendular route back without traffic
+    else if (
       trafficPreference === "TRAFFIC_UNAWARE" &&
       isPendularRoute === true
     ) {
@@ -385,7 +387,8 @@ function Routes() {
       setFetchedDrivingDirections(
         updatedFetchedDrivingRoutesPendularWithoutTraffic
       )
-    } else if (
+    } //! pendular route with traffic
+    else if (
       trafficPreference === "TRAFFIC_AWARE" &&
       isPendularRoute === true
     ) {
@@ -402,6 +405,7 @@ function Routes() {
               ...routeWithoutTraffic,
               origin: destinationRef.current.value,
               destination: mainOriginsRefs[index].current.value,
+              pendularRouteId: "House 1 Driving Traffic Pendular 1",
             },
             {
               ...routeWithTraffic,
@@ -414,6 +418,7 @@ function Routes() {
               origin: destinationRef.current.value,
               destination: mainOriginsRefs[index].current.value,
               isPendularRoute: true,
+              pendularRouteId: "House 1 Driving Traffic Pendular 1",
             },
             {
               ...routeWithTraffic,
@@ -966,7 +971,7 @@ function Routes() {
                             placeholder="Enter house 1 address"
                             className="input-bordered input-accent input input-sm w-full bg-white"
                             ref={mainOriginRef}
-                            onChange={handleOriginChange}
+                            // onChange={handleOriginChange}
                           />
                         </Autocomplete>
                         <Autocomplete>
@@ -1012,7 +1017,7 @@ function Routes() {
                                     placeholder="Enter destination address"
                                     className="input-bordered input-accent input input-sm w-full bg-white"
                                     ref={destinationRef}
-                                    onChange={handleDestinationChange}
+                                    // onChange={handleDestinationChange}
                                   />
                                 </Autocomplete>
                                 <Autocomplete>
@@ -1021,7 +1026,7 @@ function Routes() {
                                     placeholder="Enter intermediate address"
                                     className="input-bordered input-accent input input-sm w-full bg-white"
                                     ref={intermediateRef}
-                                    onChange={handleIntermediateChange}
+                                    // onChange={handleIntermediateChange}
                                   />
                                 </Autocomplete>
                               </div>
