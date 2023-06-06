@@ -50,7 +50,7 @@ function Routes() {
     setRoutesFormData(updatedRoutesFormData)
   }
 
-  console.log(Object.keys(routesFormData).map((house) => routesFormData[house]))
+
 
   // ! travel mode
   const [selectedTravelMode, SetSelectedTravelMode] = useState("DRIVE")
@@ -120,139 +120,6 @@ function Routes() {
   // ! fetch route
   //? add fuel consumption
 
-  const fetchData = () => {
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        "X-Goog-Api-Key": "AIzaSyAC-ZmHeOUM6VvIDtbc8y_sfKG-Lh7ZgME",
-        "X-Goog-FieldMask":
-          "routes.distanceMeters,routes.duration,routes.polyline",
-      },
-    }
-    const data = {
-      origin: {
-        address: "Algés, Portugal",
-      },
-      destination: {
-        address: "Moscavide, Portugal",
-      },
-      intermediates: [{ address: "Oriente, Lisboa, Portugal" }],
-      travelMode: "DRIVE",
-      routeModifiers: {
-        avoidTolls: true,
-        avoidHighways: true,
-        avoidFerries: true,
-      },
-    }
-
-    axios
-      .post(
-        "https://routes.googleapis.com/directions/v2:computeRoutes",
-        data,
-        config
-      )
-      .then((response) => {
-        console.log(response.data)
-        // Rest of the code
-      })
-      .catch((error) => {
-        console.error(error)
-      })
-  }
-
-  // const fetchData = async () => {
-  //   try {
-  //     const promises = Object.entries(fetchedData).flatMap(
-  //       ([route, destinations]) => {
-  //         return destinations.map(({ origin, destination }) => {
-  //           const config = {
-  //             headers: {
-  //               "Content-Type": "application/json",
-  //               "X-Goog-Api-Key": "AIzaSyAC-ZmHeOUM6VvIDtbc8y_sfKG-Lh7ZgME",
-  //               "X-Goog-FieldMask":
-  //                 "routes.duration,routes.distanceMeters,routes.polyline.encodedPolyline",
-  //             },
-  //           }
-  //           const data = {
-  //             origin: {
-  //               address: origin,
-  //             },
-  //             destination: {
-  //               address: destination,
-  //             },
-  //             travelMode: "DRIVE",
-  //           }
-
-  //           const apiUrl =
-  //             "https://routes.googleapis.com/directions/v2:computeRoutes"
-
-  //           return axios
-  //             .post(apiUrl, data, config)
-  //             .then((response) => {
-  //               const routeData = response.data.routes[0]
-  //               const distance = routeData.distanceMeters
-  //               const duration = routeData.duration
-  //               const encodedPolyline = routeData.polyline.encodedPolyline
-  //               return {
-  //                 route,
-  //                 origin,
-  //                 destination,
-  //                 distance,
-  //                 duration,
-  //                 encodedPolyline,
-  //                 isVisible: true,
-  //               }
-  //             })
-  //             .catch((error) => {
-  //               console.error(
-  //                 `Error fetching data for route ${route}, origin ${origin}, destination ${destination}:`,
-  //                 error
-  //               )
-  //               return {
-  //                 route,
-  //                 origin,
-  //                 destination,
-  //                 distance: null,
-  //                 duration: null,
-  //                 encodedPolyline: null,
-  //                 isVisible: true,
-  //               }
-  //             })
-  //         })
-  //       }
-  //     )
-
-  //     const results = await Promise.all(promises)
-  //     const updatedRoutesData = results.reduce((acc, result) => {
-  //       const {
-  //         route,
-  //         origin,
-  //         destination,
-  //         distance,
-  //         duration,
-  //         encodedPolyline,
-  //         isVisible,
-  //       } = result
-  //       if (!acc[route]) {
-  //         acc[route] = []
-  //       }
-  //       acc[route].push({
-  //         origin,
-  //         destination,
-  //         distance,
-  //         duration,
-  //         encodedPolyline,
-  //         isVisible,
-  //       })
-  //       return acc
-  //     }, {})
-  //     setFetchedData(updatedRoutesData)
-  //   } catch (error) {
-  //     console.error("Error fetching data:", error)
-  //   }
-  // }
-
-  // Function to hide directions
 
   const hideDirections = (house, index) => {
     // Update the state using the setRoutesFormData function

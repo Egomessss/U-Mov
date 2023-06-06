@@ -8,6 +8,7 @@ import { BiDirections } from "react-icons/bi"
 import React, { Fragment, useState } from "react"
 import { Autocomplete } from "@react-google-maps/api"
 import Directions from "@/components/directions"
+import Costs from "../costs/Costs"
 
 type centerMapProps = {
   lng: number
@@ -16,7 +17,7 @@ type centerMapProps = {
 
 function Sidebar({ centerMap }) {
   return (
-    <div className="absolute top-1/2 left-0 z-50 h-[95%] w-24 -translate-x-1/2 -translate-y-1/2 transform rounded-3xl  border-2 border-white bg-white ">
+    <div className="absolute top-1/2 left-0 z-50 h-[95%] w-24 -translate-x-1/2 -translate-y-1/2 transform rounded-xl  border-2 border-white bg-white ">
       <div className="relative flex h-full w-full flex-col items-center justify-around">
         {/* centers the map to main location */}
         <button
@@ -42,7 +43,7 @@ function Sidebar({ centerMap }) {
                 leaveFrom="opacity-100 translate-x-0"
                 leaveTo="opacity-0 translate-x-1"
               >
-                <Popover.Panel className="absolute left-24 top-0 h-full w-96 rounded-3xl bg-white"></Popover.Panel>
+                <Popover.Panel className="absolute left-24 top-0 h-full w-96 rounded-xl bg-white"></Popover.Panel>
               </Transition>
             </>
           )}
@@ -62,7 +63,7 @@ function Sidebar({ centerMap }) {
                 leaveFrom="opacity-100 translate-x-0"
                 leaveTo="opacity-0 translate-x-1"
               >
-                <Popover.Panel className="absolute left-24 top-0 h-full w-96 rounded-3xl bg-white"></Popover.Panel>
+                <Popover.Panel className="absolute left-24 top-0 h-full w-96 rounded-xl bg-white"><Costs/></Popover.Panel>
               </Transition>
             </>
           )}
@@ -82,7 +83,7 @@ function Sidebar({ centerMap }) {
                 leaveFrom="opacity-100 translate-x-0"
                 leaveTo="opacity-0 translate-x-1"
               >
-                <Popover.Panel className="absolute left-24 top-0 h-full w-96 rounded-3xl bg-white"></Popover.Panel>
+                <Popover.Panel className="absolute left-24 top-0 h-full w-96 rounded-xl bg-white"></Popover.Panel>
               </Transition>
             </>
           )}
@@ -102,7 +103,7 @@ function Sidebar({ centerMap }) {
                 leaveFrom="opacity-100 translate-x-0"
                 leaveTo="opacity-0 translate-x-1"
               >
-                <Popover.Panel className="absolute left-24 top-0 h-full w-96 rounded-3xl bg-white"></Popover.Panel>
+                <Popover.Panel className="absolute left-24 top-0 h-full w-96 rounded-xl bg-white"></Popover.Panel>
               </Transition>
             </>
           )}
